@@ -25,6 +25,7 @@ public class LoginFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         lblTitle = new javax.swing.JLabel();
         lblUsername = new javax.swing.JLabel();
         Password = new javax.swing.JLabel();
@@ -32,6 +33,9 @@ public class LoginFrame extends javax.swing.JFrame {
         btnExit = new javax.swing.JButton();
         jPasswordField1 = new javax.swing.JPasswordField();
         txtUsername = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+
+        jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -41,11 +45,16 @@ public class LoginFrame extends javax.swing.JFrame {
         lblTitle.setText("LOGIN TO SYSTEM");
         getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, -1));
 
+        lblUsername.setBackground(new java.awt.Color(255, 0, 51));
+        lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblUsername.setForeground(new java.awt.Color(255, 255, 255));
         lblUsername.setText("UserName :");
-        getContentPane().add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, -1, -1));
+        getContentPane().add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, -1, -1));
 
+        Password.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Password.setForeground(new java.awt.Color(255, 255, 255));
         Password.setText("Password :");
-        getContentPane().add(Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, -1, -1));
+        getContentPane().add(Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, -1, -1));
 
         btnLogin.setText("Login");
         getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
@@ -58,6 +67,10 @@ public class LoginFrame extends javax.swing.JFrame {
 
         txtUsername.setText("Enter Username");
         getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 80, 140, -1));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\HP\\Documents\\NetBeansProjects\\DataBase-Project\\src\\main\\resources\\images\\Ekran görüntüsü 2025-12-03 163455.png")); // NOI18N
+        jLabel2.setText("jLabel2");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, -20, 600, 380));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -101,6 +114,8 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel Password;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnLogin;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblUsername;
