@@ -25,12 +25,17 @@ public class ManageContractsFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         lblTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableContracts = new javax.swing.JTable();
         btnNewContract = new javax.swing.JButton();
         btnViewDetails = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+
+        jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -41,20 +46,20 @@ public class ManageContractsFrame extends javax.swing.JFrame {
 
         tableContracts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ContractID", "CustomerName", "CarPlate", "StartDate", "TotalAmount"
             }
         ));
         jScrollPane1.setViewportView(tableContracts);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, 240));
 
-        btnNewContract.setText("Admin only");
+        btnNewContract.setText("New Contract");
         getContentPane().add(btnNewContract, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, -1, -1));
 
         btnViewDetails.setText("View contract details");
@@ -62,6 +67,12 @@ public class ManageContractsFrame extends javax.swing.JFrame {
 
         btnBack.setText("Go to main menu");
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 340, -1, 20));
+
+        btnRefresh.setText("Refresh");
+        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, -1, -1));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-04 162656.png"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 580, 420));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -104,7 +115,10 @@ public class ManageContractsFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnNewContract;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnViewDetails;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JTable tableContracts;
