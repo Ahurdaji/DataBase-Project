@@ -27,13 +27,14 @@ public class ManageCustomersFrame extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         lblTitle = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        tableCustomers = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnRefrech = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lblicon = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
 
@@ -55,9 +56,9 @@ public class ManageCustomersFrame extends javax.swing.JFrame {
                 "CustomerID", "FirstName", "LastName", "Phone"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        tableCustomers.setViewportView(jTable2);
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 450, 240));
+        getContentPane().add(tableCustomers, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 450, 240));
 
         btnAdd.setText("Add Customer");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -73,11 +74,15 @@ public class ManageCustomersFrame extends javax.swing.JFrame {
         btnDelete.setText("Delete Customer");
         getContentPane().add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 320, -1, -1));
 
-        btnBack.setText("Back");
-        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 320, -1, -1));
+        btnRefrech.setText("Refresh");
+        getContentPane().add(btnRefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 320, -1, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-04 162656.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 400));
+        btnBack.setText("Back");
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, -1, -1));
+
+        lblicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-04 162656.png"))); // NOI18N
+        lblicon.setText("refrech");
+        getContentPane().add(lblicon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 450));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -127,10 +132,11 @@ public class ManageCustomersFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnRefrech;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable2;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JLabel lblicon;
+    private javax.swing.JScrollPane tableCustomers;
     // End of variables declaration//GEN-END:variables
 }
