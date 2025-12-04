@@ -76,9 +76,8 @@ public class ManageCustomersFrame extends javax.swing.JFrame {
         btnBack.setText("Back");
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 320, -1, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\HP\\Documents\\NetBeansProjects\\DataBase-Project\\src\\main\\resources\\images\\Ekran görüntüsü 2025-12-04 162656.png")); // NOI18N
-        jLabel2.setText("jLabel2");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 640, 410));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-04 162656.png"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 400));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
