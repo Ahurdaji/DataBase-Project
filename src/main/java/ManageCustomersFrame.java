@@ -84,9 +84,9 @@ public class ManageCustomersFrame extends javax.swing.JFrame {
         btnSearch.setText("Search");
         getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 230, -1, -1));
 
-        lblicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-04 162656.png"))); // NOI18N
+        lblicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
         lblicon.setText("refrech");
-        getContentPane().add(lblicon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 450));
+        getContentPane().add(lblicon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 440));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

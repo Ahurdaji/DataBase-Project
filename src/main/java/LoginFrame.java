@@ -69,8 +69,7 @@ public class LoginFrame extends javax.swing.JFrame {
         getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 80, 140, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-03 163455.png"))); // NOI18N
-        jLabel2.setText("jLabel2");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, -20, 580, 350));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, -20, 680, 450));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

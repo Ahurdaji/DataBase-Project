@@ -73,7 +73,7 @@ public class ManageUserAccountsFrame extends javax.swing.JFrame {
         jButton4.setText("Back");
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 572, -1, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-04 162656.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 800));
 
         pack();
