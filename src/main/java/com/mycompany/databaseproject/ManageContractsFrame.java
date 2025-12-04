@@ -1,3 +1,4 @@
+package com.mycompany.databaseproject;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -5,14 +6,14 @@
 
 /**
  *
- * @author ACER
+ * @author HP
  */
-public class ManageUserAccountsFrame extends javax.swing.JFrame {
+public class ManageContractsFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form ManageUserAccountsFrame
+     * Creates new form ManageContractsFrame
      */
-    public ManageUserAccountsFrame() {
+    public ManageContractsFrame() {
         initComponents();
     }
 
@@ -26,22 +27,25 @@ public class ManageUserAccountsFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        lblTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableUsers = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        tableContracts = new javax.swing.JTable();
+        btnNewContract = new javax.swing.JButton();
+        btnViewDetails = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+
+        jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        jLabel1.setText("Manage User Accounts");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 21, 229, -1));
+        lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTitle.setText("Manage Contracts");
+        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, -1, -1));
 
-        tableUsers.setModel(new javax.swing.table.DefaultTableModel(
+        tableContracts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -49,39 +53,30 @@ public class ManageUserAccountsFrame extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "User ID", "Username", "Role", "Employee Name", "Status"
+                "ContractID", "CustomerName", "CarPlate", "StartDate", "TotalAmount"
             }
         ));
-        jScrollPane1.setViewportView(tableUsers);
+        jScrollPane1.setViewportView(tableContracts);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 564, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, 240));
 
-        jButton1.setText("Add User");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(116, 511, -1, -1));
+        btnNewContract.setText("New Contract");
+        getContentPane().add(btnNewContract, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, -1, -1));
 
-        jButton2.setText("Reset Password");
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 511, -1, -1));
+        btnViewDetails.setText("View contract details");
+        getContentPane().add(btnViewDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 340, -1, -1));
 
-        jButton3.setText("Delete User");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(422, 511, -1, -1));
+        btnBack.setText("Go to main menu");
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 340, -1, 20));
 
-        jButton4.setText("Back");
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 572, -1, -1));
+        btnRefresh.setText("Refresh");
+        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 800));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 580, 420));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -100,32 +95,33 @@ public class ManageUserAccountsFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageUserAccountsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageContractsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageUserAccountsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageContractsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageUserAccountsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageContractsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageUserAccountsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageContractsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManageUserAccountsFrame().setVisible(true);
+                new ManageContractsFrame().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnNewContract;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnViewDetails;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tableUsers;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JTable tableContracts;
     // End of variables declaration//GEN-END:variables
 }
