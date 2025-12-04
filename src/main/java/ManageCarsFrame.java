@@ -14,8 +14,13 @@ public class ManageCarsFrame extends javax.swing.JFrame {
      */
     public ManageCarsFrame() {
         initComponents();
+        setLocationRelativeTo(null); // center frame
+        loadCarsTable();       // our method to fill the table
     }
 
+    private void loadCarsTable(){
+        // later i will read the database and set model of tblCars
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,31 +31,89 @@ public class ManageCarsFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         lblTitle = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblCars = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        btnAddCar = new javax.swing.JButton();
+        btnEditCar = new javax.swing.JButton();
+        btnDeleteCar = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTitle.setFont(new java.awt.Font("Helvetica Neue", 3, 24)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(0, 0, 153));
+        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("Manage Cars");
+        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(313, 6, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(117, 117, 117)
-                .addComponent(lblTitle)
-                .addContainerGap(129, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblTitle)
-                .addContainerGap(264, Short.MAX_VALUE))
-        );
+        tblCars.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Car ID", "Plate Number", "Model", "Year", "Color", "Status", "Mileage", "Location", "Supplier"
+            }
+        ));
+        jScrollPane1.setViewportView(tblCars);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 48, 766, 387));
+
+        btnAddCar.setText("Add Car");
+        btnAddCar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAddCar);
+
+        btnEditCar.setText("Edit Car");
+        jPanel1.add(btnEditCar);
+
+        btnDeleteCar.setText("Delete Car");
+        jPanel1.add(btnDeleteCar);
+
+        btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRefresh);
+
+        btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBack);
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 470, 760, 60));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        // TODO add your handling code here:
+        loadCarsTable();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        this.dispose(); //closing this frame 
+        // optionally: new MainMenuFrame().setVisible(true);
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnAddCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddCarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -88,6 +151,14 @@ public class ManageCarsFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddCar;
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnDeleteCar;
+    private javax.swing.JButton btnEditCar;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JTable tblCars;
     // End of variables declaration//GEN-END:variables
 }
