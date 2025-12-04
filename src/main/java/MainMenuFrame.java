@@ -46,13 +46,16 @@ public class MainMenuFrame extends javax.swing.JFrame {
         btnManageUserAccounts = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTitle.setFont(new java.awt.Font("Helvetica Neue", 3, 24)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(0, 0, 153));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("Main Menu");
+        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 49, 163, -1));
 
         btnManageCars.setText("Manage Cars");
         btnManageCars.addActionListener(new java.awt.event.ActionListener() {
@@ -60,12 +63,16 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnManageCarsActionPerformed(evt);
             }
         });
+        getContentPane().add(btnManageCars, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 99, 163, -1));
 
         btnManageCustomers.setText("Manage Customers");
+        getContentPane().add(btnManageCustomers, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 128, 163, -1));
 
         btnManageContracts.setText("Manage Contracts");
+        getContentPane().add(btnManageContracts, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 157, 163, -1));
 
         btnManagePayments.setText("Manage Payments");
+        getContentPane().add(btnManagePayments, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 186, 152, -1));
 
         btnManageSuppliers.setText("Manage Suppliers");
         btnManageSuppliers.addActionListener(new java.awt.event.ActionListener() {
@@ -73,10 +80,13 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnManageSuppliersActionPerformed(evt);
             }
         });
+        getContentPane().add(btnManageSuppliers, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 371, 152, -1));
 
         btnManageEmployees.setText("Manage Employees");
+        getContentPane().add(btnManageEmployees, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 311, 152, -1));
 
         btnManageUserAccounts.setText("Manage User Accounts");
+        getContentPane().add(btnManageUserAccounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 342, -1, -1));
 
         btnLogout.setFont(new java.awt.Font("Helvetica Neue", 3, 18)); // NOI18N
         btnLogout.setForeground(new java.awt.Color(0, 0, 153));
@@ -86,61 +96,16 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnLogoutActionPerformed(evt);
             }
         });
+        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 410, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 3, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Admin Options");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 286, 152, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnManageCars, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnManageCustomers, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
-                    .addComponent(btnManageContracts, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnManageUserAccounts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnManageEmployees, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnManageSuppliers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnManagePayments, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(242, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLogout)
-                .addGap(71, 71, 71))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(lblTitle)
-                .addGap(18, 18, 18)
-                .addComponent(btnManageCars)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnManageCustomers)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnManageContracts)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnManagePayments)
-                .addGap(77, 77, 77)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnManageEmployees)
-                .addGap(8, 8, 8)
-                .addComponent(btnManageUserAccounts)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnManageSuppliers)
-                .addGap(28, 28, 28)
-                .addComponent(btnLogout)
-                .addContainerGap(99, Short.MAX_VALUE))
-        );
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-04 162656.png"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -60, 450, 590));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -205,6 +170,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnManageSuppliers;
     private javax.swing.JButton btnManageUserAccounts;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lblTitle;
     // End of variables declaration//GEN-END:variables
 }

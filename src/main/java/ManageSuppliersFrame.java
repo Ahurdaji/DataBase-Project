@@ -33,6 +33,7 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
         btnEditSupplier = new javax.swing.JButton();
         btnDeleteSupplier = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -100,6 +101,9 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, -1, 190));
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-04 162656.png"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-3, 0, 660, 340));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -144,6 +148,7 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnDeleteSupplier;
     private javax.swing.JButton btnEditSupplier;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
