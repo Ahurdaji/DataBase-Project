@@ -34,6 +34,7 @@ public class ManageCustomersFrame extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         btnRefrech = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
         lblicon = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
@@ -47,13 +48,13 @@ public class ManageCustomersFrame extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "CustomerID", "FirstName", "LastName", "Phone"
+                "CustomerID", "FirstName", "LastName", "Phone", "Email"
             }
         ));
         tableCustomers.setViewportView(jTable2);
@@ -79,6 +80,9 @@ public class ManageCustomersFrame extends javax.swing.JFrame {
 
         btnBack.setText("Back");
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, -1, -1));
+
+        btnSearch.setText("Search");
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 230, -1, -1));
 
         lblicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-04 162656.png"))); // NOI18N
         lblicon.setText("refrech");
@@ -133,6 +137,7 @@ public class ManageCustomersFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnRefrech;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTable jTable2;
     private javax.swing.JLabel lblTitle;
