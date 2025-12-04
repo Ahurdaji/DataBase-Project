@@ -33,12 +33,12 @@ public class ManageCarsFrame extends javax.swing.JFrame {
         lblTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCars = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
         btnAddCar = new javax.swing.JButton();
         btnEditCar = new javax.swing.JButton();
         btnDeleteCar = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -71,13 +71,13 @@ public class ManageCarsFrame extends javax.swing.JFrame {
                 btnAddCarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAddCar);
+        getContentPane().add(btnAddCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 460, -1, -1));
 
         btnEditCar.setText("Edit Car");
-        jPanel1.add(btnEditCar);
+        getContentPane().add(btnEditCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 460, -1, -1));
 
         btnDeleteCar.setText("Delete Car");
-        jPanel1.add(btnDeleteCar);
+        getContentPane().add(btnDeleteCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 460, -1, -1));
 
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +85,7 @@ public class ManageCarsFrame extends javax.swing.JFrame {
                 btnRefreshActionPerformed(evt);
             }
         });
-        jPanel1.add(btnRefresh);
+        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 460, -1, -1));
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -93,9 +93,10 @@ public class ManageCarsFrame extends javax.swing.JFrame {
                 btnBackActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBack);
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 460, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 470, 760, 60));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-04 162656.png"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-3, 0, 800, 580));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -156,7 +157,7 @@ public class ManageCarsFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnDeleteCar;
     private javax.swing.JButton btnEditCar;
     private javax.swing.JButton btnRefresh;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JTable tblCars;
