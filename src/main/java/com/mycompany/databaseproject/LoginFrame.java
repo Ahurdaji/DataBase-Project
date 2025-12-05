@@ -1,16 +1,10 @@
 package com.mycompany.databaseproject;
 
+import com.mycompany.databaseproject.DatabaseConnection;
 import java.sql.Connection;
+import javax.swing.JOptionPane;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
-/**
- *
- * @author HP
- */
 public class LoginFrame extends javax.swing.JFrame {
 
     /**
@@ -85,7 +79,13 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        Connection con = DatabaseConnection.getConnection();
+        Connection conn = DatabaseConnection.getConnection();
+
+if (conn != null) {
+    JOptionPane.showMessageDialog(this, "Connection Successful!");
+} else {
+    JOptionPane.showMessageDialog(this, "Connection Failed!");
+}
 
     }//GEN-LAST:event_btnLoginActionPerformed
 
