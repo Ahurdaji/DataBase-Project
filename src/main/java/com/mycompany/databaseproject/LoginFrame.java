@@ -1,3 +1,7 @@
+package com.mycompany.databaseproject;
+
+import java.sql.Connection;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -57,6 +61,11 @@ public class LoginFrame extends javax.swing.JFrame {
         getContentPane().add(Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, -1, -1));
 
         btnLogin.setText("Login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
 
         btnExit.setText("Exit");
@@ -73,6 +82,12 @@ public class LoginFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // TODO add your handling code here:
+        Connection con = DatabaseConnection.getConnection();
+
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
