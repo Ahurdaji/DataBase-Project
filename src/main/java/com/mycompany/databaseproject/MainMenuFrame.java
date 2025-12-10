@@ -9,23 +9,20 @@ package com.mycompany.databaseproject;
  * @author hadalkharouf
  */
 public class MainMenuFrame extends javax.swing.JFrame {
-    private String role;
-
-
-    /**
-     * Creates new form MainMenuFrame
-     */
-    public MainMenuFrame() {
-        this("Admin"); 
-    }
-    public MainMenuFrame(String role) {
-    initComponents();
-    this.role = role;
-
+    private String userRole;
     
-    if (!"Admin".equals(role)) {
+    public MainMenuFrame(String role) {
+        this.userRole = role;
+        initComponents();
+        applyRolePermissions();
+    }
+    
+    private void applyRolePermissions(){
+    if (!"Admin".equals(userRole)) {
         btnManageEmployees.setVisible(false);
         btnManageUserAccounts.setVisible(false);
+        btnManageSuppliers.setVisible(false);
+
     }
 }
     /**
@@ -156,7 +153,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainMenuFrame().setVisible(true);
+                //new MainMenuFrame().setVisible(true);
             }
         });
     }

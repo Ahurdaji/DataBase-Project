@@ -2,8 +2,8 @@ package com.mycompany.databaseproject;
 
 import com.mycompany.databaseproject.DatabaseConnection;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-
 
 public class LoginFrame extends javax.swing.JFrame {
 
@@ -12,6 +12,8 @@ public class LoginFrame extends javax.swing.JFrame {
      */
     public LoginFrame() {
         initComponents();
+        txtPassword.setText("");
+        lblError.setText("");     
     }
 
     /**
@@ -29,9 +31,10 @@ public class LoginFrame extends javax.swing.JFrame {
         Password = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtPassword = new javax.swing.JPasswordField();
         txtUsername = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        lblError = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
 
@@ -63,31 +66,73 @@ public class LoginFrame extends javax.swing.JFrame {
         getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
 
         btnExit.setText("Exit");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 200, -1, -1));
 
-        jPasswordField1.setText("jPasswordField1");
-        getContentPane().add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 130, -1));
-
-        txtUsername.setText("Enter Username");
+        txtPassword.setToolTipText("");
+        getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 130, -1));
         getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 80, 140, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-03 163455.png"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, -20, 680, 450));
+        getContentPane().add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 310, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        Connection conn = DatabaseConnection.getConnection();
+        String username = txtUsername.getText();
+        String password = new String(txtPassword.getPassword());
 
-if (conn != null) {
-    JOptionPane.showMessageDialog(this, "Connection Successful!");
-} else {
-    JOptionPane.showMessageDialog(this, "Connection Failed!");
-}
+    if (username.isEmpty() || password.isEmpty()) {
+        lblError.setText("Please fill all fields.");
+        return;
+    }
 
+    try {
+        String sql = "SELECT u.UserID, u.UserName, u.PasswordHash, r.RoleName "
+                   + "FROM UserAccount u "
+                   + "JOIN UserRole r ON u.RoleID = r.RoleID "
+                   + "WHERE u.UserName = ?";
+
+
+        ResultSet rs = DatabaseHelper.executeQuery(sql, username);
+
+        if (rs.next()) {
+            String storedPassword = rs.getString("PasswordHash");
+            String role = rs.getString("RoleName");
+
+            // (Later you will use hashing, now plain text)
+            if (password.equals(storedPassword)) {
+
+                // Open Main Menu with ROLE
+                MainMenuFrame menu = new MainMenuFrame(role);
+                menu.setVisible(true);
+                this.dispose();
+
+            } else {
+                lblError.setText("Incorrect password.");
+            }
+
+        } else {
+            lblError.setText("User not found.");
+        }
+
+    } catch (Exception e) {
+        lblError.setText("Error connecting to database.");
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_btnExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -130,9 +175,10 @@ if (conn != null) {
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblUsername;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
