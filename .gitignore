@@ -1,3 +1,4 @@
 src/main/java/com/mycompany/databaseproject/DatabaseConnection.java
+src/main/resources/db.properties
 nbproject/private/
 target/
