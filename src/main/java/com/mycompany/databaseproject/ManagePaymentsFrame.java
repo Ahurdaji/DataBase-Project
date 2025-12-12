@@ -7,17 +7,24 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
     /**
      * Creates new form ManagePaymentsFrame
      */
-    private int contractId;
-public ManagePaymentsFrame() {
+private int contractId;
+private String currentRole;
+
+// Open ALL payments
+public ManagePaymentsFrame(String role) {
+    this.currentRole = role;
     initComponents();
-    loadPayments(); // load ALL payments
+    loadPayments();
 }
 
-public ManagePaymentsFrame(int contractId) {
+// Open payments for ONE contract
+public ManagePaymentsFrame(int contractId, String role) {
     this.contractId = contractId;
+    this.currentRole = role;
     initComponents();
-    loadPaymentsByContract(); // load ONLY this contract
+    loadPaymentsByContract();
 }
+
 
 
 private void loadPaymentsByContract() {
@@ -196,6 +203,8 @@ private void loadPayments() {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+            new ManageContractsFrame(currentRole).setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnShowUnpaidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowUnpaidActionPerformed
@@ -254,37 +263,27 @@ private void loadPayments() {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+public static void main(String args[]) {
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManagePaymentsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManagePaymentsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManagePaymentsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManagePaymentsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ManagePaymentsFrame().setVisible(true);
-            }
-        });
+    } catch (Exception ex) {
+        ex.printStackTrace();
     }
+
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            // TEST: ContractID = 1, Role = Admin
+            new ManagePaymentsFrame(1, "Admin").setVisible(true);
+        }
+    });
+}
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btmMarkAsPaid;

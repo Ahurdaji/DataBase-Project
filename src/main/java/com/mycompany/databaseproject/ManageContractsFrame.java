@@ -7,10 +7,13 @@ public class ManageContractsFrame extends javax.swing.JFrame {
     /**
      * Creates new form ManageContractsFrame
      */
-    public ManageContractsFrame() {
-        initComponents();
-        loadContracts();
-    }
+    private String currentRole;
+public ManageContractsFrame(String role) {
+    initComponents();
+    this.currentRole = role;
+    loadContracts();
+}
+
 
 private void loadContracts() {
     String sql =
@@ -120,8 +123,9 @@ private void loadContracts() {
         tableContracts.getValueAt(row, 0).toString()
     );
 
-    // Open payments for this contract
-    ManagePaymentsFrame paymentsFrame = new ManagePaymentsFrame(contractId);
+    ManagePaymentsFrame paymentsFrame =
+        new ManagePaymentsFrame(contractId, currentRole);
+
     paymentsFrame.setVisible(true);
     this.dispose();
 
@@ -129,14 +133,16 @@ private void loadContracts() {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-        //   new MainMenuFrame().setVisible(true);
+    new MainMenuFrame(currentRole).setVisible(true);
     this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnNewContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContractActionPerformed
         // TODO add your handling code here:
-        //   new ManageContractsFormFrame().setVisible(true); // example name
-    this.dispose();
+    JOptionPane.showMessageDialog(
+        this,
+        "New contracts are created from the Contract Creation screen.\n(This feature can be extended later.)"
+    );
     }//GEN-LAST:event_btnNewContractActionPerformed
 
     /**
@@ -169,7 +175,7 @@ private void loadContracts() {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManageContractsFrame().setVisible(true);
+                //new ManageContractsFrame().setVisible(true);
             }
         });
     }
