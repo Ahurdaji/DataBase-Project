@@ -55,6 +55,24 @@ public class DatabaseHelper {
             e.printStackTrace();
         }
     }
+    public static int executeInsertAndReturnId(String sql, Object... params) throws Exception {
+    Connection con = getConnection();
+    PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+    for (int i = 0; i < params.length; i++) {
+        ps.setObject(i + 1, params[i]);
+    }
+
+    ps.executeUpdate();
+
+    ResultSet rs = ps.getGeneratedKeys();
+    if (rs.next()) {
+        return rs.getInt(1);
+    }
+
+    throw new Exception("Failed to get generated ID");
+}
+
 
     private static void setParams(PreparedStatement stmt, Object... params) throws SQLException {
         for (int i = 0; i < params.length; i++) {

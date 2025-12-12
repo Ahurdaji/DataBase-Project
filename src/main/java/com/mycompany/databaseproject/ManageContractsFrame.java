@@ -139,10 +139,12 @@ private void loadContracts() {
 
     private void btnNewContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContractActionPerformed
         // TODO add your handling code here:
-    JOptionPane.showMessageDialog(
-        this,
-        "New contracts are created from the Contract Creation screen.\n(This feature can be extended later.)"
-    );
+    // Open New Contract dialog (modal)
+    NewContractDialog dialog = new NewContractDialog(this, true);
+    dialog.setVisible(true);
+
+    // After dialog closes → refresh table
+    loadContracts();
     }//GEN-LAST:event_btnNewContractActionPerformed
 
     /**
