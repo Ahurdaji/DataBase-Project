@@ -96,6 +96,7 @@ public class AddSupplierDialog extends javax.swing.JDialog {
         });
     }
 
+    // force update
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
