@@ -1,20 +1,46 @@
 package com.mycompany.databaseproject;
+
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author hadalkharouf
  */
 public class ManageSuppliersFrame extends javax.swing.JFrame {
 
+    private String currentRole;
+
     /**
      * Creates new form ManageSuppliersFrame
      */
-    public ManageSuppliersFrame() {
+    public ManageSuppliersFrame(String role) {
         initComponents();
+        this.currentRole = role;
+        applyRolePermissions();
+        setLocationRelativeTo(null);
+    }
+
+    private void applyRolePermissions() {
+        if (currentRole == null) {
+            return;
+        }
+
+        // Admin & Manager = full
+        if (currentRole.equalsIgnoreCase("Admin") || currentRole.equalsIgnoreCase("Manager")) {
+            btnAddSupplier.setEnabled(true);
+            btnEditSupplier.setEnabled(true);
+            btnDeleteSupplier.setEnabled(true);
+            return;
+        }
+
+        // SalesStaff = view only
+        btnAddSupplier.setEnabled(false);
+        btnEditSupplier.setEnabled(false);
+        btnDeleteSupplier.setEnabled(false);
     }
 
     /**
@@ -61,12 +87,32 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 460, 240));
 
         btnAddSupplier.setText("Add Suppliers");
+        btnAddSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddSupplierActionPerformed(evt);
+            }
+        });
 
         btnEditSupplier.setText("Edit Suppliers");
+        btnEditSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditSupplierActionPerformed(evt);
+            }
+        });
 
         btnDeleteSupplier.setText("Delete Suppliers");
+        btnDeleteSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteSupplierActionPerformed(evt);
+            }
+        });
 
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -97,16 +143,54 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
                 .addComponent(btnDeleteSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14)
                 .addComponent(btnBack)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, -1, 190));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, -1, 160));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-3, 0, 670, 370));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnAddSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSupplierActionPerformed
+        // TODO add your handling code here:
+        if (!currentRole.equalsIgnoreCase("Admin")
+                && !currentRole.equalsIgnoreCase("Manager")) {
+
+            JOptionPane.showMessageDialog(this, "Access denied");
+            return;
+        }
+
+    }//GEN-LAST:event_btnAddSupplierActionPerformed
+
+    private void btnEditSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditSupplierActionPerformed
+        // TODO add your handling code here:
+        if (!currentRole.equalsIgnoreCase("Admin")
+                && !currentRole.equalsIgnoreCase("Manager")) {
+
+            JOptionPane.showMessageDialog(this, "Access denied");
+            return;
+        }
+
+    }//GEN-LAST:event_btnEditSupplierActionPerformed
+
+    private void btnDeleteSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSupplierActionPerformed
+        // TODO add your handling code here:
+        if (!currentRole.equalsIgnoreCase("Admin")
+                && !currentRole.equalsIgnoreCase("Manager")) {
+
+            JOptionPane.showMessageDialog(this, "Access denied");
+            return;
+        }
+
+    }//GEN-LAST:event_btnDeleteSupplierActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,7 +222,7 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManageSuppliersFrame().setVisible(true);
+                new ManageSuppliersFrame("Admin").setVisible(true);
             }
         });
     }

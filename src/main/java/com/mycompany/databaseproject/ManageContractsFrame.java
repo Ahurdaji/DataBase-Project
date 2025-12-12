@@ -129,13 +129,13 @@ private void loadContracts() {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-          //  new MainMenuFrame().setVisible(true);
+        //   new MainMenuFrame().setVisible(true);
     this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnNewContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContractActionPerformed
         // TODO add your handling code here:
-       //     new ManageContractsFormFrame().setVisible(true); // example name
+        //   new ManageContractsFormFrame().setVisible(true); // example name
     this.dispose();
     }//GEN-LAST:event_btnNewContractActionPerformed
 

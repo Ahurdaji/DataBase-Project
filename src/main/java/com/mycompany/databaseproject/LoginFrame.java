@@ -13,7 +13,8 @@ public class LoginFrame extends javax.swing.JFrame {
     public LoginFrame() {
         initComponents();
         txtPassword.setText("");
-        lblError.setText("");     
+        lblError.setText("");   
+        setLocationRelativeTo(null);
     }
 
     /**
