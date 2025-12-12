@@ -68,9 +68,10 @@ public class DeleteCarDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel10.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Delete Car");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 80, 40));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 130, 40));
 
         jLabel5.setText("VIN");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
@@ -86,20 +87,10 @@ public class DeleteCarDialog extends javax.swing.JDialog {
 
         jLabel1.setText("Mileage");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, -1, -1));
-
-        txtMileage.setText("jTextField1");
         getContentPane().add(txtMileage, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 140, 30));
-
-        txtColor.setText("jTextField1");
         getContentPane().add(txtColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 140, 30));
-
-        txtYear.setText("jTextField1");
         getContentPane().add(txtYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, 140, 30));
-
-        txtPlate.setText("jTextField1");
         getContentPane().add(txtPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 140, 30));
-
-        txtVIN.setText("jTextField1");
         getContentPane().add(txtVIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 140, 30));
 
         getContentPane().add(cmbModel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 180, 30));

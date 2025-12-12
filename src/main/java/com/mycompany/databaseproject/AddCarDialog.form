@@ -66,12 +66,9 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JTextField" name="txtMileage">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
-      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="130" y="210" width="-1" height="-1"/>
+          <AbsoluteConstraints x="130" y="210" width="130" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -86,47 +83,38 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JTextField" name="txtVIN">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
-      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="130" y="90" width="-1" height="-1"/>
+          <AbsoluteConstraints x="130" y="90" width="130" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="javax.swing.JTextField" name="txtColor">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
-      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="130" y="180" width="-1" height="-1"/>
+          <AbsoluteConstraints x="130" y="180" width="130" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="javax.swing.JTextField" name="txtYear">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
-      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="130" y="150" width="-1" height="-1"/>
+          <AbsoluteConstraints x="130" y="150" width="130" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="javax.swing.JTextField" name="txtPlate">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
-      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="130" y="120" width="-1" height="-1"/>
+          <AbsoluteConstraints x="130" y="120" width="130" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Helvetica Neue" size="14" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Car Details "/>
       </Properties>
       <Constraints>
@@ -137,6 +125,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Helvetica Neue" size="14" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Car Attributes"/>
       </Properties>
       <Constraints>

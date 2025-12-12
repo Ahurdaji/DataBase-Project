@@ -1,6 +1,11 @@
 package com.mycompany.databaseproject;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -12,6 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class ManageSuppliersFrame extends javax.swing.JFrame {
 
+    
     private String currentRole;
 
     /**
@@ -21,6 +27,7 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
         initComponents();
         this.currentRole = role;
         applyRolePermissions();
+        loadSuppliersTable();
         setLocationRelativeTo(null);
     }
 
@@ -43,6 +50,26 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
         btnDeleteSupplier.setEnabled(false);
     }
 
+    private void loadSuppliersTable() {
+        String sql = "SELECT SupplierID, SupplierName, Phone, Email, Address FROM Supplier";
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        try (ResultSet rs = DatabaseHelper.executeQuery(sql)) {
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getInt("SupplierID"),
+                    rs.getString("SupplierName"),
+                    rs.getString("Phone"),
+                    rs.getString("Email"),
+                    rs.getString("Address")
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,14 +82,13 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
         btnAddSupplier = new javax.swing.JButton();
         btnEditSupplier = new javax.swing.JButton();
         btnDeleteSupplier = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
@@ -92,6 +118,7 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
                 btnAddSupplierActionPerformed(evt);
             }
         });
+        getContentPane().add(btnAddSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 120, 130, 30));
 
         btnEditSupplier.setText("Edit Suppliers");
         btnEditSupplier.addActionListener(new java.awt.event.ActionListener() {
@@ -99,6 +126,7 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
                 btnEditSupplierActionPerformed(evt);
             }
         });
+        getContentPane().add(btnEditSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, 130, 30));
 
         btnDeleteSupplier.setText("Delete Suppliers");
         btnDeleteSupplier.addActionListener(new java.awt.event.ActionListener() {
@@ -106,47 +134,16 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
                 btnDeleteSupplierActionPerformed(evt);
             }
         });
+        getContentPane().add(btnDeleteSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 220, 130, 30));
 
+        btnBack.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnEditSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnDeleteSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAddSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(btnAddSupplier)
-                .addGap(18, 18, 18)
-                .addComponent(btnEditSupplier)
-                .addGap(18, 18, 18)
-                .addComponent(btnDeleteSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
-                .addComponent(btnBack)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, -1, 160));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 270, 130, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-3, 0, 670, 370));
@@ -156,6 +153,7 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+        new MainMenuFrame(currentRole).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -167,6 +165,9 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Access denied");
             return;
         }
+        AddSupplierDialog dialog = new AddSupplierDialog(this, true);
+        dialog.setVisible(true);
+        loadSuppliersTable();
 
     }//GEN-LAST:event_btnAddSupplierActionPerformed
 
@@ -179,15 +180,67 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
             return;
         }
 
+        int row = jTable1.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Select supplier first");
+            return;
+        }
+
+        int supplierID = Integer.parseInt(
+                jTable1.getValueAt(row, 0).toString()
+        );
+
+        EditSupplierDialog dialog
+                = new EditSupplierDialog(this, true, supplierID);
+
+        dialog.setVisible(true);
+        loadSuppliersTable();
+
+
     }//GEN-LAST:event_btnEditSupplierActionPerformed
 
     private void btnDeleteSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSupplierActionPerformed
-        // TODO add your handling code here:
-        if (!currentRole.equalsIgnoreCase("Admin")
-                && !currentRole.equalsIgnoreCase("Manager")) {
+        try {
+            // TODO add your handling code here:
+            // صلاحيات الي بيستخدم البرنامج
+            if (!currentRole.equalsIgnoreCase("Admin")
+                    && !currentRole.equalsIgnoreCase("Manager")) {
 
-            JOptionPane.showMessageDialog(this, "Access denied");
-            return;
+                JOptionPane.showMessageDialog(this, "Access denied");
+                return;
+            }
+            // تأكد من اختيار صف
+            int row = jTable1.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(this, "Select supplier first");
+                return;
+            }
+
+            //  قراءة SupplierID من العمود الأول
+            int supplierID = Integer.parseInt(
+                    jTable1.getValueAt(row, 0).toString()
+            );
+
+            // تاكيد الحذف
+            int confirm = JOptionPane.showConfirmDialog(
+                    this,
+                    "Are you sure you want to delete this supplier?",
+                    "Confirm Delete",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirm != JOptionPane.YES_OPTION) {
+                return;
+            }
+            //تنفيذ  DELETE
+            String sql = "DELETE FROM Supplier WHERE SupplierID = ?";
+            DatabaseHelper.executeUpdate(sql, supplierID);
+
+            //رسالة + تحديث الجدول
+            JOptionPane.showMessageDialog(this, "Supplier deleted successfully");
+            loadSuppliersTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(ManageSuppliersFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_btnDeleteSupplierActionPerformed
@@ -234,7 +287,6 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnEditSupplier;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

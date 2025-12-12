@@ -152,28 +152,20 @@ public class AddCarDialog extends javax.swing.JDialog {
 
         jLabel4.setText("Color");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, -1, -1));
-
-        txtMileage.setText("jTextField1");
-        getContentPane().add(txtMileage, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, -1, -1));
+        getContentPane().add(txtMileage, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, 130, -1));
 
         jLabel5.setText("Mileage");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, -1, -1));
+        getContentPane().add(txtVIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 130, -1));
+        getContentPane().add(txtColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, 130, -1));
+        getContentPane().add(txtYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 130, -1));
+        getContentPane().add(txtPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 130, -1));
 
-        txtVIN.setText("jTextField1");
-        getContentPane().add(txtVIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, -1, -1));
-
-        txtColor.setText("jTextField1");
-        getContentPane().add(txtColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, -1, -1));
-
-        txtYear.setText("jTextField1");
-        getContentPane().add(txtYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, -1, -1));
-
-        txtPlate.setText("jTextField1");
-        getContentPane().add(txtPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, -1, -1));
-
+        jLabel6.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel6.setText("Car Details ");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
 
+        jLabel7.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel7.setText("Car Attributes");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, -1, -1));
 

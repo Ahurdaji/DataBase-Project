@@ -179,20 +179,10 @@ public class EditCarDialog extends javax.swing.JDialog {
 
         jLabel5.setText("VIN");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
-
-        txtMileage.setText("jTextField1");
         getContentPane().add(txtMileage, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 140, 30));
-
-        txtColor.setText("jTextField1");
         getContentPane().add(txtColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 140, 30));
-
-        txtYear.setText("jTextField1");
         getContentPane().add(txtYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, 140, 30));
-
-        txtPlate.setText("jTextField1");
         getContentPane().add(txtPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 140, 30));
-
-        txtVIN.setText("jTextField1");
         getContentPane().add(txtVIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 140, 30));
 
         jLabel6.setText("Location");
@@ -215,6 +205,7 @@ public class EditCarDialog extends javax.swing.JDialog {
 
         getContentPane().add(cmbModel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 180, 30));
 
+        jLabel10.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Edit Car ");
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 80, 40));
