@@ -1,30 +1,65 @@
 package com.mycompany.databaseproject;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author hadalkharouf
  */
 public class MainMenuFrame extends javax.swing.JFrame {
-    private String userRole;
-    
+
+    private String currentRole;
+
     public MainMenuFrame(String role) {
-        this.userRole = role;
         initComponents();
+        this.currentRole = role;
+        setLocationRelativeTo(null);
         applyRolePermissions();
     }
-    
-    private void applyRolePermissions(){
-    if (!"Admin".equals(userRole)) {
+
+    private void applyRolePermissions() {
+        // Hide everything FIRST (Safer)
         btnManageEmployees.setVisible(false);
         btnManageUserAccounts.setVisible(false);
         btnManageSuppliers.setVisible(false);
 
+        btnManageCars.setVisible(true);
+        btnManageCustomers.setVisible(false);
+        btnManageContracts.setVisible(false);
+        btnManagePayments.setVisible(false);
+
+        // Now role logic
+        switch (currentRole) {
+
+            case "Admin":
+                btnManageCars.setVisible(true);
+                btnManageCustomers.setVisible(true);
+                btnManageContracts.setVisible(true);
+                btnManagePayments.setVisible(true);
+
+                btnManageEmployees.setVisible(true);
+                btnManageUserAccounts.setVisible(true);
+                btnManageSuppliers.setVisible(true);
+                break;
+
+            case "Manager":
+                btnManageCars.setVisible(true);
+                btnManageCustomers.setVisible(true);
+                btnManageContracts.setVisible(true);
+                btnManagePayments.setVisible(true);
+                btnManageSuppliers.setVisible(true);
+                break;
+
+            case "SalesStaff":
+                btnManageCustomers.setVisible(true);
+                btnManageContracts.setVisible(true);
+                btnManagePayments.setVisible(true);
+                break;
+        }
     }
-}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,7 +88,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
         lblTitle.setForeground(new java.awt.Color(0, 0, 153));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("Main Menu");
-        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 49, 163, -1));
+        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 163, 40));
 
         btnManageCars.setText("Manage Cars");
         btnManageCars.addActionListener(new java.awt.event.ActionListener() {
@@ -61,16 +96,16 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnManageCarsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnManageCars, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 99, 163, -1));
+        getContentPane().add(btnManageCars, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, 160, 50));
 
         btnManageCustomers.setText("Manage Customers");
-        getContentPane().add(btnManageCustomers, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 128, 163, -1));
+        getContentPane().add(btnManageCustomers, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 160, 50));
 
         btnManageContracts.setText("Manage Contracts");
-        getContentPane().add(btnManageContracts, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 157, 163, -1));
+        getContentPane().add(btnManageContracts, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 160, 50));
 
         btnManagePayments.setText("Manage Payments");
-        getContentPane().add(btnManagePayments, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 186, 152, -1));
+        getContentPane().add(btnManagePayments, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, 160, 50));
 
         btnManageSuppliers.setText("Manage Suppliers");
         btnManageSuppliers.addActionListener(new java.awt.event.ActionListener() {
@@ -78,13 +113,13 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnManageSuppliersActionPerformed(evt);
             }
         });
-        getContentPane().add(btnManageSuppliers, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 371, 152, -1));
+        getContentPane().add(btnManageSuppliers, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, 160, 50));
 
         btnManageEmployees.setText("Manage Employees");
-        getContentPane().add(btnManageEmployees, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 311, 152, -1));
+        getContentPane().add(btnManageEmployees, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 410, 170, 50));
 
         btnManageUserAccounts.setText("Manage User Accounts");
-        getContentPane().add(btnManageUserAccounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 342, -1, -1));
+        getContentPane().add(btnManageUserAccounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 470, 170, 50));
 
         btnLogout.setFont(new java.awt.Font("Helvetica Neue", 3, 18)); // NOI18N
         btnLogout.setForeground(new java.awt.Color(0, 0, 153));
@@ -94,33 +129,37 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnLogoutActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 410, -1, -1));
+        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 550, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 3, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Admin Options");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 286, 152, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 360, 150, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -60, 600, 580));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -60, 640, 740));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnManageCarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageCarsActionPerformed
         // TODO add your handling code here:
-        new ManageCarsFrame().setVisible(true);
-        this.dispose();
+        new ManageCarsFrame(currentRole).setVisible(true);
     }//GEN-LAST:event_btnManageCarsActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
-        
+        this.dispose();
+
+        LoginFrame login = new LoginFrame();
+        login.setVisible(true);
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnManageSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageSuppliersActionPerformed
         // TODO add your handling code here:
+        ManageSuppliersFrame frame = new ManageSuppliersFrame(currentRole);
+        frame.setVisible(true);
     }//GEN-LAST:event_btnManageSuppliersActionPerformed
 
     /**

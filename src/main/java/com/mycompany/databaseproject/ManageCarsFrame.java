@@ -1,14 +1,21 @@
 package com.mycompany.databaseproject;
+
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author hadalkharouf
  */
 public class ManageCarsFrame extends javax.swing.JFrame {
+
+    private String currentRole;
 
     /**
      * Creates new form ManageCarsFrame
@@ -19,9 +26,51 @@ public class ManageCarsFrame extends javax.swing.JFrame {
         loadCarsTable();       // our method to fill the table
     }
 
-    private void loadCarsTable(){
-        // later i will read the database and set model of tblCars
+    public ManageCarsFrame(String role) {
+        this();
+        this.currentRole = role;
+        applyRolePermissions();
     }
+
+    private void applyRolePermissions() {
+        if (currentRole == null) {
+            return;
+        }
+
+        // Admin full access
+        if (currentRole.equalsIgnoreCase("Admin")) {
+            btnAddCar.setEnabled(true);
+            btnEditCar.setEnabled(true);
+            btnDeleteCar.setEnabled(true);
+            return;
+        }
+
+        // Manager & SalesStaff: view only
+        btnAddCar.setEnabled(false);
+        btnEditCar.setEnabled(false);
+        btnDeleteCar.setEnabled(false);
+    }
+
+    private void loadCarsTable() {
+        String sql = "SELECT "
+                + "c.CarID, "
+                + "cm.ModelName, "
+                + "c.PlateNumber, "
+                + "c.Year, "
+                + "c.Color, "
+                + "cs.StatusName, "
+                + "c.Mileage, "
+                + "l.LocationName, "
+                + "s.SupplierName "
+                + "FROM Car c "
+                + "JOIN CarModel cm ON c.ModelID = cm.ModelID "
+                + "JOIN CarStatus cs ON c.StatusID = cs.StatusID "
+                + "JOIN Supplier s ON c.SupplierID = s.SupplierID "
+                + "JOIN Location l ON c.LocationID = l.LocationID";
+
+        DatabaseHelper.fillTable(tblCars, sql);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,9 +124,19 @@ public class ManageCarsFrame extends javax.swing.JFrame {
         getContentPane().add(btnAddCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 460, -1, -1));
 
         btnEditCar.setText("Edit Car");
+        btnEditCar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditCarActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnEditCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 460, -1, -1));
 
         btnDeleteCar.setText("Delete Car");
+        btnDeleteCar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteCarActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnDeleteCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 460, -1, -1));
 
         btnRefresh.setText("Refresh");
@@ -115,7 +174,74 @@ public class ManageCarsFrame extends javax.swing.JFrame {
 
     private void btnAddCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCarActionPerformed
         // TODO add your handling code here:
+        if (!currentRole.equalsIgnoreCase("Admin")) {
+            JOptionPane.showMessageDialog(this, "You are not allowed to add cars.");
+            return;
+        }
+        AddCarDialog dialog = new AddCarDialog(this, true); // modal dialog
+        dialog.setVisible(true);
+
+        if (dialog.isSucceeded()) {
+            loadCarsTable();   // refresh table after insert
+        }
     }//GEN-LAST:event_btnAddCarActionPerformed
+
+    private void btnEditCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCarActionPerformed
+        // TODO add your handling code here:
+        if (!currentRole.equalsIgnoreCase("Admin")) {
+            JOptionPane.showMessageDialog(this, "You are not allowed to edit cars.");
+            return;
+        }
+        int row = tblCars.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a car to edit.");
+            return;
+        }
+        int carID = Integer.parseInt(tblCars.getValueAt(row, 0).toString());
+
+        // Open the dialog with carID
+        EditCarDialog dialog = new EditCarDialog(this, true, carID);
+        dialog.setVisible(true);
+
+        if (dialog.isSucceeded()) {
+            loadCarsTable(); // refresh
+        }
+    }//GEN-LAST:event_btnEditCarActionPerformed
+
+    private void btnDeleteCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCarActionPerformed
+        // TODO add your handling code here:
+        if (!currentRole.equalsIgnoreCase("Admin")) {
+            JOptionPane.showMessageDialog(this, "You are not allowed to edit cars.");
+            return;
+        }
+        int row = tblCars.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a car to delete.");
+            return;
+        }
+
+        int carID = Integer.parseInt(tblCars.getValueAt(row, 0).toString());
+
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to delete this car?",
+                "Delete Car",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+
+            try {
+                String sql = "DELETE FROM Car WHERE CarID = ?";
+                int rows = DatabaseHelper.executeUpdate(sql, carID);
+
+                if (rows > 0) {
+                    JOptionPane.showMessageDialog(this, "Car deleted successfully!");
+                    loadCarsTable(); // refresh table
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ManageCarsFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnDeleteCarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,7 +273,7 @@ public class ManageCarsFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManageCarsFrame().setVisible(true);
+                new ManageCarsFrame("Admin").setVisible(true);
             }
         });
     }
