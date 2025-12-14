@@ -7,13 +7,14 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
     /**
      * Creates new form ManagePaymentsFrame
      */
-private int contractId;
+private int contractId = -1; // means all contracts
 private String currentRole;
 
 // Open ALL payments
 public ManagePaymentsFrame(String role) {
     this.currentRole = role;
     initComponents();
+    applyRolePermissions();
     loadPayments();
 }
 
@@ -22,43 +23,47 @@ public ManagePaymentsFrame(int contractId, String role) {
     this.contractId = contractId;
     this.currentRole = role;
     initComponents();
+    applyRolePermissions();
     loadPaymentsByContract();
 }
 
+ // role permissions
+ private void applyRolePermissions() {
+        // SalesStaff → View only
+        if ("SalesStaff".equalsIgnoreCase(currentRole)) {
+            btmMarkAsPaid.setEnabled(false);
+        }
+    }
 
-
-private void loadPaymentsByContract() {
+ // load data
+ private void loadPaymentsByContract() {
     String sql =
-        "SELECT ip.PaymentID, ip.ContractID, " +
-        "c.FirstName + ' ' + c.LastName AS CustomerName, " +
-        "ip.Amount, ip.DueDate, " +
-        "CASE WHEN ip.IsPaid = 1 THEN 'Paid' ELSE 'Unpaid' END AS Status " +
-        "FROM InstallmentPayment ip " +
-        "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
-        "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
-        "WHERE ip.ContractID = ?";
+            "SELECT ip.PaymentID, ip.ContractID, " +
+            "c.FirstName + ' ' + c.LastName AS CustomerName, " +
+            "ip.Amount, ip.DueDate, " +
+            "CASE WHEN ip.IsPaid = 1 THEN 'Paid' ELSE 'Unpaid' END AS Status " +
+            "FROM InstallmentPayment ip " +
+            "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
+            "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
+            "WHERE ip.ContractID = ?";
 
-    DatabaseHelper.fillTable(jtable1, sql, contractId);
-}
+        DatabaseHelper.fillTable(jtable1, sql, contractId);
+ }
 
 private void loadPayments() {
     String sql =
-        "SELECT " +
-        " ip.PaymentID, " +
-        " ip.ContractID, " +
-        " CONCAT(c.FirstName, ' ', c.LastName) AS CustomerName, " +
-        " ip.Amount, " +
-        " ip.DueDate, " +
-        " CASE " +
-        "   WHEN ip.IsPaid = 1 THEN 'Paid' " +
-        "   WHEN ip.IsPaid = 0 AND ip.DueDate < GETDATE() THEN 'Overdue' " +
-        "   ELSE 'Unpaid' " +
-        " END AS Status " +
-        "FROM InstallmentPayment ip " +
-        "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
-        "JOIN Customer c ON hc.CustomerID = c.CustomerID";
+            "SELECT ip.PaymentID, ip.ContractID, " +
+            "c.FirstName + ' ' + c.LastName AS CustomerName, " +
+            "ip.Amount, ip.DueDate, " +
+            "CASE " +
+            " WHEN ip.IsPaid = 1 THEN 'Paid' " +
+            " WHEN ip.IsPaid = 0 AND ip.DueDate < GETDATE() THEN 'Overdue' " +
+            " ELSE 'Unpaid' END AS Status " +
+            "FROM InstallmentPayment ip " +
+            "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
+            "JOIN Customer c ON hc.CustomerID = c.CustomerID";
 
-    DatabaseHelper.fillTable(jtable1, sql);
+        DatabaseHelper.fillTable(jtable1, sql);
 }
 
     @SuppressWarnings("unchecked")
@@ -154,110 +159,98 @@ private void loadPayments() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnShowPaidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowPaidActionPerformed
-        // TODO add your handling code here:
+        String sql =
+            "SELECT ip.PaymentID, ip.ContractID, " +
+            "c.FirstName + ' ' + c.LastName AS CustomerName, " +
+            "ip.Amount, ip.DueDate, 'Paid' AS Status " +
+            "FROM InstallmentPayment ip " +
+            "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
+            "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
+            "WHERE ip.IsPaid = 1";
 
-    String sql =
-        "SELECT ip.PaymentID, ip.ContractID, " +
-        "c.FirstName + ' ' + c.LastName AS CustomerName, " +
-        "ip.Amount, ip.DueDate, 'Paid' AS Status " +
-        "FROM InstallmentPayment ip " +
-        "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
-        "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
-        "WHERE ip.IsPaid = 1";
-
-    if (contractId > 0) {
-        sql += " AND ip.ContractID = ?";
-        DatabaseHelper.fillTable(jtable1, sql, contractId);
-    } else {
-        DatabaseHelper.fillTable(jtable1, sql);
-    }
-
-
+        if (contractId > 0)
+            DatabaseHelper.fillTable(jtable1, sql + " AND ip.ContractID = ?", contractId);
+        else
+            DatabaseHelper.fillTable(jtable1, sql);
     }//GEN-LAST:event_btnShowPaidActionPerformed
 
     private void btnShowOverdueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowOverdueActionPerformed
-        // TODO add your handling code here:
-    String sql =
-        "SELECT ip.PaymentID, ip.ContractID, " +
-        "c.FirstName + ' ' + c.LastName AS CustomerName, " +
-        "ip.Amount, ip.DueDate, 'Overdue' AS Status " +
-        "FROM InstallmentPayment ip " +
-        "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
-        "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
-        "WHERE ip.IsPaid = 0 AND ip.DueDate < GETDATE()";
+        String sql =
+            "SELECT ip.PaymentID, ip.ContractID, " +
+            "c.FirstName + ' ' + c.LastName AS CustomerName, " +
+            "ip.Amount, ip.DueDate, 'Overdue' AS Status " +
+            "FROM InstallmentPayment ip " +
+            "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
+            "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
+            "WHERE ip.IsPaid = 0 AND ip.DueDate < GETDATE()";
 
-    if (contractId > 0) {
-        sql += " AND ip.ContractID = ?";
-        DatabaseHelper.fillTable(jtable1, sql, contractId);
-    } else {
-        DatabaseHelper.fillTable(jtable1, sql);
-    }
-
-
+        if (contractId > 0)
+            DatabaseHelper.fillTable(jtable1, sql + " AND ip.ContractID = ?", contractId);
+        else
+            DatabaseHelper.fillTable(jtable1, sql);
     }//GEN-LAST:event_btnShowOverdueActionPerformed
 
     private void btnrefrechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrefrechActionPerformed
         // TODO add your handling code here:
-        loadPayments();
+        if (contractId > 0)
+            loadPaymentsByContract();
+        else
+            loadPayments();
     }//GEN-LAST:event_btnrefrechActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
             new ManageContractsFrame(currentRole).setVisible(true);
-    this.dispose();
+            this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnShowUnpaidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowUnpaidActionPerformed
-        // TODO add your handling code here:
+        String sql =
+            "SELECT ip.PaymentID, ip.ContractID, " +
+            "c.FirstName + ' ' + c.LastName AS CustomerName, " +
+            "ip.Amount, ip.DueDate, 'Unpaid' AS Status " +
+            "FROM InstallmentPayment ip " +
+            "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
+            "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
+            "WHERE ip.IsPaid = 0 AND ip.DueDate >= GETDATE()";
 
-    String sql =
-        "SELECT ip.PaymentID, ip.ContractID, " +
-        "c.FirstName + ' ' + c.LastName AS CustomerName, " +
-        "ip.Amount, ip.DueDate, 'Unpaid' AS Status " +
-        "FROM InstallmentPayment ip " +
-        "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
-        "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
-        "WHERE ip.IsPaid = 0 AND ip.DueDate >= GETDATE()";
-
-    if (contractId > 0) {
-        sql += " AND ip.ContractID = ?";
-        DatabaseHelper.fillTable(jtable1, sql, contractId);
-    } else {
-        DatabaseHelper.fillTable(jtable1, sql);
-    }
-
-
+        if (contractId > 0)
+            DatabaseHelper.fillTable(jtable1, sql + " AND ip.ContractID = ?", contractId);
+        else
+            DatabaseHelper.fillTable(jtable1, sql);
     }//GEN-LAST:event_btnShowUnpaidActionPerformed
 
     private void btmMarkAsPaidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmMarkAsPaidActionPerformed
-        // TODO add your handling code here:
-    int row = jtable1.getSelectedRow();
-    if (row < 0) {
-        JOptionPane.showMessageDialog(this, "Select a payment first.");
-        return;
-    }
+        // Extra protection (even if button disabled)
+        if ("SalesStaff".equalsIgnoreCase(currentRole)) {
+            JOptionPane.showMessageDialog(this, "You are not allowed to update payments.");
+            return;
+        }
 
-    int paymentID = Integer.parseInt(jtable1.getValueAt(row, 0).toString());
+        int row = jtable1.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a payment first.");
+            return;
+        }
 
-    String sql =
-        "UPDATE InstallmentPayment " +
-        "SET IsPaid = 1, PaymentDate = GETDATE() " +
-        "WHERE PaymentID = ?";
+        int paymentID = Integer.parseInt(jtable1.getValueAt(row, 0).toString());
 
-    try {
-        DatabaseHelper.executeUpdate(sql, paymentID);
-        JOptionPane.showMessageDialog(this, "Payment marked as Paid!");
+        try {
+            DatabaseHelper.executeUpdate(
+                "UPDATE InstallmentPayment SET IsPaid = 1, PaymentDate = GETDATE() WHERE PaymentID = ?",
+                paymentID
+            );
 
-        if (contractId > 0)
-            loadPaymentsByContract();
-        else
-            loadPayments();
+            JOptionPane.showMessageDialog(this, "Payment marked as Paid!");
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-    }
+            if (contractId > 0)
+                loadPaymentsByContract();
+            else
+                loadPayments();
 
-
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error updating payment: " + e.getMessage());
+        }
     }//GEN-LAST:event_btmMarkAsPaidActionPerformed
 
     /**
