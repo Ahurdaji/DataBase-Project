@@ -16,6 +16,7 @@ public ManagePaymentsFrame(String role) {
     initComponents();
     applyRolePermissions();
     loadPayments();
+    applyRowColors();
 }
 
 // Open payments for ONE contract
@@ -25,7 +26,42 @@ public ManagePaymentsFrame(int contractId, String role) {
     initComponents();
     applyRolePermissions();
     loadPaymentsByContract();
+    applyRowColors();
 }
+
+private void applyRowColors() {
+    jtable1.setDefaultRenderer(Object.class,
+        new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            public java.awt.Component getTableCellRendererComponent(
+                    javax.swing.JTable table, Object value,
+                    boolean isSelected, boolean hasFocus,
+                    int row, int column) {
+
+                java.awt.Component c = super.getTableCellRendererComponent(
+                        table, value, isSelected, hasFocus, row, column);
+if (!isSelected) {
+    Object statusObj = table.getValueAt(row, 6);
+    String status = statusObj == null ? "" : statusObj.toString();
+
+    switch (status) {
+        case "Paid" ->
+            c.setBackground(new java.awt.Color(200, 255, 200));
+        case "Unpaid" ->
+            c.setBackground(new java.awt.Color(255, 255, 200));
+        case "Overdue" ->
+            c.setBackground(new java.awt.Color(255, 200, 200));
+        default ->
+            c.setBackground(java.awt.Color.WHITE);
+    }
+}
+
+                return c;
+            }
+        });
+}
+ 
+
 
  // role permissions
  private void applyRolePermissions() {
@@ -37,34 +73,45 @@ public ManagePaymentsFrame(int contractId, String role) {
 
  // load data
  private void loadPaymentsByContract() {
-    String sql =
-            "SELECT ip.PaymentID, ip.ContractID, " +
-            "c.FirstName + ' ' + c.LastName AS CustomerName, " +
-            "ip.Amount, ip.DueDate, " +
-            "CASE WHEN ip.IsPaid = 1 THEN 'Paid' ELSE 'Unpaid' END AS Status " +
-            "FROM InstallmentPayment ip " +
-            "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
-            "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
-            "WHERE ip.ContractID = ?";
+String sql =
+    "SELECT " +
+    "ROW_NUMBER() OVER (PARTITION BY ip.ContractID ORDER BY ip.DueDate) AS InstallmentNo, " +
+    "ip.PaymentID, ip.ContractID, " +
+    "c.FirstName + ' ' + c.LastName AS CustomerName, " +
+    "ip.Amount, ip.DueDate, " +
+    "CASE " +
+    "  WHEN ip.IsPaid = 1 THEN 'Paid' " +
+    "  WHEN ip.IsPaid = 0 AND ip.DueDate < GETDATE() THEN 'Overdue' " +
+    "  ELSE 'Unpaid' " +
+    "END AS Status " +
+    "FROM InstallmentPayment ip " +
+    "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
+    "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
+    "WHERE ip.ContractID = ?";
+
 
         DatabaseHelper.fillTable(jtable1, sql, contractId);
  }
 
 private void loadPayments() {
     String sql =
-            "SELECT ip.PaymentID, ip.ContractID, " +
-            "c.FirstName + ' ' + c.LastName AS CustomerName, " +
-            "ip.Amount, ip.DueDate, " +
-            "CASE " +
-            " WHEN ip.IsPaid = 1 THEN 'Paid' " +
-            " WHEN ip.IsPaid = 0 AND ip.DueDate < GETDATE() THEN 'Overdue' " +
-            " ELSE 'Unpaid' END AS Status " +
-            "FROM InstallmentPayment ip " +
-            "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
-            "JOIN Customer c ON hc.CustomerID = c.CustomerID";
+        "SELECT " +
+        "ROW_NUMBER() OVER (PARTITION BY ip.ContractID ORDER BY ip.DueDate) AS InstallmentNo, " +
+        "ip.PaymentID, ip.ContractID, " +
+        "c.FirstName + ' ' + c.LastName AS CustomerName, " +
+        "ip.Amount, ip.DueDate, " +
+        "CASE " +
+        "  WHEN ip.IsPaid = 1 THEN 'Paid' " +
+        "  WHEN ip.IsPaid = 0 AND ip.DueDate < GETDATE() THEN 'Overdue' " +
+        "  ELSE 'Unpaid' " +
+        "END AS Status " +
+        "FROM InstallmentPayment ip " +
+        "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
+        "JOIN Customer c ON hc.CustomerID = c.CustomerID";
 
-        DatabaseHelper.fillTable(jtable1, sql);
+    DatabaseHelper.fillTable(jtable1, sql);
 }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -91,18 +138,18 @@ private void loadPayments() {
 
         jtable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Payment ID", "Contract ID", "Customer Name", "Amount", "Due Date", "Status"
+                "Installment", "Payment ID", "Contract ID", "Costomer Nmae", "Amount", "Due Date", "Status"
             }
         ));
         jScrollPane1.setViewportView(jtable1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 650, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 620, -1));
 
         btmMarkAsPaid.setText("Mark as Paid");
         btmMarkAsPaid.addActionListener(new java.awt.event.ActionListener() {
@@ -110,7 +157,7 @@ private void loadPayments() {
                 btmMarkAsPaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btmMarkAsPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 500, -1, -1));
+        getContentPane().add(btmMarkAsPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 500, -1, -1));
 
         btnShowPaid.setText("Show Paid");
         btnShowPaid.addActionListener(new java.awt.event.ActionListener() {
@@ -118,7 +165,7 @@ private void loadPayments() {
                 btnShowPaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 500, -1, -1));
+        getContentPane().add(btnShowPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 500, -1, -1));
 
         btnShowUnpaid.setText("Show Unpaid");
         btnShowUnpaid.addActionListener(new java.awt.event.ActionListener() {
@@ -126,7 +173,7 @@ private void loadPayments() {
                 btnShowUnpaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowUnpaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 500, -1, -1));
+        getContentPane().add(btnShowUnpaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 500, -1, -1));
 
         btnShowOverdue.setText("Show Overdue");
         btnShowOverdue.addActionListener(new java.awt.event.ActionListener() {
@@ -134,7 +181,7 @@ private void loadPayments() {
                 btnShowOverdueActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowOverdue, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 500, -1, -1));
+        getContentPane().add(btnShowOverdue, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 500, -1, -1));
 
         btnrefrech.setText("Refresh");
         btnrefrech.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +189,7 @@ private void loadPayments() {
                 btnrefrechActionPerformed(evt);
             }
         });
-        getContentPane().add(btnrefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 500, -1, -1));
+        getContentPane().add(btnrefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 500, -1, -1));
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -153,20 +200,23 @@ private void loadPayments() {
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 560, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 780));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 780));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnShowPaidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowPaidActionPerformed
-        String sql =
-            "SELECT ip.PaymentID, ip.ContractID, " +
-            "c.FirstName + ' ' + c.LastName AS CustomerName, " +
-            "ip.Amount, ip.DueDate, 'Paid' AS Status " +
-            "FROM InstallmentPayment ip " +
-            "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
-            "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
-            "WHERE ip.IsPaid = 1";
+String sql =
+    "SELECT " +
+    "ROW_NUMBER() OVER (PARTITION BY ip.ContractID ORDER BY ip.DueDate) AS InstallmentNo, " +
+    "ip.PaymentID, ip.ContractID, " +
+    "c.FirstName + ' ' + c.LastName AS CustomerName, " +
+    "ip.Amount, ip.DueDate, 'Paid' AS Status " +
+    "FROM InstallmentPayment ip " +
+    "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
+    "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
+    "WHERE ip.IsPaid = 1";
+
 
         if (contractId > 0)
             DatabaseHelper.fillTable(jtable1, sql + " AND ip.ContractID = ?", contractId);
@@ -175,19 +225,22 @@ private void loadPayments() {
     }//GEN-LAST:event_btnShowPaidActionPerformed
 
     private void btnShowOverdueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowOverdueActionPerformed
-        String sql =
-            "SELECT ip.PaymentID, ip.ContractID, " +
-            "c.FirstName + ' ' + c.LastName AS CustomerName, " +
-            "ip.Amount, ip.DueDate, 'Overdue' AS Status " +
-            "FROM InstallmentPayment ip " +
-            "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
-            "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
-            "WHERE ip.IsPaid = 0 AND ip.DueDate < GETDATE()";
+String sql =
+        "SELECT " +
+        "ROW_NUMBER() OVER (PARTITION BY ip.ContractID ORDER BY ip.DueDate) AS InstallmentNo, " +
+        "ip.PaymentID, ip.ContractID, " +
+        "c.FirstName + ' ' + c.LastName AS CustomerName, " +
+        "ip.Amount, ip.DueDate, 'Overdue' AS Status " +
+        "FROM InstallmentPayment ip " +
+        "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
+        "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
+        "WHERE ip.IsPaid = 0 AND ip.DueDate < GETDATE()";
 
-        if (contractId > 0)
-            DatabaseHelper.fillTable(jtable1, sql + " AND ip.ContractID = ?", contractId);
-        else
-            DatabaseHelper.fillTable(jtable1, sql);
+    if (contractId > 0) {
+        DatabaseHelper.fillTable(jtable1, sql + " AND ip.ContractID = ?", contractId);
+    } else {
+        DatabaseHelper.fillTable(jtable1, sql);
+    }
     }//GEN-LAST:event_btnShowOverdueActionPerformed
 
     private void btnrefrechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrefrechActionPerformed
@@ -200,24 +253,27 @@ private void loadPayments() {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-            new ManageContractsFrame(currentRole).setVisible(true);
+            new MainMenuFrame(currentRole).setVisible(true);
             this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnShowUnpaidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowUnpaidActionPerformed
-        String sql =
-            "SELECT ip.PaymentID, ip.ContractID, " +
-            "c.FirstName + ' ' + c.LastName AS CustomerName, " +
-            "ip.Amount, ip.DueDate, 'Unpaid' AS Status " +
-            "FROM InstallmentPayment ip " +
-            "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
-            "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
-            "WHERE ip.IsPaid = 0 AND ip.DueDate >= GETDATE()";
+   String sql =
+        "SELECT " +
+        "ROW_NUMBER() OVER (PARTITION BY ip.ContractID ORDER BY ip.DueDate) AS InstallmentNo, " +
+        "ip.PaymentID, ip.ContractID, " +
+        "c.FirstName + ' ' + c.LastName AS CustomerName, " +
+        "ip.Amount, ip.DueDate, 'Unpaid' AS Status " +
+        "FROM InstallmentPayment ip " +
+        "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
+        "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
+        "WHERE ip.IsPaid = 0 AND ip.DueDate >= GETDATE()";
 
-        if (contractId > 0)
-            DatabaseHelper.fillTable(jtable1, sql + " AND ip.ContractID = ?", contractId);
-        else
-            DatabaseHelper.fillTable(jtable1, sql);
+    if (contractId > 0) {
+        DatabaseHelper.fillTable(jtable1, sql + " AND ip.ContractID = ?", contractId);
+    } else {
+        DatabaseHelper.fillTable(jtable1, sql);
+    }
     }//GEN-LAST:event_btnShowUnpaidActionPerformed
 
     private void btmMarkAsPaidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmMarkAsPaidActionPerformed
@@ -233,7 +289,7 @@ private void loadPayments() {
             return;
         }
 
-        int paymentID = Integer.parseInt(jtable1.getValueAt(row, 0).toString());
+        int paymentID = Integer.parseInt(jtable1.getValueAt(row, 1).toString());
 
         try {
             DatabaseHelper.executeUpdate(
@@ -256,25 +312,7 @@ private void loadPayments() {
     /**
      * @param args the command line arguments
      */
-public static void main(String args[]) {
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
-            }
-        }
-    } catch (Exception ex) {
-        ex.printStackTrace();
-    }
 
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            // TEST: ContractID = 1, Role = Admin
-            new ManagePaymentsFrame(1, "Admin").setVisible(true);
-        }
-    });
-}
 
 
 

@@ -75,13 +75,15 @@ private HashMap<String, Integer> carMap = new HashMap<>();
         cmbCar = new javax.swing.JComboBox<>();
         txtStartDate = new javax.swing.JTextField();
         txtTotalAmount = new javax.swing.JTextField();
-        title = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
         btnCancle = new javax.swing.JButton();
         lblcustomer = new javax.swing.JLabel();
         lblCar = new javax.swing.JLabel();
         lblStartdate = new javax.swing.JLabel();
         lblTotalamount = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Contract");
@@ -96,10 +98,6 @@ private HashMap<String, Integer> carMap = new HashMap<>();
         getContentPane().add(cmbCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, -1, -1));
         getContentPane().add(txtStartDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 220, 80, -1));
         getContentPane().add(txtTotalAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, 80, -1));
-
-        title.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        title.setText("New Contract");
-        getContentPane().add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, -1, -1));
 
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -132,6 +130,15 @@ private HashMap<String, Integer> carMap = new HashMap<>();
         lblTotalamount.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblTotalamount.setText("Total Amount :");
         getContentPane().add(lblTotalamount, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jLabel1.setText("YYYY-MM-DD");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 80, 20));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 280, 30));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("New Contract");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -166,7 +173,7 @@ private HashMap<String, Integer> carMap = new HashMap<>();
             statusId
         );
 
-        // 3. INSERT INSTALLMENTS ✅ (THIS IS THE IMPORTANT PART)
+        // 3. INSERT INSTALLMENTS  (THIS IS THE IMPORTANT PART)
         int months = 12;
         double monthlyAmount = totalAmount / months;
         int defaultPaymentMethodId = 1;
@@ -192,7 +199,7 @@ private HashMap<String, Integer> carMap = new HashMap<>();
         dispose();
 
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error saving contract:\n" + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Please fill all fields correctly:\n" + e.getMessage());
     }
 
 
@@ -214,11 +221,13 @@ private HashMap<String, Integer> carMap = new HashMap<>();
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cmbCar;
     private javax.swing.JComboBox<String> cmbCustomer;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblCar;
     private javax.swing.JLabel lblStartdate;
     private javax.swing.JLabel lblTotalamount;
     private javax.swing.JLabel lblcustomer;
-    private javax.swing.JTextField title;
     private javax.swing.JTextField txtStartDate;
     private javax.swing.JTextField txtTotalAmount;
     // End of variables declaration//GEN-END:variables
