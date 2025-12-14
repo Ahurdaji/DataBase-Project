@@ -451,6 +451,12 @@ private void loadCustomers() {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    public static void main(String args[]) {
+    java.awt.EventQueue.invokeLater(() -> {
+        new ManageCustomersFrame("Admin").setVisible(true);
+    });
+}
+
     /**
      * @param args the command line arguments
      */

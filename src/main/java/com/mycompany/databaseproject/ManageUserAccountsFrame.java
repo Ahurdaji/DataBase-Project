@@ -220,10 +220,10 @@ public class ManageUserAccountsFrame extends javax.swing.JFrame {
 
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(
-            this,
-            "Add User will be implemented using a dialog."
-        );
+        AddUserDialog dialog = new AddUserDialog(this, true);
+        dialog.setVisible(true);
+        // After dialog closes → refresh table
+        loadUsers();
     }//GEN-LAST:event_btnAddUserActionPerformed
 
     /**
