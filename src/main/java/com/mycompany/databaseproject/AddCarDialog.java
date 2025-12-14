@@ -187,6 +187,11 @@ public class AddCarDialog extends javax.swing.JDialog {
 
         getContentPane().add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 110, 20));
 
+        cmbModel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbModelActionPerformed(evt);
+            }
+        });
         getContentPane().add(cmbModel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 93, 110, 20));
 
         btnSave.setText("Save");
@@ -342,6 +347,10 @@ public class AddCarDialog extends javax.swing.JDialog {
         succeeded = false;
         dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void cmbModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbModelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbModelActionPerformed
 
     /**
      * @param args the command line arguments
