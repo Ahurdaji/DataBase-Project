@@ -1,4 +1,9 @@
 package com.mycompany.databaseproject;
+
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -10,12 +15,68 @@ package com.mycompany.databaseproject;
  */
 public class ManageUserAccountsFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ManageUserAccountsFrame
-     */
-    public ManageUserAccountsFrame() {
-        initComponents();
+    private String currentRole;
+
+    public ManageUserAccountsFrame(String role) {
+    initComponents();
+    this.currentRole = role;
+    setLocationRelativeTo(null);
+
+    // Security check
+    if (!"Admin".equals(currentRole)) {
+        JOptionPane.showMessageDialog(this, "Access denied.");
+        new MainMenuFrame(currentRole).setVisible(true);
+        this.dispose();
+        return;
     }
+
+    initTable();
+    loadUsers();
+}
+
+    private void initTable() {
+    DefaultTableModel model = new DefaultTableModel(
+        new String[]{"UserID", "Username", "Role", "Employee", "RoleID"}, 0
+    ) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+    tableUsers.setModel(model);
+}
+    
+    private void loadUsers() {
+    DefaultTableModel model = (DefaultTableModel) tableUsers.getModel();
+    model.setRowCount(0);
+
+    try {
+        ResultSet rs = DatabaseHelper.executeQuery(
+            "SELECT ua.UserID, ua.UserName, ur.RoleName, " +
+            "ISNULL(e.FirstName + ' ' + e.LastName, '---') AS EmployeeName, ua.RoleID " +
+            "FROM UserAccount ua " +
+            "JOIN UserRole ur ON ua.RoleID = ur.RoleID " +
+            "LEFT JOIN Employee e ON ua.EmployeeID = e.EmployeeID"
+        );
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("UserID"),
+                rs.getString("UserName"),
+                rs.getString("RoleName"),
+                rs.getString("EmployeeName"),
+                rs.getInt("RoleID")
+            });
+        }
+
+        rs.close();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error loading users: " + e.getMessage());
+    }
+}
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,6 +122,11 @@ public class ManageUserAccountsFrame extends javax.swing.JFrame {
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(116, 511, -1, -1));
 
         jButton2.setText("Reset Password");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 511, -1, -1));
 
         jButton3.setText("Delete User");
@@ -72,6 +138,11 @@ public class ManageUserAccountsFrame extends javax.swing.JFrame {
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(422, 511, -1, -1));
 
         jButton4.setText("Back");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 572, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
@@ -82,42 +153,77 @@ public class ManageUserAccountsFrame extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        int row = tableUsers.getSelectedRow();
+
+    if (row < 0) {
+        JOptionPane.showMessageDialog(this, "Please select a user.");
+        return;
+    }
+
+    int userID = (int) tableUsers.getValueAt(row, 0);
+
+    int confirm = JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to delete this user?",
+        "Confirm",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm != JOptionPane.YES_OPTION) return;
+
+    try {
+        DatabaseHelper.executeUpdate(
+            "DELETE FROM UserAccount WHERE UserID=?",
+            userID
+        );
+
+        JOptionPane.showMessageDialog(this, "User deleted successfully!");
+        loadUsers();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error deleting user: " + e.getMessage());
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int row = tableUsers.getSelectedRow();
+
+    if (row < 0) {
+        JOptionPane.showMessageDialog(this, "Please select a user.");
+        return;
+    }
+
+    int userID = (int) tableUsers.getValueAt(row, 0);
+
+    try {
+        DatabaseHelper.executeUpdate(
+            "UPDATE UserAccount SET PasswordHash=? WHERE UserID=?",
+            "12345", userID
+        );
+
+        JOptionPane.showMessageDialog(this, "Password reset to default (12345).");
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error resetting password: " + e.getMessage());
+    }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        new MainMenuFrame(currentRole).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageUserAccountsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageUserAccountsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageUserAccountsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageUserAccountsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    java.awt.EventQueue.invokeLater(() -> {
+        new ManageUserAccountsFrame("Admin").setVisible(true);
+    });
+}
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ManageUserAccountsFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
