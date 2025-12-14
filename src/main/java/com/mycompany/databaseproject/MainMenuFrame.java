@@ -99,6 +99,11 @@ public class MainMenuFrame extends javax.swing.JFrame {
         getContentPane().add(btnManageCars, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, 160, 50));
 
         btnManageCustomers.setText("Manage Customers");
+        btnManageCustomers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageCustomersActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnManageCustomers, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 160, 50));
 
         btnManageContracts.setText("Manage Contracts");
@@ -172,6 +177,10 @@ public class MainMenuFrame extends javax.swing.JFrame {
            new ManageContractsFrame(currentRole).setVisible(true);
     this.dispose();
     }//GEN-LAST:event_btnManageContractsActionPerformed
+
+    private void btnManageCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageCustomersActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnManageCustomersActionPerformed
 
     /**
      * @param args the command line arguments

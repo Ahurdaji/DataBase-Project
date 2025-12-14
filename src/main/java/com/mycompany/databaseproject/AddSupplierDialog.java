@@ -4,6 +4,8 @@
  */
 package com.mycompany.databaseproject;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author hadalkharouf
@@ -61,17 +63,111 @@ public class AddSupplierDialog extends javax.swing.JDialog {
         getContentPane().add(txtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 250, 150, 40));
         getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 190, 150, 40));
         getContentPane().add(txtPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, 150, 40));
+
+        txtName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, 150, 40));
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 330, -1, -1));
 
         btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 330, -1, -1));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 450, 350));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+        String name = txtName.getText();
+        String phone = txtPhone.getText();
+        String email = txtEmail.getText();
+        String address = txtAddress.getText();
+
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Supplier name is required.");
+            txtName.requestFocus();
+            return;
+        }
+
+        if (!name.matches("[a-zA-Z .'-]{2,100}")) {
+            JOptionPane.showMessageDialog(this,
+                    "Supplier name must contain only letters and be 2–100 characters long.");
+            txtName.requestFocus();
+            return;
+        }
+
+        if (phone.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Phone number is required.");
+            txtPhone.requestFocus();
+            return;
+        }
+
+        if (!phone.matches("^\\+?[0-9]{7,15}$")) {
+            JOptionPane.showMessageDialog(this,
+                    "Phone number must contain 7–15 digits and may start with +.");
+            txtPhone.requestFocus();
+            return;
+        }
+
+        if (!email.isEmpty()) {
+            if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid email address.");
+                txtEmail.requestFocus();
+                return;
+            }
+        }
+
+        if (address.length() > 255) {
+            JOptionPane.showMessageDialog(this,
+                    "Address must not exceed 255 characters.");
+            txtAddress.requestFocus();
+            return;
+        }
+
+        if (name.isEmpty() || phone.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Name and phone are required");
+            return;
+        }
+
+        String sql = "INSERT INTO Supplier (SupplierName, Phone, Email, Address) VALUES (?, ?, ?, ?)";
+
+        try {
+            int rows = DatabaseHelper.executeUpdate(sql, name, phone, email, address);
+
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(this, "Supplier added successfully");
+                dispose();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error adding supplier");
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameActionPerformed
 
     /**
      * @param args the command line arguments
