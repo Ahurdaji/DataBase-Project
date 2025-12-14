@@ -63,6 +63,9 @@ public ManageCustomersFrame(String role) {
     }
 }
 
+private boolean isOnlyLetters(String value) {
+    return value != null && value.trim().matches("[a-zA-Z]+");
+}
 
 private boolean isNumeric(String value) {
     return value != null && value.trim().matches("\\d+");
@@ -248,6 +251,12 @@ private void loadCustomers() {
         JOptionPane.showMessageDialog(this, "Phone must contain only numbers.");
         return;
     }
+    if (!isOnlyLetters(first) || !isOnlyLetters(last)) {
+    JOptionPane.showMessageDialog(this,
+        "First Name and Last Name must contain letters only.");
+    return;
+}
+
 
     if (!isValidEmail(email)) {
         JOptionPane.showMessageDialog(this, "Invalid email. Must contain '@'.");
@@ -307,6 +316,12 @@ private void loadCustomers() {
         JOptionPane.showMessageDialog(this, "All fields must be filled.");
         return;
     }
+    if (!isOnlyLetters(first) || !isOnlyLetters(last)) {
+    JOptionPane.showMessageDialog(this,
+        "First Name and Last Name must contain letters only.");
+    return;
+}
+
 
     if (!isNumeric(phone)) {
         JOptionPane.showMessageDialog(this, "Phone must contain only numbers.");
@@ -439,11 +454,6 @@ private void loadCustomers() {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-    java.awt.EventQueue.invokeLater(() -> {
-        new ManageCustomersFrame("SalesStaff").setVisible(true);
-    });
-}
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
