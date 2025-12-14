@@ -86,48 +86,48 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
-        String username = txtUsername.getText();
+        String username = txtUsername.getText().trim();
         String password = new String(txtPassword.getPassword());
 
-    if (username.isEmpty() || password.isEmpty()) {
-        lblError.setText("Please fill all fields.");
-        return;
-    }
-
-    try {
-        String sql = "SELECT u.UserID, u.UserName, u.PasswordHash, r.RoleName "
-                   + "FROM UserAccount u "
-                   + "JOIN UserRole r ON u.RoleID = r.RoleID "
-                   + "WHERE u.UserName = ?";
-
-
-        ResultSet rs = DatabaseHelper.executeQuery(sql, username);
-
-        if (rs.next()) {
-            String storedPassword = rs.getString("PasswordHash");
-            String role = rs.getString("RoleName");
-
-            // (Later you will use hashing, now plain text)
-            if (password.equals(storedPassword)) {
-
-                // Open Main Menu with ROLE
-                MainMenuFrame menu = new MainMenuFrame(role);
-                menu.setVisible(true);
-                this.dispose();
-
-            } else {
-                lblError.setText("Incorrect password.");
-            }
-
-        } else {
-            lblError.setText("User not found.");
+        if (username.isEmpty() || password.isEmpty()) {
+            lblError.setText("Please fill all fields.");
+            return;
         }
 
-    } catch (Exception e) {
-        lblError.setText("Error connecting to database.");
-        e.printStackTrace();
-    }
+        try {
+            String sql =
+                "SELECT u.UserID, u.PasswordHash, r.RoleName " +
+                "FROM UserAccount u " +
+                "JOIN UserRole r ON u.RoleID = r.RoleID " +
+                "WHERE u.UserName = ?";
+
+            ResultSet rs = DatabaseHelper.executeQuery(sql, username);
+
+            if (rs.next()) {
+                String storedPassword = rs.getString("PasswordHash");
+                String role = rs.getString("RoleName");
+
+                if (role == null || role.trim().isEmpty()) {
+                lblError.setText("User role is not defined.");
+                return;
+                }
+                
+                if (password.equals(storedPassword)) {
+                    new MainMenuFrame(role).setVisible(true);
+                    this.dispose();
+                } else {
+                    lblError.setText("Incorrect password.");
+                }
+            } else {
+                lblError.setText("User not found.");
+            }
+
+            rs.close();
+
+        } catch (Exception e) {
+            lblError.setText("Login failed. Please try again.");
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
