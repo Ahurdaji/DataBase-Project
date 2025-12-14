@@ -13,27 +13,56 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ManageCustomersFrame extends javax.swing.JFrame {
 
+    private String currentRole;
 
-public ManageCustomersFrame() {
+public ManageCustomersFrame(String role) {
     initComponents();
+    this.currentRole = role;
+    setLocationRelativeTo(null);
 
-    // ---- CREATE EDITABLE TABLE MODEL ----
     DefaultTableModel model = new DefaultTableModel(
         new String[]{"CustomerID", "FirstName", "LastName", "Phone", "Email", "Address", "NationalID"}, 0
     ) {
         @Override
         public boolean isCellEditable(int row, int column) {
-            // Column 0 = CustomerID → not editable
             return column != 0;
         }
     };
 
-    // Apply model to the JTable
     jTable2.setModel(model);
-
-    // Load customers from database
+    applyRolePermissions();
     loadCustomers();
 }
+
+    private void applyRolePermissions() {
+
+    // Default: everything disabled
+    btnAdd.setEnabled(false);
+    btnEdit.setEnabled(false);
+    btnDelete.setEnabled(false);
+
+    switch (currentRole) {
+
+        case "Admin":
+            btnAdd.setEnabled(true);
+            btnEdit.setEnabled(true);
+            btnDelete.setEnabled(true);
+            break;
+
+        case "Manager":
+            btnAdd.setEnabled(true);
+            btnEdit.setEnabled(true);
+            btnDelete.setEnabled(true);
+            break;
+
+        case "SalesStaff":
+            btnAdd.setEnabled(true);
+            btnEdit.setEnabled(false);
+            btnDelete.setEnabled(false);
+            break;
+    }
+}
+
 
 private boolean isNumeric(String value) {
     return value != null && value.trim().matches("\\d+");
@@ -159,6 +188,11 @@ private void loadCustomers() {
         getContentPane().add(btnRefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 350, -1, -1));
 
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, -1, -1));
 
         btnSearch.setText("Search");
@@ -396,41 +430,21 @@ private void loadCustomers() {
 
     }//GEN-LAST:event_btnSearchActionPerformed
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        new MainMenuFrame(currentRole).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageCustomersFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageCustomersFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageCustomersFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageCustomersFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    java.awt.EventQueue.invokeLater(() -> {
+        new ManageCustomersFrame("SalesStaff").setVisible(true);
+    });
+}
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ManageCustomersFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;

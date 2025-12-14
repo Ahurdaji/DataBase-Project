@@ -168,6 +168,7 @@ public class ManageCarsFrame extends javax.swing.JFrame {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+        new MainMenuFrame(currentRole).setVisible(true);
         this.dispose(); //closing this frame 
         // optionally: new MainMenuFrame().setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed

@@ -12,27 +12,56 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ManageEmployeesFrame extends javax.swing.JFrame {
 
-    public ManageEmployeesFrame() {
-        initComponents();
-        // ---- MAKE TABLE EDITABLE ----
-        DefaultTableModel model = new DefaultTableModel(
-                new String[]{"EmployeeID", "FirstName", "LastName", "Email", "Phone", "DepartmentID"}, 0
-        ) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                // EmployeeID (col 0) → NOT editable
-                // DepartmentID (col 5) → NOT editable
-                return column != 0 && column != 5;
-            }
+    private String currentRole;
 
-        };
+    public ManageEmployeesFrame(String role) {
+    initComponents();
+    this.currentRole = role;
+    setLocationRelativeTo(null);
 
-        tableEmployee.setModel(model);
+    DefaultTableModel model = new DefaultTableModel(
+        new String[]{"EmployeeID", "FirstName", "LastName", "Email", "Phone", "DepartmentID"}, 0
+    ) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return column != 0 && column != 5;
+        }
+    };
 
-        loadEmployees(); // Load data from DB
-        loadDepartments();
+    tableEmployee.setModel(model);
 
+    applyRolePermissions();   // ⭐ مهم
+    loadEmployees();
+    loadDepartments();
+}
+    private void applyRolePermissions() {
+
+    // Default: disable everything
+    btnAddEmployee.setEnabled(false);
+    btnEditEmployee.setEnabled(false);
+    btnDeleteEmployee.setEnabled(false);
+    comboBox1.setEnabled(false);
+
+    switch (currentRole) {
+
+        case "Admin":
+            btnAddEmployee.setEnabled(true);
+            btnEditEmployee.setEnabled(true);
+            btnDeleteEmployee.setEnabled(true);
+            comboBox1.setEnabled(true);
+            break;
+
+        case "Manager":
+            // View only
+            btnAddEmployee.setEnabled(false);
+            btnEditEmployee.setEnabled(false);
+            btnDeleteEmployee.setEnabled(false);
+            comboBox1.setEnabled(false);
+            break;
     }
+}
+
+
 
     private boolean isNumeric(String value) {
         if (value == null) {
@@ -239,6 +268,8 @@ public class ManageEmployeesFrame extends javax.swing.JFrame {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+        new MainMenuFrame(currentRole).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnEditEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditEmployeeActionPerformed
@@ -355,36 +386,11 @@ public class ManageEmployeesFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageEmployeesFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageEmployeesFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageEmployeesFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageEmployeesFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    java.awt.EventQueue.invokeLater(() -> {
+        new ManageEmployeesFrame("Manager").setVisible(true);
+    });
+}
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ManageEmployeesFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddEmployee;

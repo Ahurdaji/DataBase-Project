@@ -12,6 +12,8 @@ public class LoginFrame extends javax.swing.JFrame {
      */
     public LoginFrame() {
         initComponents();
+        setLocationRelativeTo(null);
+        txtUsername.requestFocusInWindow();
         txtPassword.setText("");
         lblError.setText("");   
         setLocationRelativeTo(null);
@@ -40,94 +42,99 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(255, 153, 153));
         lblTitle.setText("LOGIN TO SYSTEM");
-        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, -1));
+        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, -1, -1));
 
         lblUsername.setBackground(new java.awt.Color(255, 0, 51));
-        lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblUsername.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblUsername.setForeground(new java.awt.Color(255, 255, 255));
-        lblUsername.setText("UserName :");
-        getContentPane().add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, -1, -1));
+        lblUsername.setText("Username :");
+        getContentPane().add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 140, -1));
 
-        Password.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Password.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Password.setForeground(new java.awt.Color(255, 255, 255));
         Password.setText("Password :");
-        getContentPane().add(Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, -1, -1));
+        getContentPane().add(Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, 140, -1));
 
+        btnLogin.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnLogin.setForeground(javax.swing.UIManager.getDefaults().getColor("Button.default.focusedBorderColor"));
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
+        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 270, 80, 30));
 
+        btnExit.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        btnExit.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.GreyInline"));
         btnExit.setText("Exit");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExitActionPerformed(evt);
             }
         });
-        getContentPane().add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 200, -1, -1));
+        getContentPane().add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 70, 30));
 
         txtPassword.setToolTipText("");
-        getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 130, -1));
-        getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 80, 140, -1));
+        getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, 170, -1));
+        getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 180, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-03 163455.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, -20, 680, 450));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, -40, 580, 510));
         getContentPane().add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 310, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
-        String username = txtUsername.getText();
+        String username = txtUsername.getText().trim();
         String password = new String(txtPassword.getPassword());
 
-    if (username.isEmpty() || password.isEmpty()) {
-        lblError.setText("Please fill all fields.");
-        return;
-    }
-
-    try {
-        String sql = "SELECT u.UserID, u.UserName, u.PasswordHash, r.RoleName "
-                   + "FROM UserAccount u "
-                   + "JOIN UserRole r ON u.RoleID = r.RoleID "
-                   + "WHERE u.UserName = ?";
-
-
-        ResultSet rs = DatabaseHelper.executeQuery(sql, username);
-
-        if (rs.next()) {
-            String storedPassword = rs.getString("PasswordHash");
-            String role = rs.getString("RoleName");
-
-            // (Later you will use hashing, now plain text)
-            if (password.equals(storedPassword)) {
-
-                // Open Main Menu with ROLE
-                MainMenuFrame menu = new MainMenuFrame(role);
-                menu.setVisible(true);
-                this.dispose();
-
-            } else {
-                lblError.setText("Incorrect password.");
-            }
-
-        } else {
-            lblError.setText("User not found.");
+        if (username.isEmpty() || password.isEmpty()) {
+            lblError.setText("Please fill all fields.");
+            return;
         }
 
-    } catch (Exception e) {
-        lblError.setText("Error connecting to database.");
-        e.printStackTrace();
-    }
+        try {
+            String sql =
+                "SELECT u.UserID, u.PasswordHash, r.RoleName " +
+                "FROM UserAccount u " +
+                "JOIN UserRole r ON u.RoleID = r.RoleID " +
+                "WHERE u.UserName = ?";
+
+            ResultSet rs = DatabaseHelper.executeQuery(sql, username);
+
+            if (rs.next()) {
+                String storedPassword = rs.getString("PasswordHash");
+                String role = rs.getString("RoleName");
+
+                if (role == null || role.trim().isEmpty()) {
+                lblError.setText("User role is not defined.");
+                return;
+                }
+                
+                if (password.equals(storedPassword)) {
+                    new MainMenuFrame(role).setVisible(true);
+                    this.dispose();
+                } else {
+                    lblError.setText("Incorrect password.");
+                }
+            } else {
+                lblError.setText("User not found.");
+            }
+
+            rs.close();
+
+        } catch (Exception e) {
+            lblError.setText("Login failed. Please try again.");
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed

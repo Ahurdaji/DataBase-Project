@@ -20,17 +20,16 @@ public class MainMenuFrame extends javax.swing.JFrame {
     }
 
     private void applyRolePermissions() {
-        // Hide everything FIRST (Safer)
-        btnManageEmployees.setVisible(false);
-        btnManageUserAccounts.setVisible(false);
-        btnManageSuppliers.setVisible(false);
-
-        btnManageCars.setVisible(true);
+        // Hide EVERYTHING first
+        btnManageCars.setVisible(false);
         btnManageCustomers.setVisible(false);
         btnManageContracts.setVisible(false);
         btnManagePayments.setVisible(false);
+        btnManageSuppliers.setVisible(false);
+        btnManageEmployees.setVisible(false);
+        btnManageUserAccounts.setVisible(false);
+        jLabel1.setVisible(false); // Admin Options label
 
-        // Now role logic
         switch (currentRole) {
 
             case "Admin":
@@ -38,10 +37,10 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnManageCustomers.setVisible(true);
                 btnManageContracts.setVisible(true);
                 btnManagePayments.setVisible(true);
-
+                btnManageSuppliers.setVisible(true);
                 btnManageEmployees.setVisible(true);
                 btnManageUserAccounts.setVisible(true);
-                btnManageSuppliers.setVisible(true);
+                jLabel1.setVisible(true);
                 break;
 
             case "Manager":
@@ -115,6 +114,11 @@ public class MainMenuFrame extends javax.swing.JFrame {
         getContentPane().add(btnManageContracts, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 160, 50));
 
         btnManagePayments.setText("Manage Payments");
+        btnManagePayments.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManagePaymentsActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnManagePayments, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, 160, 50));
 
         btnManageSuppliers.setText("Manage Suppliers");
@@ -126,9 +130,19 @@ public class MainMenuFrame extends javax.swing.JFrame {
         getContentPane().add(btnManageSuppliers, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, 160, 50));
 
         btnManageEmployees.setText("Manage Employees");
+        btnManageEmployees.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageEmployeesActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnManageEmployees, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 410, 170, 50));
 
         btnManageUserAccounts.setText("Manage User Accounts");
+        btnManageUserAccounts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageUserAccountsActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnManageUserAccounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 470, 170, 50));
 
         btnLogout.setFont(new java.awt.Font("Helvetica Neue", 3, 18)); // NOI18N
@@ -156,31 +170,50 @@ public class MainMenuFrame extends javax.swing.JFrame {
     private void btnManageCarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageCarsActionPerformed
         // TODO add your handling code here:
         new ManageCarsFrame(currentRole).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnManageCarsActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
         this.dispose();
-
-        LoginFrame login = new LoginFrame();
-        login.setVisible(true);
+        new LoginFrame().setVisible(true);
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnManageSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageSuppliersActionPerformed
         // TODO add your handling code here:
-        ManageSuppliersFrame frame = new ManageSuppliersFrame(currentRole);
-        frame.setVisible(true);
+        new ManageSuppliersFrame(currentRole).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnManageSuppliersActionPerformed
 
     private void btnManageContractsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageContractsActionPerformed
         // TODO add your handling code here:
-           new ManageContractsFrame(currentRole).setVisible(true);
-    this.dispose();
+        new ManageContractsFrame(currentRole).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnManageContractsActionPerformed
 
     private void btnManageCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageCustomersActionPerformed
         // TODO add your handling code here:
+        new ManageCustomersFrame(currentRole).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnManageCustomersActionPerformed
+
+    private void btnManagePaymentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManagePaymentsActionPerformed
+        // TODO add your handling code here:
+        new ManagePaymentsFrame(currentRole).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnManagePaymentsActionPerformed
+
+    private void btnManageEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageEmployeesActionPerformed
+        // TODO add your handling code here:
+        new ManageEmployeesFrame(currentRole).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnManageEmployeesActionPerformed
+
+    private void btnManageUserAccountsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageUserAccountsActionPerformed
+        // TODO add your handling code here:
+        new ManageUserAccountsFrame(currentRole).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnManageUserAccountsActionPerformed
 
     /**
      * @param args the command line arguments
