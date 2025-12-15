@@ -178,7 +178,7 @@ private void loadCustomers() {
                 btnAddActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, -1, -1));
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 350, -1, -1));
 
         btnEdit.setText("Edit Customer");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -186,7 +186,7 @@ private void loadCustomers() {
                 btnEditActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 350, -1, -1));
+        getContentPane().add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 350, -1, -1));
 
         btnDelete.setText("Delete Customer");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -194,7 +194,7 @@ private void loadCustomers() {
                 btnDeleteActionPerformed(evt);
             }
         });
-        getContentPane().add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 350, -1, -1));
+        getContentPane().add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 350, -1, -1));
 
         btnRefrech.setText("Refresh");
         btnRefrech.addActionListener(new java.awt.event.ActionListener() {
@@ -202,7 +202,7 @@ private void loadCustomers() {
                 btnRefrechActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 350, -1, -1));
+        getContentPane().add(btnRefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 350, -1, -1));
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -210,7 +210,7 @@ private void loadCustomers() {
                 btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, -1, -1));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, -1, -1));
 
         btnSearch.setText("Search");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -222,7 +222,7 @@ private void loadCustomers() {
 
         lblicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
         lblicon.setText("refrech");
-        getContentPane().add(lblicon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 660, 480));
+        getContentPane().add(lblicon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 660, 460));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -465,11 +465,6 @@ private void loadCustomers() {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
-    public static void main(String args[]) {
-    java.awt.EventQueue.invokeLater(() -> {
-        new ManageCustomersFrame("Admin").setVisible(true);
-    });
-}
 
     /**
      * @param args the command line arguments
