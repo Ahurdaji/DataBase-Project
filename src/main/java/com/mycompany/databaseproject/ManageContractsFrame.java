@@ -1,6 +1,7 @@
 package com.mycompany.databaseproject;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 public class ManageContractsFrame extends javax.swing.JFrame {
 
@@ -8,26 +9,40 @@ public class ManageContractsFrame extends javax.swing.JFrame {
      * Creates new form ManageContractsFrame
      */
     private String currentRole;
-public ManageContractsFrame(String role) {
-    initComponents();
-    this.currentRole = role;
-    loadContracts();
+
+    public ManageContractsFrame(String role) {
+        initComponents();
+        this.currentRole = role;
+         makeTableReadOnly(); 
+        loadContracts();
+    }
+private void makeTableReadOnly() {
+    tableContracts = new JTable(tableContracts.getModel()) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false; // 🔒 completely disable editing
+        }
+    };
+
+    jScrollPane1.setViewportView(tableContracts);
+
+    tableContracts.setRowSelectionAllowed(true);
+    tableContracts.setCellSelectionEnabled(false);
 }
 
+    private void loadContracts() {
+        String sql
+                = "SELECT hc.ContractID, "
+                + "       c.FirstName + ' ' + c.LastName AS CustomerName, "
+                + "       car.PlateNumber AS CarPlate, "
+                + "       hc.StartDate, "
+                + "       hc.TotalAmount "
+                + "FROM HireContract hc "
+                + "JOIN Customer c ON hc.CustomerID = c.CustomerID "
+                + "JOIN Car car ON hc.CarID = car.CarID";
 
-private void loadContracts() {
-    String sql =
-        "SELECT hc.ContractID, " +
-        "       c.FirstName + ' ' + c.LastName AS CustomerName, " +
-        "       car.PlateNumber AS CarPlate, " +
-        "       hc.StartDate, " +
-        "       hc.TotalAmount " +
-        "FROM HireContract hc " +
-        "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
-        "JOIN Car car ON hc.CarID = car.CarID";
-
-    DatabaseHelper.fillTable(tableContracts, sql);
-}
+        DatabaseHelper.fillTable(tableContracts, sql);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -112,45 +127,44 @@ private void loadContracts() {
 
     private void btnViewDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewDetailsActionPerformed
         // TODO add your handling code here:
-    int row = tableContracts.getSelectedRow();
+        int row = tableContracts.getSelectedRow();
 
-    if (row < 0) {
-        JOptionPane.showMessageDialog(this, "Please select a contract first.");
-        return;
-    }
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a contract first.");
+            return;
+        }
 
-    int contractId = Integer.parseInt(
-        tableContracts.getValueAt(row, 0).toString()
-    );
+        int contractId = Integer.parseInt(
+                tableContracts.getValueAt(row, 0).toString()
+        );
 
-    ManagePaymentsFrame paymentsFrame =
-        new ManagePaymentsFrame(contractId, currentRole);
+        ManagePaymentsFrame paymentsFrame
+                = new ManagePaymentsFrame(contractId, currentRole);
 
-    paymentsFrame.setVisible(true);
-    this.dispose();
+        paymentsFrame.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_btnViewDetailsActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-    new MainMenuFrame(currentRole).setVisible(true);
-    this.dispose();
+        new MainMenuFrame(currentRole).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnNewContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContractActionPerformed
         // TODO add your handling code here:
-    // Open New Contract dialog (modal)
-    NewContractDialog dialog = new NewContractDialog(this, true);
-    dialog.setVisible(true);
+        // Open New Contract dialog (modal)
+        NewContractDialog dialog = new NewContractDialog(this, true);
+        dialog.setVisible(true);
 
-    // After dialog closes → refresh table
-    loadContracts();
+        // After dialog closes → refresh table
+        loadContracts();
     }//GEN-LAST:event_btnNewContractActionPerformed
 
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;

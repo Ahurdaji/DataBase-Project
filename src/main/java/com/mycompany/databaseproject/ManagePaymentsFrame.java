@@ -9,10 +9,13 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
      */
 private int contractId = -1; // means all contracts
 private String currentRole;
+private boolean openedFromContracts;
+
 
 // Open ALL payments
 public ManagePaymentsFrame(String role) {
     this.currentRole = role;
+      this.openedFromContracts = false;
     initComponents();
     applyRolePermissions();
     loadPayments();
@@ -23,11 +26,13 @@ public ManagePaymentsFrame(String role) {
 public ManagePaymentsFrame(int contractId, String role) {
     this.contractId = contractId;
     this.currentRole = role;
+    this.openedFromContracts = true;
     initComponents();
     applyRolePermissions();
     loadPaymentsByContract();
     applyRowColors();
 }
+
 
 private void applyRowColors() {
     jtable1.setDefaultRenderer(Object.class,
@@ -252,9 +257,12 @@ String sql =
     }//GEN-LAST:event_btnrefrechActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-            new MainMenuFrame(currentRole).setVisible(true);
-            this.dispose();
+ if (openedFromContracts) {
+        new ManageContractsFrame(currentRole).setVisible(true);
+    } else {
+        new MainMenuFrame(currentRole).setVisible(true);
+    }
+    this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnShowUnpaidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowUnpaidActionPerformed

@@ -20,14 +20,28 @@ public ManageCustomersFrame(String role) {
     this.currentRole = role;
     setLocationRelativeTo(null);
 
-    DefaultTableModel model = new DefaultTableModel(
-        new String[]{"CustomerID", "FirstName", "LastName", "Phone", "Email", "Address", "NationalID"}, 0
-    ) {
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return column != 0;
-        }
-    };
+DefaultTableModel model = new DefaultTableModel(
+    new String[]{"CustomerID", "FirstName", "LastName", "Phone", "Email", "Address", "NationalID"}, 0
+) {
+@Override
+public boolean isCellEditable(int row, int column) {
+
+    // CustomerID column never editable
+    if (column == 0) return false;
+
+    Object customerId = getValueAt(row, 0);
+
+    // Existing row → only Admin / Manager can edit
+    if (customerId != null) {
+        return !"SalesStaff".equalsIgnoreCase(currentRole);
+    }
+
+    // New row (CustomerID == null) → allow typing for everyone
+    return true;
+}
+
+};
+
 
     jTable2.setModel(model);
     applyRolePermissions();
