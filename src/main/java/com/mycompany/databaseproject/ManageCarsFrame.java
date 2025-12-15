@@ -22,6 +22,7 @@ public class ManageCarsFrame extends javax.swing.JFrame {
      */
     public ManageCarsFrame() {
         initComponents();
+        makeTableReadOnly();
         setLocationRelativeTo(null); // center frame
         loadCarsTable();       // our method to fill the table
     }
@@ -30,6 +31,10 @@ public class ManageCarsFrame extends javax.swing.JFrame {
         this();
         this.currentRole = role;
         applyRolePermissions();
+    }
+
+    private void makeTableReadOnly() {
+        tblCars.setDefaultEditor(Object.class, null);
     }
 
     private void applyRolePermissions() {
@@ -174,7 +179,7 @@ public class ManageCarsFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         new MainMenuFrame(currentRole).setVisible(true);
         this.dispose(); //closing this frame 
-      
+
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnAddCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCarActionPerformed
@@ -251,7 +256,6 @@ public class ManageCarsFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddCar;

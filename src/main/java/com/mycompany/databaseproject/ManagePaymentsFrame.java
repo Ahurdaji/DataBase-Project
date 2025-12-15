@@ -17,6 +17,7 @@ public ManagePaymentsFrame(String role) {
     this.currentRole = role;
       this.openedFromContracts = false;
     initComponents();
+    makeTableReadOnly();
     applyRolePermissions();
     loadPayments();
     setLocationRelativeTo(null);
@@ -29,10 +30,15 @@ public ManagePaymentsFrame(int contractId, String role) {
     this.currentRole = role;
     this.openedFromContracts = true;
     initComponents();
+    makeTableReadOnly();
     applyRolePermissions();
     setLocationRelativeTo(null);
     loadPaymentsByContract();
     applyRowColors();
+}
+
+private void makeTableReadOnly() {
+    jtable1.setDefaultEditor(Object.class, null);
 }
 
 

@@ -12,24 +12,15 @@ public class ManageContractsFrame extends javax.swing.JFrame {
 
     public ManageContractsFrame(String role) {
         initComponents();
+        makeTableReadOnly(tableContracts);
         this.currentRole = role;
-        setLocationRelativeTo(null);
-         makeTableReadOnly(); 
+        setLocationRelativeTo(null); 
         loadContracts();
     }
-private void makeTableReadOnly() {
-    tableContracts = new JTable(tableContracts.getModel()) {
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false; // 🔒 completely disable editing
-        }
-    };
-
-    jScrollPane1.setViewportView(tableContracts);
-
-    tableContracts.setRowSelectionAllowed(true);
-    tableContracts.setCellSelectionEnabled(false);
+private void makeTableReadOnly(JTable table) {
+    table.setDefaultEditor(Object.class, null);
 }
+
 
     private void loadContracts() {
         String sql
