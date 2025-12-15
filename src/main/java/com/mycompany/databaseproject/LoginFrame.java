@@ -98,7 +98,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         String username = txtUsername.getText().trim();
         String password = new String(txtPassword.getPassword());
-        lblError.setText("");   
+        lblError.setText("");
         lblError.setVisible(false);
 
         if (username.isEmpty() || password.isEmpty()) {
@@ -107,11 +107,11 @@ public class LoginFrame extends javax.swing.JFrame {
         }
 
         try {
-            String sql =
-                "SELECT u.UserID, u.PasswordHash, r.RoleName " +
-                "FROM UserAccount u " +
-                "JOIN UserRole r ON u.RoleID = r.RoleID " +
-                "WHERE u.UserName = ?";
+            String sql
+                    = "SELECT u.UserID, u.PasswordHash, r.RoleName "
+                    + "FROM UserAccount u "
+                    + "JOIN UserRole r ON u.RoleID = r.RoleID "
+                    + "WHERE u.UserName = ?";
 
             ResultSet rs = DatabaseHelper.executeQuery(sql, username);
 
@@ -120,11 +120,13 @@ public class LoginFrame extends javax.swing.JFrame {
                 String role = rs.getString("RoleName");
 
                 if (role == null || role.trim().isEmpty()) {
-                lblError.setText("User role is not defined.");
-                return;
+                    lblError.setText("User role is not defined.");
+                    return;
                 }
-                
-                if (password.equals(storedPassword)) {
+
+                String hashedInputPassword = DatabaseHelper.hashPassword(password);
+
+                if (hashedInputPassword.equals(storedPassword)) {
                     new MainMenuFrame(role).setVisible(true);
                     this.dispose();
                 } else {
@@ -152,7 +154,6 @@ public class LoginFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Password;
