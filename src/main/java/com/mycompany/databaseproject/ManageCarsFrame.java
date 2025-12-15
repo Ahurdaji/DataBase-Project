@@ -174,7 +174,7 @@ public class ManageCarsFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         new MainMenuFrame(currentRole).setVisible(true);
         this.dispose(); //closing this frame 
-      
+
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnAddCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCarActionPerformed
@@ -227,32 +227,80 @@ public class ManageCarsFrame extends javax.swing.JFrame {
 
         int carID = Integer.parseInt(tblCars.getValueAt(row, 0).toString());
 
-        int confirm = JOptionPane.showConfirmDialog(this,
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
                 "Are you sure you want to delete this car?",
                 "Delete Car",
-                JOptionPane.YES_NO_OPTION);
+                JOptionPane.YES_NO_OPTION
+        );
 
-        if (confirm == JOptionPane.YES_OPTION) {
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
 
-            try {
-                String sql = "DELETE FROM Car WHERE CarID = ?";
-                int rows = DatabaseHelper.executeUpdate(sql, carID);
+        try {
+            /* =========================
+           1. Check car status
+            ========================= */
+            String statusSql
+                    = "SELECT cs.StatusName "
+                    + "FROM Car c "
+                    + "JOIN CarStatus cs ON c.StatusID = cs.StatusID "
+                    + "WHERE c.CarID = ?";
 
-                if (rows > 0) {
-                    JOptionPane.showMessageDialog(this, "Car deleted successfully!");
-                    loadCarsTable(); // refresh table
+            try ( var rs = DatabaseHelper.executeQuery(statusSql, carID)) {
+                if (rs.next()) {
+                    String status = rs.getString("StatusName");
+
+                    if (status.equalsIgnoreCase("Sold")) {
+                        JOptionPane.showMessageDialog(this,
+                                "This car is SOLD and cannot be deleted.");
+                        return;
+                    }
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(ManageCarsFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            /* =========================
+           2. Check HireContract
+            ========================= */
+            String contractSql
+                    = "SELECT COUNT(*) FROM HireContract WHERE CarID = ?";
+
+            try ( var rs = DatabaseHelper.executeQuery(contractSql, carID)) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    JOptionPane.showMessageDialog(this,
+                            "This car is linked to a hire contract and cannot be deleted.");
+                    return;
+                }
+            }
+
+            /* =========================
+           3. Soft delete → Retired
+        =   ======================== */
+            String retireSql
+                    = "UPDATE Car SET StatusID = ("
+                    + "SELECT StatusID FROM CarStatus WHERE StatusName = 'Retired')"
+                    + " WHERE CarID = ?";
+
+            int rows = DatabaseHelper.executeUpdate(retireSql, carID);
+
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(this,
+                        "Car retired successfully.");
+                loadCarsTable();
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ManageCarsFrame.class.getName())
+                    .log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                    "Error while deleting car.");
         }
     }//GEN-LAST:event_btnDeleteCarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddCar;
     private javax.swing.JButton btnBack;
