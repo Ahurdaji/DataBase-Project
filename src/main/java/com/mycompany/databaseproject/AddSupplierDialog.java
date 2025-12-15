@@ -18,6 +18,7 @@ public class AddSupplierDialog extends javax.swing.JDialog {
     public AddSupplierDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
     }
 
     /**

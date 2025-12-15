@@ -29,6 +29,7 @@ public ManagePaymentsFrame(int contractId, String role) {
     this.openedFromContracts = true;
     initComponents();
     applyRolePermissions();
+    setLocationRelativeTo(null);
     loadPaymentsByContract();
     applyRowColors();
 }

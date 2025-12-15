@@ -13,6 +13,7 @@ public class ManageContractsFrame extends javax.swing.JFrame {
     public ManageContractsFrame(String role) {
         initComponents();
         this.currentRole = role;
+        setLocationRelativeTo(null);
          makeTableReadOnly(); 
         loadContracts();
     }
