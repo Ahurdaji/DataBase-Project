@@ -32,11 +32,11 @@ public class LoginFrame extends javax.swing.JFrame {
         lblTitle = new javax.swing.JLabel();
         lblUsername = new javax.swing.JLabel();
         Password = new javax.swing.JLabel();
+        lblError = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
         txtPassword = new javax.swing.JPasswordField();
         txtUsername = new javax.swing.JTextField();
-        lblError = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
@@ -60,6 +60,10 @@ public class LoginFrame extends javax.swing.JFrame {
         Password.setForeground(new java.awt.Color(255, 255, 255));
         Password.setText("Password :");
         getContentPane().add(Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, 140, -1));
+
+        lblError.setForeground(java.awt.SystemColor.activeCaption);
+        lblError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 250, 50));
 
         btnLogin.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnLogin.setForeground(javax.swing.UIManager.getDefaults().getColor("Button.default.focusedBorderColor"));
@@ -85,9 +89,6 @@ public class LoginFrame extends javax.swing.JFrame {
         getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, 170, -1));
         getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 170, -1));
 
-        lblError.setForeground(new java.awt.Color(255, 0, 0));
-        getContentPane().add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 190, 50));
-
         jLabel2.setForeground(java.awt.Color.red);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ekran görüntüsü 2025-12-03 163455.png"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 360));
@@ -103,6 +104,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         if (username.isEmpty() || password.isEmpty()) {
             lblError.setText("Please fill all fields.");
+            lblError.setVisible(true);
             return;
         }
 
@@ -131,6 +133,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     this.dispose();
                 } else {
                     lblError.setText("Incorrect password.");
+                    lblError.setVisible(true);
                 }
             } else {
                 lblError.setText("User not found.");

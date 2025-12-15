@@ -151,7 +151,7 @@ public class ManageUserAccountsFrame extends javax.swing.JFrame {
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 572, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 800));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 620));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
