@@ -40,6 +40,7 @@ public class EditCarDialog extends javax.swing.JDialog {
         txtVIN.setEditable(false);
         txtPlate.setEditable(false);
         cmbModel.setEnabled(false);
+        txtYear.setEditable(false);
 
     }
 
@@ -338,20 +339,30 @@ public class EditCarDialog extends javax.swing.JDialog {
                     + "Year = ?, "
                     + "Color = ?, "
                     + "Mileage = ?, "
-                    + "PurchaseDate ,"
-                    + "PurchasePrice, "
+                    + "PurchaseDate = ? ,"
+                    + "PurchasePrice = ?, "
                     + "ModelID = ?, "
                     + "StatusID = ?, "
                     + "SupplierID = ?, "
                     + "LocationID = ? "
                     + "WHERE CarID = ?";
+            
+            java.sql.Date purchaseDate = null;
+            if (!dateText.isEmpty()) {
+                purchaseDate = java.sql.Date.valueOf(dateText);
+            }
+
+            Double purchasePrice = null;
+            if (!priceText.isEmpty()) {
+                purchasePrice = Double.parseDouble(priceText);
+            }
 
             int rows = DatabaseHelper.executeUpdate(sql,
                     year,
                     color,
                     mileage,
-                    dateText.isEmpty() ? null : dateText,
-                    priceText.isEmpty() ? null : Double.parseDouble(priceText),
+                    purchaseDate,
+                    purchasePrice,
                     modelItem.getId(),
                     statusItem.getId(),
                     supplierItem.getId(),

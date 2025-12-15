@@ -322,8 +322,18 @@ public class AddCarDialog extends javax.swing.JDialog {
 
             String sql = "INSERT INTO Car "
                     + "(ModelID, VIN, PlateNumber, Year, Color, Mileage, "
+                    + "PurchaseDate, PurchasePrice, "
                     + "StatusID, SupplierID, LocationID) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            java.sql.Date purchaseDate = null;
+            if (!dateText.isEmpty()) {
+                purchaseDate = java.sql.Date.valueOf(dateText);
+            }
+
+            Double purchasePrice = null;
+            if (!priceText.isEmpty()) {
+                purchasePrice = Double.parseDouble(priceText);
+            }
 
             int rows = DatabaseHelper.executeUpdate(sql,
                     modelItem.getId(),
@@ -332,6 +342,8 @@ public class AddCarDialog extends javax.swing.JDialog {
                     year,
                     color,
                     mileage,
+                    purchaseDate,
+                    purchasePrice,
                     statusItem.getId(),
                     supplierItem.getId(),
                     locationItem.getId()
