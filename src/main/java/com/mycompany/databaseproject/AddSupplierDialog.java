@@ -87,7 +87,7 @@ public class AddSupplierDialog extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 330, -1, -1));
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 360, 250));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 330, 250));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

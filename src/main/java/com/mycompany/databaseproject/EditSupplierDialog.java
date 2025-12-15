@@ -105,7 +105,7 @@ public class EditSupplierDialog extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, -1, -1));
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 290, 270));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 290, 270));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
