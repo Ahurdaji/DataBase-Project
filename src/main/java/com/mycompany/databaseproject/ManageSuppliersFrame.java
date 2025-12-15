@@ -7,10 +7,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 /**
  *
  * @author hadalkharouf
@@ -24,12 +20,16 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
      */
     public ManageSuppliersFrame(String role) {
         initComponents();
+        makeTableReadOnly();
         this.currentRole = role;
         applyRolePermissions();
         loadSuppliersTable();
         setLocationRelativeTo(null);
     }
 
+    private void makeTableReadOnly() {
+    jTable1.setDefaultEditor(Object.class, null);
+}
     private void applyRolePermissions() {
         if (currentRole == null) {
             return;
