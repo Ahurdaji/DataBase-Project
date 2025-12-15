@@ -16,6 +16,7 @@ public class LoginFrame extends javax.swing.JFrame {
         txtUsername.requestFocusInWindow();
         txtPassword.setText("");
         setLocationRelativeTo(null);
+        //getRootPane().setDefaultButton(btnLogin);
     }
 
     /**

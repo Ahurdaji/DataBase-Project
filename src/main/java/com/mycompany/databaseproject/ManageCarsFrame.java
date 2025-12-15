@@ -54,19 +54,23 @@ public class ManageCarsFrame extends javax.swing.JFrame {
     private void loadCarsTable() {
         String sql = "SELECT "
                 + "c.CarID, "
-                + "cm.ModelName, "
+                + "c.VIN, "
                 + "c.PlateNumber, "
+                + "cm.ModelName, "
                 + "c.Year, "
                 + "c.Color, "
                 + "cs.StatusName, "
                 + "c.Mileage, "
+                + "c.PurchaseDate, "
+                + "c.PurchasePrice, "
                 + "l.LocationName, "
                 + "s.SupplierName "
                 + "FROM Car c "
                 + "JOIN CarModel cm ON c.ModelID = cm.ModelID "
                 + "JOIN CarStatus cs ON c.StatusID = cs.StatusID "
                 + "JOIN Supplier s ON c.SupplierID = s.SupplierID "
-                + "JOIN Location l ON c.LocationID = l.LocationID";
+                + "JOIN Location l ON c.LocationID = l.LocationID "
+                + "ORDER BY c.CarID";
 
         DatabaseHelper.fillTable(tblCars, sql);
     }
@@ -98,22 +102,22 @@ public class ManageCarsFrame extends javax.swing.JFrame {
         lblTitle.setForeground(new java.awt.Color(0, 0, 153));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("Manage Cars");
-        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(313, 6, -1, -1));
+        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, -1, -1));
 
         tblCars.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Car ID", "Plate Number", "Model", "Year", "Color", "Status", "Mileage", "Location", "Supplier"
+                "Car ID", "VIN", "Plate Number", "Model", "Year", "Color", "Status", "Mileage", "Purchase Date", "Purchase Price", "Location", "Supplier"
             }
         ));
         jScrollPane1.setViewportView(tblCars);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 48, 766, 387));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 48, 1120, 430));
 
         btnAddCar.setText("Add Car");
         btnAddCar.addActionListener(new java.awt.event.ActionListener() {
@@ -121,7 +125,7 @@ public class ManageCarsFrame extends javax.swing.JFrame {
                 btnAddCarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAddCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 460, -1, -1));
+        getContentPane().add(btnAddCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(238, 500, 120, 50));
 
         btnEditCar.setText("Edit Car");
         btnEditCar.addActionListener(new java.awt.event.ActionListener() {
@@ -129,7 +133,7 @@ public class ManageCarsFrame extends javax.swing.JFrame {
                 btnEditCarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEditCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 460, -1, -1));
+        getContentPane().add(btnEditCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(377, 500, 110, 50));
 
         btnDeleteCar.setText("Delete Car");
         btnDeleteCar.addActionListener(new java.awt.event.ActionListener() {
@@ -137,7 +141,7 @@ public class ManageCarsFrame extends javax.swing.JFrame {
                 btnDeleteCarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnDeleteCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 460, -1, -1));
+        getContentPane().add(btnDeleteCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 500, 120, 50));
 
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -145,7 +149,7 @@ public class ManageCarsFrame extends javax.swing.JFrame {
                 btnRefreshActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 460, -1, -1));
+        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 500, 120, 50));
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -153,10 +157,10 @@ public class ManageCarsFrame extends javax.swing.JFrame {
                 btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 460, -1, -1));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 500, 110, 50));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-3, 0, 800, 580));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-3, 0, 1160, 580));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

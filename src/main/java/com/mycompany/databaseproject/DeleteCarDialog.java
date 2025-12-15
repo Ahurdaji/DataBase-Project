@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author hadalkharouf
@@ -17,19 +18,33 @@ public class DeleteCarDialog extends javax.swing.JDialog {
 
     private int carID;
     private boolean succeeded = false;
-    public boolean isSucceeded(){
+
+    public boolean isSucceeded() {
         return succeeded;
     }
-    
+
     /**
      * Creates new form DeleteCarDialog
      */
-    
     public DeleteCarDialog(java.awt.Frame parent, boolean modal, int carID) {
         super(parent, modal);
         initComponents();
         this.carID = carID;
         setLocationRelativeTo(parent);
+
+        txtVIN.setEditable(false);
+        txtPlate.setEditable(false);
+        txtYear.setEditable(false);
+        txtColor.setEditable(false);
+        txtMileage.setEditable(false);
+        txtDate.setEditable(false);
+        txtPrice.setEditable(false);
+
+        cmbModel.setEnabled(false);
+        cmbStatus.setEnabled(false);
+        cmbSupplier.setEnabled(false);
+        cmbLocation.setEnabled(false);
+
     }
 
     /**
@@ -56,7 +71,7 @@ public class DeleteCarDialog extends javax.swing.JDialog {
         cmbStatus = new javax.swing.JComboBox<>();
         cmbSupplier = new javax.swing.JComboBox<>();
         cmbLocation = new javax.swing.JComboBox<>();
-        btnSave = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -64,6 +79,11 @@ public class DeleteCarDialog extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        txtDate = new javax.swing.JTextField();
+        txtPrice = new javax.swing.JTextField();
+        jSeparator3 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -80,34 +100,34 @@ public class DeleteCarDialog extends javax.swing.JDialog {
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
 
         jLabel3.setText("Year");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 60, 10));
 
         jLabel2.setText("Color");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 60, 10));
 
         jLabel1.setText("Mileage");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, -1, -1));
-        getContentPane().add(txtMileage, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 140, 30));
-        getContentPane().add(txtColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 140, 30));
-        getContentPane().add(txtYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, 140, 30));
-        getContentPane().add(txtPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 140, 30));
-        getContentPane().add(txtVIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 140, 30));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 80, 20));
+        getContentPane().add(txtMileage, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 280, 170, 30));
+        getContentPane().add(txtColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 170, 30));
+        getContentPane().add(txtYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 170, 30));
+        getContentPane().add(txtPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 170, 30));
+        getContentPane().add(txtVIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 170, 30));
 
-        getContentPane().add(cmbModel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 180, 30));
+        getContentPane().add(cmbModel, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, 170, 30));
 
-        getContentPane().add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 380, 180, 30));
+        getContentPane().add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 350, 170, 30));
 
-        getContentPane().add(cmbSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 420, 180, 30));
+        getContentPane().add(cmbSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 390, 170, 30));
 
-        getContentPane().add(cmbLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 460, 180, 30));
+        getContentPane().add(cmbLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, 170, 30));
 
-        btnSave.setText("Save");
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
+                btnDeleteActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 520, -1, -1));
+        getContentPane().add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 610, -1, -1));
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -115,43 +135,66 @@ public class DeleteCarDialog extends javax.swing.JDialog {
                 btnCancelActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 520, -1, -1));
+        getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 610, -1, -1));
 
         jLabel6.setText("Location");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 450, 70, 50));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 440, 70, 20));
 
         jLabel7.setText("Supplier");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 410, 60, 50));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 60, 20));
 
         jLabel8.setText("Status");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, 60, 50));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 60, 20));
 
         jLabel9.setText("Model");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, 60, 50));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 60, 10));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 370, 250));
-        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 370, 240));
+        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 370, 170));
+
+        jLabel11.setText("Purchase Date");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, -1, -1));
+
+        jLabel12.setText("Purchase Price");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 560, -1, -1));
+        getContentPane().add(txtDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 510, 170, -1));
+        getContentPane().add(txtPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 560, 170, -1));
+        getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, 370, 110));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        String sql = "DELETE FROM Car WHERE CarID = ?"; // FIXED → correct SQL
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        //  رسالة تأكيد (أول شي)
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to delete this car?",
+                "Confirm Delete",
+                JOptionPane.YES_NO_OPTION
+        );
 
-    try {
-        int rows = DatabaseHelper.executeUpdate(sql, carID); // FIXED → correct parameters
-
-        if (rows > 0) {
-            succeeded = true; // FIXED
-            JOptionPane.showMessageDialog(this, "Car deleted successfully!");
-            dispose(); // close dialog
-        } else {
-            JOptionPane.showMessageDialog(this, "Car not found!");
+        if (confirm != JOptionPane.YES_OPTION) {
+            return; // المستخدم ضغط NO
         }
 
-    } catch (SQLException ex) {
-        Logger.getLogger(DeleteCarDialog.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    }//GEN-LAST:event_btnSaveActionPerformed
+        // بعدين الـ DELETE
+        String sql = "DELETE FROM Car WHERE CarID = ?";
+
+        try {
+            int rows = DatabaseHelper.executeUpdate(sql, carID);
+
+            if (rows > 0) {
+                succeeded = true;
+                JOptionPane.showMessageDialog(this, "Car deleted successfully!");
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Car not found!");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DeleteCarDialog.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
@@ -165,13 +208,15 @@ public class DeleteCarDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JComboBox<ComboItem> cmbLocation;
     private javax.swing.JComboBox<ComboItem> cmbModel;
     private javax.swing.JComboBox<ComboItem> cmbStatus;
     private javax.swing.JComboBox<ComboItem> cmbSupplier;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -182,9 +227,12 @@ public class DeleteCarDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTextField txtColor;
+    private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtMileage;
     private javax.swing.JTextField txtPlate;
+    private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtVIN;
     private javax.swing.JTextField txtYear;
     // End of variables declaration//GEN-END:variables
