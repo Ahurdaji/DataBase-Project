@@ -16,7 +16,7 @@ public class LoginFrame extends javax.swing.JFrame {
         txtUsername.requestFocusInWindow();
         txtPassword.setText("");
         setLocationRelativeTo(null);
-        //getRootPane().setDefaultButton(btnLogin);
+        getRootPane().setDefaultButton(btnLogin);
     }
 
     /**
@@ -126,7 +126,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
                 String hashedInputPassword = DatabaseHelper.hashPassword(password);
 
-                if (hashedInputPassword.equals(storedPassword)) {
+                if (hashedInputPassword.equalsIgnoreCase(storedPassword)) {
                     new MainMenuFrame(role).setVisible(true);
                     this.dispose();
                 } else {
