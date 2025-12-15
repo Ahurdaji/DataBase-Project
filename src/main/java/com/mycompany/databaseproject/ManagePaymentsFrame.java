@@ -19,6 +19,7 @@ public ManagePaymentsFrame(String role) {
     initComponents();
     applyRolePermissions();
     loadPayments();
+    setLocationRelativeTo(null);
     applyRowColors();
 }
 
@@ -155,7 +156,7 @@ private void loadPayments() {
         ));
         jScrollPane1.setViewportView(jtable1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 620, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 620, -1));
 
         btmMarkAsPaid.setText("Mark as Paid");
         btmMarkAsPaid.addActionListener(new java.awt.event.ActionListener() {
@@ -163,7 +164,7 @@ private void loadPayments() {
                 btmMarkAsPaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btmMarkAsPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 500, -1, -1));
+        getContentPane().add(btmMarkAsPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 500, -1, -1));
 
         btnShowPaid.setText("Show Paid");
         btnShowPaid.addActionListener(new java.awt.event.ActionListener() {
@@ -171,7 +172,7 @@ private void loadPayments() {
                 btnShowPaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 500, -1, -1));
+        getContentPane().add(btnShowPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 500, -1, -1));
 
         btnShowUnpaid.setText("Show Unpaid");
         btnShowUnpaid.addActionListener(new java.awt.event.ActionListener() {
@@ -179,7 +180,7 @@ private void loadPayments() {
                 btnShowUnpaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowUnpaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 500, -1, -1));
+        getContentPane().add(btnShowUnpaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 500, -1, -1));
 
         btnShowOverdue.setText("Show Overdue");
         btnShowOverdue.addActionListener(new java.awt.event.ActionListener() {
@@ -187,7 +188,7 @@ private void loadPayments() {
                 btnShowOverdueActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowOverdue, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 500, -1, -1));
+        getContentPane().add(btnShowOverdue, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 500, -1, -1));
 
         btnrefrech.setText("Refresh");
         btnrefrech.addActionListener(new java.awt.event.ActionListener() {
@@ -195,7 +196,7 @@ private void loadPayments() {
                 btnrefrechActionPerformed(evt);
             }
         });
-        getContentPane().add(btnrefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 500, -1, -1));
+        getContentPane().add(btnrefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 500, -1, -1));
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -206,7 +207,7 @@ private void loadPayments() {
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 560, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 780));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 610));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

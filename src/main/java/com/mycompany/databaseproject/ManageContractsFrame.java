@@ -66,7 +66,7 @@ private void makeTableReadOnly() {
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTitle.setText("Manage Contracts");
-        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, -1, -1));
+        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, -1, -1));
 
         tableContracts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -97,7 +97,7 @@ private void makeTableReadOnly() {
                 btnViewDetailsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnViewDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 340, -1, -1));
+        getContentPane().add(btnViewDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, 160, -1));
 
         btnBack.setText("Go to main menu");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -105,7 +105,7 @@ private void makeTableReadOnly() {
                 btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 340, -1, 20));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 340, -1, -1));
 
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -113,10 +113,10 @@ private void makeTableReadOnly() {
                 btnRefreshActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, -1, -1));
+        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 580, 420));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 450));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

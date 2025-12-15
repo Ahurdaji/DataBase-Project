@@ -92,12 +92,12 @@ private HashMap<String, Integer> carMap = new HashMap<>();
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         cmbCustomer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Customer" }));
-        getContentPane().add(cmbCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, -1, -1));
+        getContentPane().add(cmbCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 120, -1));
 
         cmbCar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Car" }));
-        getContentPane().add(cmbCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, -1, -1));
-        getContentPane().add(txtStartDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 220, 80, -1));
-        getContentPane().add(txtTotalAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, 80, -1));
+        getContentPane().add(cmbCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 120, -1));
+        getContentPane().add(txtStartDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 220, 120, -1));
+        getContentPane().add(txtTotalAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 280, 120, -1));
 
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -105,7 +105,7 @@ private HashMap<String, Integer> carMap = new HashMap<>();
                 btnSaveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 350, -1, -1));
+        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 350, -1, -1));
 
         btnCancle.setText("Cancle");
         btnCancle.addActionListener(new java.awt.event.ActionListener() {
@@ -113,11 +113,11 @@ private HashMap<String, Integer> carMap = new HashMap<>();
                 btnCancleActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancle, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 350, -1, -1));
+        getContentPane().add(btnCancle, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 350, -1, -1));
 
         lblcustomer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblcustomer.setText("Customer :");
-        getContentPane().add(lblcustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+        getContentPane().add(lblcustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
 
         lblCar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCar.setText("Car :");
@@ -133,12 +133,12 @@ private HashMap<String, Integer> carMap = new HashMap<>();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel1.setText("YYYY-MM-DD");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 80, 20));
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 280, 30));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 110, 20));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 280, 270));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("New Contract");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 100, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
