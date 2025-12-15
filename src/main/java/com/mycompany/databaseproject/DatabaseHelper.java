@@ -71,7 +71,7 @@ public class DatabaseHelper {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        } 
     }
 
     public static int executeInsertAndReturnId(String sql, Object... params) throws Exception {
