@@ -19,6 +19,7 @@ public ManagePaymentsFrame(String role) {
     initComponents();
     applyRolePermissions();
     loadPayments();
+    setLocationRelativeTo(null);
     applyRowColors();
 }
 
