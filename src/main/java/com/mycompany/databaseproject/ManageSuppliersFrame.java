@@ -173,26 +173,26 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
 
     private void btnEditSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditSupplierActionPerformed
         // TODO add your handling code here:
+        //صلاحيات 
         if (!currentRole.equalsIgnoreCase("Admin")
                 && !currentRole.equalsIgnoreCase("Manager")) {
 
             JOptionPane.showMessageDialog(this, "Access denied");
             return;
         }
-
+        // اختيار صف من الجدول
         int row = jTable1.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Select supplier first");
             return;
         }
-
+        
         int supplierID = Integer.parseInt(
                 jTable1.getValueAt(row, 0).toString()
         );
 
         EditSupplierDialog dialog
                 = new EditSupplierDialog(this, true, supplierID);
-
         dialog.setVisible(true);
         loadSuppliersTable();
 

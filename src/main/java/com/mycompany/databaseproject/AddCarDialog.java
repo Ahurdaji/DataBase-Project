@@ -26,6 +26,7 @@ public class AddCarDialog extends javax.swing.JDialog {
         loadStatuses();
         loadSuppliers();
         loadLocations();
+
     }
 
     private void loadModels() {
@@ -99,6 +100,23 @@ public class AddCarDialog extends javax.swing.JDialog {
         }
         return false;
     }
+    // ================= VALIDATION METHODS =================
+
+    private boolean isValidYear(String year) {
+        return year.matches("^(19|20)\\d{2}$");
+    }
+
+    private boolean isValidMileage(String mileage) {
+        return mileage.matches("^\\d+$");
+    }
+
+    private boolean isValidDate(String date) {
+        return date.matches("^\\d{4}-\\d{2}-\\d{2}$");
+    }
+
+    private boolean isValidPrice(String price) {
+        return price.matches("^\\d+(\\.\\d{1,2})?$");
+    }
 
     public boolean isSucceeded() {
         return succeeded;
@@ -137,6 +155,10 @@ public class AddCarDialog extends javax.swing.JDialog {
         btnCancel = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        txtDate = new javax.swing.JTextField();
+        txtPrice = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -187,6 +209,11 @@ public class AddCarDialog extends javax.swing.JDialog {
 
         getContentPane().add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 110, 20));
 
+        cmbModel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbModelActionPerformed(evt);
+            }
+        });
         getContentPane().add(cmbModel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 93, 110, 20));
 
         btnSave.setText("Save");
@@ -195,7 +222,7 @@ public class AddCarDialog extends javax.swing.JDialog {
                 btnSaveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 280, -1, -1));
+        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 360, -1, -1));
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -203,9 +230,17 @@ public class AddCarDialog extends javax.swing.JDialog {
                 btnCancelActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, -1));
+        getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 360, -1, -1));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 270, 230));
         getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 260, 230));
+
+        jLabel12.setText("Purchase Date");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, -1, -1));
+
+        jLabel13.setText("Purchase Price");
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, -1, -1));
+        getContentPane().add(txtDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 280, 130, -1));
+        getContentPane().add(txtPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 320, 130, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -213,13 +248,14 @@ public class AddCarDialog extends javax.swing.JDialog {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
 
-            // ----- VALIDATION -----
-            
+        // Read values
         String vin = txtVIN.getText().trim();
         String plate = txtPlate.getText().trim();
         String yearText = txtYear.getText().trim();
         String color = txtColor.getText().trim();
         String mileageText = txtMileage.getText().trim();
+        String dateText = txtDate.getText().trim();
+        String priceText = txtPrice.getText().trim();
 
         // 1) Required fields
         if (vin.isEmpty() || plate.isEmpty() || yearText.isEmpty()
@@ -234,102 +270,91 @@ public class AddCarDialog extends javax.swing.JDialog {
             return;
         }
 
-        // 3) Numbers validation
-        int year;
-        int mileage;
+        // 3. Year validation
+        if (!isValidYear(yearText)) {
+            JOptionPane.showMessageDialog(this,
+                    "Year must be between 1900 and 2099.");
+            return;
+        }
 
+        // 5️⃣ Mileage validation
+        if (!isValidMileage(mileageText)) {
+            JOptionPane.showMessageDialog(this,
+                    "Mileage must be a number.");
+            return;
+        }
+
+        // 6️⃣ Purchase Date (optional)
+        if (!dateText.isEmpty() && !isValidDate(dateText)) {
+            JOptionPane.showMessageDialog(this,
+                    "Purchase Date must be in format yyyy-MM-dd.");
+            return;
+        }
+
+        // 7️⃣ Purchase Price (optional)
+        if (!priceText.isEmpty() && !isValidPrice(priceText)) {
+            JOptionPane.showMessageDialog(this,
+                    "Purchase Price must be a valid number.");
+            return;
+        }
+
+        // 8️⃣ Convert to numbers (AFTER validation)
+        int year = Integer.parseInt(yearText);
+        int mileage = Integer.parseInt(mileageText);
+
+        // 9️⃣ ComboBoxes check
+        if (cmbModel.getSelectedItem() == null
+                || cmbStatus.getSelectedItem() == null
+                || cmbSupplier.getSelectedItem() == null
+                || cmbLocation.getSelectedItem() == null) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Please select Model, Status, Supplier and Location.");
+            return;
+        }
+
+        // 🔟 Insert into DB
         try {
-            year = Integer.parseInt(yearText);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Year must be a number.");
-            return;
-        }
-
-        try {
-            mileage = Integer.parseInt(mileageText);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Mileage must be a number.");
-            return;
-        }
-
-        // Year range check
-        if (year < 1950 || year > 2050) {
-            JOptionPane.showMessageDialog(this, "Enter a valid year (1950–2050).");
-            return;
-        }
-
-        // ----- END VALIDATION -----
-        
-        // check empty
-        if (plate.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Plate number is required.");
-            return;
-        }
-
-        // 2) Check duplicate
-        if (plateExists(plate)) {
-            JOptionPane.showMessageDialog(this, "Plate number already exists!");
-            return;
-        }
-        
-        try {
-
-            if (vin.isEmpty() || plate.isEmpty()
-                    || cmbModel.getSelectedItem() == null
-                    || cmbStatus.getSelectedItem() == null
-                    || cmbSupplier.getSelectedItem() == null
-                    || cmbLocation.getSelectedItem() == null) {
-
-                JOptionPane.showMessageDialog(this, "Please fill required fields.");
-                return;
-            }
-
-            if (!yearText.isEmpty()) {
-                year = Integer.parseInt(yearText);
-            }
-
-            if (!mileageText.isEmpty()) {
-                mileage = Integer.parseInt(mileageText);
-            }
-
             ComboItem modelItem = (ComboItem) cmbModel.getSelectedItem();
             ComboItem statusItem = (ComboItem) cmbStatus.getSelectedItem();
             ComboItem supplierItem = (ComboItem) cmbSupplier.getSelectedItem();
             ComboItem locationItem = (ComboItem) cmbLocation.getSelectedItem();
 
-            int modelId = modelItem.getId();
-            int statusId = statusItem.getId();
-            int supplierId = supplierItem.getId();
-            int locationId = locationItem.getId();
-
-            // Only insert required + some optional fields
             String sql = "INSERT INTO Car "
                     + "(ModelID, VIN, PlateNumber, Year, Color, Mileage, "
+                    + "PurchaseDate, PurchasePrice, "
                     + "StatusID, SupplierID, LocationID) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            java.sql.Date purchaseDate = null;
+            if (!dateText.isEmpty()) {
+                purchaseDate = java.sql.Date.valueOf(dateText);
+            }
+
+            Double purchasePrice = null;
+            if (!priceText.isEmpty()) {
+                purchasePrice = Double.parseDouble(priceText);
+            }
 
             int rows = DatabaseHelper.executeUpdate(sql,
-                    modelId,
+                    modelItem.getId(),
                     vin,
                     plate,
                     year,
                     color,
                     mileage,
-                    statusId,
-                    supplierId,
-                    locationId
+                    purchaseDate,
+                    purchasePrice,
+                    statusItem.getId(),
+                    supplierItem.getId(),
+                    locationItem.getId()
             );
 
             if (rows > 0) {
                 JOptionPane.showMessageDialog(this, "Car added successfully.");
                 succeeded = true;
                 dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "No row inserted.");
             }
 
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Year and Mileage must be numbers.");
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error saving car.");
@@ -343,10 +368,13 @@ public class AddCarDialog extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
+    private void cmbModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbModelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbModelActionPerformed
+
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
@@ -358,6 +386,8 @@ public class AddCarDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -369,8 +399,10 @@ public class AddCarDialog extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField txtColor;
+    private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtMileage;
     private javax.swing.JTextField txtPlate;
+    private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtVIN;
     private javax.swing.JTextField txtYear;
     // End of variables declaration//GEN-END:variables

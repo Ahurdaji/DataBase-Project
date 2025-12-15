@@ -111,25 +111,78 @@ public class EditSupplierDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+
+        // Read values FIRST
+        String name = txtName.getText().trim();
+        String phone = txtPhone.getText().trim();
+        String email = txtEmail.getText().trim();
+        String address = txtAddress.getText().trim();
+
+        // Validate Supplier Name
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Supplier name is required.");
+            txtName.requestFocus();
+            return;
+        }
+
+        if (!name.matches("[a-zA-Z .'-]{2,100}")) {
+            JOptionPane.showMessageDialog(this,
+                    "Supplier name must be 2–100 letters only.");
+            txtName.requestFocus();
+            return;
+        }
+
+         // Validate Phone
+        if (phone.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Phone number is required.");
+            txtPhone.requestFocus();
+            return;
+        }
+
+        if (!phone.matches("^\\+?[0-9]{7,15}$")) {
+            JOptionPane.showMessageDialog(this,
+                    "Phone number must contain 7–15 digits.");
+            txtPhone.requestFocus();
+            return;
+        }
+
+        // Validate Email (optional)
+        if (!email.isEmpty()) {
+            if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                JOptionPane.showMessageDialog(this, "Invalid email format.");
+                txtEmail.requestFocus();
+                return;
+            }
+        }
+
+        // Validate Address length
+        if (address.length() > 255) {
+            JOptionPane.showMessageDialog(this,
+                    "Address must not exceed 255 characters.");
+            txtAddress.requestFocus();
+            return;
+        }
+
+        // UPDATE only AFTER validation passes
         try {
-            // TODO add your handling code here:
             String sql = "UPDATE Supplier SET SupplierName=?, Phone=?, Email=?, Address=? WHERE SupplierID=?";
 
             DatabaseHelper.executeUpdate(
                     sql,
-                    txtName.getText(),
-                    txtPhone.getText(),
-                    txtEmail.getText(),
-                    txtAddress.getText(),
+                    name,
+                    phone,
+                    email,
+                    address,
                     supplierID
             );
 
-            JOptionPane.showMessageDialog(this, "Supplier updated");
+            JOptionPane.showMessageDialog(this, "Supplier updated successfully.");
             dispose();
-        } catch (SQLException ex) {
-            Logger.getLogger(EditSupplierDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error updating supplier.");
+            ex.printStackTrace();
+        }
 
     }//GEN-LAST:event_btnSaveActionPerformed
 
