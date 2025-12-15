@@ -163,45 +163,45 @@ public class AddCarDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("VIN");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+        jLabel1.setText("VIN:");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 60, -1));
 
-        jLabel2.setText("Plate Number");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
+        jLabel2.setText("Plate Number:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 90, -1));
 
-        jLabel3.setText("Year");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+        jLabel3.setText("Year:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 60, -1));
 
-        jLabel4.setText("Color");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, -1, -1));
-        getContentPane().add(txtMileage, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, 130, -1));
+        jLabel4.setText("Color:");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 60, -1));
+        getContentPane().add(txtMileage, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 220, 130, -1));
 
-        jLabel5.setText("Mileage");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, -1, -1));
-        getContentPane().add(txtVIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 130, -1));
-        getContentPane().add(txtColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, 130, -1));
-        getContentPane().add(txtYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 130, -1));
-        getContentPane().add(txtPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 130, -1));
+        jLabel5.setText("Mileage:");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 60, -1));
+        getContentPane().add(txtVIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 130, -1));
+        getContentPane().add(txtColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 190, 130, -1));
+        getContentPane().add(txtYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, 130, -1));
+        getContentPane().add(txtPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 130, -1));
 
-        jLabel6.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         jLabel6.setText("Car Details ");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 100, -1));
 
-        jLabel7.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         jLabel7.setText("Car Attributes");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, -1, -1));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 30, 130, -1));
 
-        jLabel8.setText("Location");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, -1, -1));
+        jLabel8.setText("Location:");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, 70, -1));
 
-        jLabel9.setText("Supplier");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, -1, -1));
+        jLabel9.setText("Supplier:");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, 80, -1));
 
-        jLabel10.setText("Status");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 130, -1, -1));
+        jLabel10.setText("Status:");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 130, 70, -1));
 
-        jLabel11.setText("Model");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, -1, -1));
+        jLabel11.setText("Model:");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 70, -1));
 
         getContentPane().add(cmbLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 190, 110, 20));
 
@@ -222,7 +222,7 @@ public class AddCarDialog extends javax.swing.JDialog {
                 btnSaveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 360, -1, -1));
+        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 360, -1, -1));
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -230,17 +230,17 @@ public class AddCarDialog extends javax.swing.JDialog {
                 btnCancelActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 360, -1, -1));
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 270, 230));
-        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 260, 230));
+        getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 360, -1, -1));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 270, 290));
+        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 60, 260, 170));
 
-        jLabel12.setText("Purchase Date");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, -1, -1));
+        jLabel12.setText("Purchase Date:");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 90, -1));
 
-        jLabel13.setText("Purchase Price");
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, -1, -1));
-        getContentPane().add(txtDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 280, 130, -1));
-        getContentPane().add(txtPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 320, 130, -1));
+        jLabel13.setText("Purchase Price:");
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 90, -1));
+        getContentPane().add(txtDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 270, 130, -1));
+        getContentPane().add(txtPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 310, 130, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

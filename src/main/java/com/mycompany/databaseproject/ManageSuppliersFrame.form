@@ -60,9 +60,9 @@
               <Table columnCount="5" rowCount="4">
                 <Column editable="true" title="Supplier ID" type="java.lang.Object"/>
                 <Column editable="true" title="Supplier Name" type="java.lang.Object"/>
-                <Column editable="true" title="Contact" type="java.lang.Object"/>
                 <Column editable="true" title="Phone" type="java.lang.Object"/>
                 <Column editable="true" title="Email" type="java.lang.Object"/>
+                <Column editable="true" title="Address" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -129,7 +129,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnDeleteSupplier">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Delete Suppliers"/>
+        <Property name="text" type="java.lang.String" value="Delete Supplier"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteSupplierActionPerformed"/>

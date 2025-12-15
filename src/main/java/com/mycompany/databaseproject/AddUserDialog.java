@@ -116,9 +116,9 @@ public class AddUserDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Add User Account");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 174, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 174, -1));
 
         jLabel2.setText("Username:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 75, 88, -1));
@@ -131,12 +131,17 @@ public class AddUserDialog extends javax.swing.JDialog {
 
         jLabel5.setText("Employee:");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 198, 88, -1));
-        getContentPane().add(textUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(206, 72, 177, -1));
-        getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(206, 113, 177, -1));
+        getContentPane().add(textUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, 177, -1));
+        getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 177, -1));
 
-        getContentPane().add(comboRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(206, 154, 177, -1));
+        getContentPane().add(comboRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 177, -1));
 
-        getContentPane().add(comboEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(206, 195, 177, -1));
+        comboEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboEmployeeActionPerformed(evt);
+            }
+        });
+        getContentPane().add(comboEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 177, -1));
 
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -153,7 +158,7 @@ public class AddUserDialog extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, -1, -1));
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 400, 320));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 370, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -204,6 +209,10 @@ public class AddUserDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void comboEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmployeeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboEmployeeActionPerformed
 
     /**
      * @param args the command line arguments

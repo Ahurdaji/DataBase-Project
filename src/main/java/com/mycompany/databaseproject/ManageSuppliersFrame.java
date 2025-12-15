@@ -17,7 +17,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ManageSuppliersFrame extends javax.swing.JFrame {
 
-    
     private String currentRole;
 
     /**
@@ -105,7 +104,7 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Supplier ID", "Supplier Name", "Contact", "Phone", "Email"
+                "Supplier ID", "Supplier Name", "Phone", "Email", "Address"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -128,7 +127,7 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
         });
         getContentPane().add(btnEditSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, 130, 30));
 
-        btnDeleteSupplier.setText("Delete Suppliers");
+        btnDeleteSupplier.setText("Delete Supplier");
         btnDeleteSupplier.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteSupplierActionPerformed(evt);
@@ -186,7 +185,7 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Select supplier first");
             return;
         }
-        
+
         int supplierID = Integer.parseInt(
                 jTable1.getValueAt(row, 0).toString()
         );
@@ -232,6 +231,15 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
             if (confirm != JOptionPane.YES_OPTION) {
                 return;
             }
+
+            String checkSql = "SELECT COUNT(*) FROM Car WHERE SupplierID = ?";
+            try (ResultSet rs = DatabaseHelper.executeQuery(checkSql, supplierID)) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    JOptionPane.showMessageDialog(this,
+                            "Cannot delete: this supplier is linked to existing cars.");
+                    return;
+                }
+            }
             //تنفيذ  DELETE
             String sql = "DELETE FROM Supplier WHERE SupplierID = ?";
             DatabaseHelper.executeUpdate(sql, supplierID);
@@ -248,7 +256,6 @@ public class ManageSuppliersFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddSupplier;

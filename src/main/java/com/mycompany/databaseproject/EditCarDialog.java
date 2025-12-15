@@ -45,7 +45,12 @@ public class EditCarDialog extends javax.swing.JDialog {
     }
 
     private void loadCarDetails() {
-        String sql = "SELECT * FROM Car WHERE CarID = ?";
+        String sql = """
+            SELECT c.*, s.StatusName
+            FROM Car c
+            JOIN CarStatus s ON c.StatusID = s.StatusID
+            WHERE c.CarID = ?
+        """;
         try (ResultSet rs = DatabaseHelper.executeQuery(sql, carID)) {
             if (rs.next()) {
                 txtVIN.setText(rs.getString("VIN"));
@@ -59,12 +64,43 @@ public class EditCarDialog extends javax.swing.JDialog {
                 selectComboItem(cmbStatus, rs.getInt("StatusID"));
                 selectComboItem(cmbSupplier, rs.getInt("SupplierID"));
                 selectComboItem(cmbLocation, rs.getInt("LocationID"));
+
+                String status = rs.getString("StatusName");
+                applyStatusRules(status);
+
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private void applyStatusRules(String status) {
+
+        if (status.equalsIgnoreCase("Sold")) {
+            txtVIN.setEnabled(false);
+            cmbModel.setEnabled(false);
+            cmbSupplier.setEnabled(false);
+            cmbLocation.setEnabled(false);
+        }
+
+        if (status.equalsIgnoreCase("Retired")) {
+            txtVIN.setEnabled(false);
+            txtPlate.setEnabled(false);
+            txtYear.setEnabled(false);
+            txtColor.setEnabled(false);
+            txtMileage.setEnabled(false);
+
+            cmbModel.setEnabled(false);
+            cmbStatus.setEnabled(false);
+            cmbSupplier.setEnabled(false);
+            cmbLocation.setEnabled(false);
+
+            btnSave.setEnabled(false);
+        }
+    }
+
+    
     private void selectComboItem(javax.swing.JComboBox<ComboItem> combo, int id) {
         for (int i = 0; i < combo.getItemCount(); i++) {
             ComboItem item = combo.getItemAt(i);
@@ -346,7 +382,7 @@ public class EditCarDialog extends javax.swing.JDialog {
                     + "SupplierID = ?, "
                     + "LocationID = ? "
                     + "WHERE CarID = ?";
-            
+
             java.sql.Date purchaseDate = null;
             if (!dateText.isEmpty()) {
                 purchaseDate = java.sql.Date.valueOf(dateText);
