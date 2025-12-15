@@ -97,7 +97,7 @@ private void makeTableReadOnly() {
                 btnViewDetailsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnViewDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, 140, -1));
+        getContentPane().add(btnViewDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, 160, -1));
 
         btnBack.setText("Go to main menu");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -105,7 +105,7 @@ private void makeTableReadOnly() {
                 btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 340, -1, -1));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 340, -1, -1));
 
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {

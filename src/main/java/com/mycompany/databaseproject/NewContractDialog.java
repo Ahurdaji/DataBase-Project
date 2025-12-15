@@ -105,7 +105,7 @@ private HashMap<String, Integer> carMap = new HashMap<>();
                 btnSaveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 350, -1, -1));
+        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, -1, -1));
 
         btnCancle.setText("Cancle");
         btnCancle.addActionListener(new java.awt.event.ActionListener() {
@@ -113,7 +113,7 @@ private HashMap<String, Integer> carMap = new HashMap<>();
                 btnCancleActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancle, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 350, -1, -1));
+        getContentPane().add(btnCancle, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, -1, -1));
 
         lblcustomer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblcustomer.setText("Customer :");
