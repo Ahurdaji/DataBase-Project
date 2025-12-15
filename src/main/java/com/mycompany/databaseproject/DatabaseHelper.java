@@ -1,16 +1,34 @@
-
 package com.mycompany.databaseproject;
 
 import java.sql.*;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.security.MessageDigest;
+
 /**
  *
  * @author hadalkharouf
  */
 public class DatabaseHelper {
+
     public static Connection getConnection() throws SQLException {
         return DatabaseConnection.getConnection();
+    }
+
+    public static String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashedBytes = md.digest(password.getBytes());
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashedBytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString().toUpperCase();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error hashing password", e);
+        }
     }
 
     // SELECT queries
@@ -55,24 +73,24 @@ public class DatabaseHelper {
             e.printStackTrace();
         }
     }
+
     public static int executeInsertAndReturnId(String sql, Object... params) throws Exception {
-    Connection con = getConnection();
-    PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        Connection con = getConnection();
+        PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-    for (int i = 0; i < params.length; i++) {
-        ps.setObject(i + 1, params[i]);
+        for (int i = 0; i < params.length; i++) {
+            ps.setObject(i + 1, params[i]);
+        }
+
+        ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+
+        throw new Exception("Failed to get generated ID");
     }
-
-    ps.executeUpdate();
-
-    ResultSet rs = ps.getGeneratedKeys();
-    if (rs.next()) {
-        return rs.getInt(1);
-    }
-
-    throw new Exception("Failed to get generated ID");
-}
-
 
     private static void setParams(PreparedStatement stmt, Object... params) throws SQLException {
         for (int i = 0; i < params.length; i++) {
@@ -80,4 +98,3 @@ public class DatabaseHelper {
         }
     }
 }
-
