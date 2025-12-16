@@ -62,10 +62,10 @@ private void loadCars() {
         JOptionPane.showMessageDialog(this, "Error loading cars: " + e.getMessage());
     }
 }
-
-
+ 
+//HashMap is used to store the relationship between displayed values and primary keys
     private HashMap<String, Integer> customerMap = new HashMap<>();
-private HashMap<String, Integer> carMap = new HashMap<>();
+    private HashMap<String, Integer> carMap = new HashMap<>();
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -176,7 +176,7 @@ private HashMap<String, Integer> carMap = new HashMap<>();
         // 3. INSERT INSTALLMENTS  (THIS IS THE IMPORTANT PART)
         int months = 12;
         double monthlyAmount = totalAmount / months;
-        int defaultPaymentMethodId = 1;
+        int defaultPaymentMethodId = 1;//Assigns a default payment method ( Cash or Bank Transfer)
 
         String paymentSql =
             "INSERT INTO InstallmentPayment " +
@@ -184,6 +184,7 @@ private HashMap<String, Integer> carMap = new HashMap<>();
             "VALUES (?, ?, ?, 0, ?)";
 
         for (int i = 1; i <= months; i++) {
+            //Calculate due date for each installment
             Date dueDate = Date.valueOf(startDate.toLocalDate().plusMonths(i));
 
             DatabaseHelper.executeUpdate(

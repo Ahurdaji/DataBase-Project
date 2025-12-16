@@ -30,7 +30,7 @@ public class ManageEmployeesFrame extends javax.swing.JFrame {
 
     tableEmployee.setModel(model);
 
-    applyRolePermissions();   // ⭐ مهم
+    applyRolePermissions();   // important to apply the role of 
     loadEmployees();
     loadDepartments();
 }
@@ -203,7 +203,6 @@ public class ManageEmployeesFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "A new row was added. Fill all fields, select the row, then click Add again.");
             return;
         }
-
         Object idObj = model.getValueAt(row, 0);
 
         // 2) If ID exists → means employee already in DB
@@ -237,12 +236,10 @@ public class ManageEmployeesFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please select a Department.");
             return;
         }
-
         int departmentID = Integer.parseInt(comboBox1.getSelectedItem().toString().split(" - ")[0]);
 
         // 4) INSERT INTO DATABASE
         try {
-
             DatabaseHelper.executeUpdate(
                     "INSERT INTO Employee (FirstName, LastName, Email, Phone, DepartmentID) VALUES (?, ?, ?, ?, ?)",
                     first, last, email, phone, departmentID
@@ -263,7 +260,6 @@ public class ManageEmployeesFrame extends javax.swing.JFrame {
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
         loadEmployees();
-
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -273,8 +269,7 @@ public class ManageEmployeesFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnEditEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditEmployeeActionPerformed
-        // TODO add your handling code here:                                               
-
+        // TODO add your handling code here
         DefaultTableModel model = (DefaultTableModel) tableEmployee.getModel();
         int row = tableEmployee.getSelectedRow();
 
@@ -283,7 +278,6 @@ public class ManageEmployeesFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please select a row to edit.");
             return;
         }
-
         Object idObj = model.getValueAt(row, 0);
 
         // Row not saved yet → cannot edit
@@ -291,7 +285,6 @@ public class ManageEmployeesFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "This row is new. Use Add first.");
             return;
         }
-
         int employeeID = Integer.parseInt(idObj.toString());
 
         // -------- VALIDATION --------
@@ -355,7 +348,7 @@ public class ManageEmployeesFrame extends javax.swing.JFrame {
 
         Object idObj = model.getValueAt(row, 0);
 
-// If no ID → row not saved in DB → just remove it
+        // If no ID → row not saved in DB → just remove it
         if (idObj == null) {
             model.removeRow(row);
             return;
