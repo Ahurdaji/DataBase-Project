@@ -71,7 +71,7 @@ public class DatabaseHelper {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        } 
     }
 
     public static int executeInsertAndReturnId(String sql, Object... params) throws Exception {
@@ -91,6 +91,51 @@ public class DatabaseHelper {
 
         throw new Exception("Failed to get generated ID");
     }
+    
+public static void updateContractStatus(int contractId) {
+    try {
+        // 1. COMPLETED → all installments paid
+        String completedSql =
+            "UPDATE HireContract " +
+            "SET StatusID = 2 " +
+            "WHERE ContractID = ? " +
+            "AND NOT EXISTS ( " +
+            "   SELECT 1 FROM InstallmentPayment " +
+            "   WHERE ContractID = ? AND IsPaid = 0 " +
+            ")";
+
+        executeUpdate(completedSql, contractId, contractId);
+
+        // 2. LATE → unpaid and overdue
+        String lateSql =
+            "UPDATE HireContract " +
+            "SET StatusID = 3 " +
+            "WHERE ContractID = ? " +
+            "AND EXISTS ( " +
+            "   SELECT 1 FROM InstallmentPayment " +
+            "   WHERE ContractID = ? AND IsPaid = 0 AND DueDate < GETDATE() " +
+            ")";
+
+        executeUpdate(lateSql, contractId, contractId);
+
+        // 3. ACTIVE → unpaid but not overdue
+        String activeSql =
+            "UPDATE HireContract " +
+            "SET StatusID = 1 " +
+            "WHERE ContractID = ? " +
+            "AND EXISTS ( " +
+            "   SELECT 1 FROM InstallmentPayment " +
+            "   WHERE ContractID = ? AND IsPaid = 0 AND DueDate >= GETDATE() " +
+            ")";
+
+        executeUpdate(activeSql, contractId, contractId);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+
 
     private static void setParams(PreparedStatement stmt, Object... params) throws SQLException {
         for (int i = 0; i < params.length; i++) {
