@@ -11,10 +11,13 @@ import java.security.MessageDigest;
  */
 public class DatabaseHelper {
 
+    // returns JDBC Conn using database connection class
     public static Connection getConnection() throws SQLException {
         return DatabaseConnection.getConnection();
     }
 
+    // hashing ensures secure authentication, 
+    // while role based access control manages authorization
     public static String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -31,7 +34,7 @@ public class DatabaseHelper {
         }
     }
 
-    // SELECT queries
+    // SELECT queries -- we use this for login authentication 
     public static ResultSet executeQuery(String sql, Object... params) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql);
@@ -39,7 +42,7 @@ public class DatabaseHelper {
         return stmt.executeQuery();
     }
 
-    // INSERT / UPDATE / DELETE
+    // INSERT / UPDATE / DELETE -- when modifiying database data
     public static int executeUpdate(String sql, Object... params) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql);
@@ -47,13 +50,13 @@ public class DatabaseHelper {
         return stmt.executeUpdate();
     }
 
-    // Fill JTable with result of SELECT
+    // Fill JTable with result of SELECT -- the result of SELECT query
     public static void fillTable(JTable table, String sql, Object... params) {
         try (ResultSet rs = executeQuery(sql, params)) {
             DefaultTableModel model = new DefaultTableModel();
             int columnCount = rs.getMetaData().getColumnCount();
 
-            // Add columns
+            // read columns names dynamically
             for (int i = 1; i <= columnCount; i++) {
                 model.addColumn(rs.getMetaData().getColumnName(i));
             }
@@ -74,6 +77,7 @@ public class DatabaseHelper {
         }
     }
 
+    // this method inserts a record and returns the generated PK
     public static int executeInsertAndReturnId(String sql, Object... params) throws Exception {
         Connection con = getConnection();
         PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
