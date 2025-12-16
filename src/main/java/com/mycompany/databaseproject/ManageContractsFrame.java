@@ -22,19 +22,24 @@ private void makeTableReadOnly(JTable table) {
 }
 
 
-    private void loadContracts() {
-        String sql
-                = "SELECT hc.ContractID, "
-                + "       c.FirstName + ' ' + c.LastName AS CustomerName, "
-                + "       car.PlateNumber AS CarPlate, "
-                + "       hc.StartDate, "
-                + "       hc.TotalAmount "
-                + "FROM HireContract hc "
-                + "JOIN Customer c ON hc.CustomerID = c.CustomerID "
-                + "JOIN Car car ON hc.CarID = car.CarID";
+private void loadContracts() {
+    String sql =
+          "SELECT hc.ContractID, "
+        + "       c.FirstName + ' ' + c.LastName AS CustomerName, "
+        + "       car.PlateNumber AS CarPlate, "
+        + "       hc.StartDate, "
+        + "       hc.TotalAmount, "
+        + "       cs.StatusName AS Status "
+        + "FROM HireContract hc "
+        + "JOIN Customer c ON hc.CustomerID = c.CustomerID "
+        + "JOIN Car car ON hc.CarID = car.CarID "
+        + "JOIN ContractStatus cs ON hc.StatusID = cs.StatusID";
 
-        DatabaseHelper.fillTable(tableContracts, sql);
-    }
+    DatabaseHelper.fillTable(tableContracts, sql);
+}
+
+
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -61,18 +66,18 @@ private void makeTableReadOnly(JTable table) {
 
         tableContracts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ContractID", "CustomerName", "CarPlate", "StartDate", "TotalAmount"
+                "ContractID", "CustomerName", "CarPlate", "StartDate", "TotalAmount", "Status"
             }
         ));
         jScrollPane1.setViewportView(tableContracts);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, 240));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 560, 240));
 
         btnNewContract.setText("New Contract");
         btnNewContract.addActionListener(new java.awt.event.ActionListener() {
@@ -80,7 +85,7 @@ private void makeTableReadOnly(JTable table) {
                 btnNewContractActionPerformed(evt);
             }
         });
-        getContentPane().add(btnNewContract, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, -1, -1));
+        getContentPane().add(btnNewContract, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 330, -1, -1));
 
         btnViewDetails.setText("View contract details");
         btnViewDetails.addActionListener(new java.awt.event.ActionListener() {
@@ -88,7 +93,7 @@ private void makeTableReadOnly(JTable table) {
                 btnViewDetailsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnViewDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, 160, -1));
+        getContentPane().add(btnViewDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 330, 160, -1));
 
         btnBack.setText("Go to main menu");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -96,7 +101,7 @@ private void makeTableReadOnly(JTable table) {
                 btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 340, -1, -1));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 330, -1, -1));
 
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -107,7 +112,7 @@ private void makeTableReadOnly(JTable table) {
         getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 450));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 730, 450));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

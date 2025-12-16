@@ -84,7 +84,7 @@ if (!isSelected) {
         }
     }
 
- // load data
+ // Loads installment payments for one specific hire contract and displays them in a JTable
  private void loadPaymentsByContract() {
 String sql =
     "SELECT " +
@@ -313,6 +313,7 @@ String sql =
                 paymentID
             );
 
+DatabaseHelper.updateContractStatus(contractId);
             JOptionPane.showMessageDialog(this, "Payment marked as Paid!");
 
             if (contractId > 0)
