@@ -10,6 +10,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
 private int contractId = -1; // means all contracts
 private String currentRole;
 private boolean openedFromContracts;
+private java.util.HashMap<String, Integer> paymentMethodMap = new java.util.HashMap<>();
 
 
 // Open ALL payments
@@ -22,6 +23,7 @@ public ManagePaymentsFrame(String role) {
     loadPayments();
     setLocationRelativeTo(null);
     applyRowColors();
+    loadPaymentMethods();
 }
 
 // Open payments for ONE contract
@@ -35,6 +37,7 @@ public ManagePaymentsFrame(int contractId, String role) {
     setLocationRelativeTo(null);
     loadPaymentsByContract();
     applyRowColors();
+    loadPaymentMethods();
 }
 
 private void makeTableReadOnly() {
@@ -86,25 +89,48 @@ if (!isSelected) {
 
  // Loads installment payments for one specific hire contract and displays them in a JTable
  private void loadPaymentsByContract() {
-String sql =
-    "SELECT " +
-    "ROW_NUMBER() OVER (PARTITION BY ip.ContractID ORDER BY ip.DueDate) AS InstallmentNo, " +
-    "ip.PaymentID, ip.ContractID, " +
-    "c.FirstName + ' ' + c.LastName AS CustomerName, " +
-    "ip.Amount, ip.DueDate, " +
-    "CASE " +
-    "  WHEN ip.IsPaid = 1 THEN 'Paid' " +
-    "  WHEN ip.IsPaid = 0 AND ip.DueDate < GETDATE() THEN 'Overdue' " +
-    "  ELSE 'Unpaid' " +
-    "END AS Status " +
-    "FROM InstallmentPayment ip " +
-    "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
-    "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
-    "WHERE ip.ContractID = ?";
+    String sql =
+        "SELECT " +
+        "ROW_NUMBER() OVER (PARTITION BY ip.ContractID ORDER BY ip.DueDate) AS InstallmentNo, " +
+        "ip.PaymentID, ip.ContractID, " +
+        "c.FirstName + ' ' + c.LastName AS CustomerName, " +
+        "ip.Amount, ip.DueDate, " +
+        "CASE " +
+        "  WHEN ip.IsPaid = 1 THEN 'Paid' " +
+        "  WHEN ip.IsPaid = 0 AND ip.DueDate < GETDATE() THEN 'Overdue' " +
+        "  ELSE 'Unpaid' " +
+        "END AS Status, " +
+        "pm.MethodName AS PaymentMethod " +
+        "FROM InstallmentPayment ip " +
+        "JOIN HireContract hc ON ip.ContractID = hc.ContractID " +
+        "JOIN Customer c ON hc.CustomerID = c.CustomerID " +
+        "LEFT JOIN PaymentMethod pm ON ip.PaymentMethodID = pm.PaymentMethodID " +
+        "WHERE ip.ContractID = ?";
+
+    DatabaseHelper.fillTable(jtable1, sql, contractId);
+}
 
 
-        DatabaseHelper.fillTable(jtable1, sql, contractId);
- }
+ private void loadPaymentMethods() {
+    try {
+        jComboBox1.removeAllItems();
+        paymentMethodMap.clear();
+
+        String sql = "SELECT PaymentMethodID, MethodName FROM PaymentMethod";
+        var rs = DatabaseHelper.executeQuery(sql);
+
+        while (rs.next()) {
+            int id = rs.getInt("PaymentMethodID");
+            String name = rs.getString("MethodName");
+
+            paymentMethodMap.put(name, id);
+            jComboBox1.addItem(name);
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error loading payment methods");
+    }
+}
 
 private void loadPayments() {
     String sql =
@@ -139,6 +165,7 @@ private void loadPayments() {
         btnShowOverdue = new javax.swing.JButton();
         btnrefrech = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -162,7 +189,7 @@ private void loadPayments() {
         ));
         jScrollPane1.setViewportView(jtable1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 620, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 710, -1));
 
         btmMarkAsPaid.setText("Mark as Paid");
         btmMarkAsPaid.addActionListener(new java.awt.event.ActionListener() {
@@ -170,7 +197,7 @@ private void loadPayments() {
                 btmMarkAsPaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btmMarkAsPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 500, -1, -1));
+        getContentPane().add(btmMarkAsPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 500, -1, -1));
 
         btnShowPaid.setText("Show Paid");
         btnShowPaid.addActionListener(new java.awt.event.ActionListener() {
@@ -178,7 +205,7 @@ private void loadPayments() {
                 btnShowPaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 500, -1, -1));
+        getContentPane().add(btnShowPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 500, -1, -1));
 
         btnShowUnpaid.setText("Show Unpaid");
         btnShowUnpaid.addActionListener(new java.awt.event.ActionListener() {
@@ -186,7 +213,7 @@ private void loadPayments() {
                 btnShowUnpaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowUnpaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 500, -1, -1));
+        getContentPane().add(btnShowUnpaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 500, -1, -1));
 
         btnShowOverdue.setText("Show Overdue");
         btnShowOverdue.addActionListener(new java.awt.event.ActionListener() {
@@ -194,7 +221,7 @@ private void loadPayments() {
                 btnShowOverdueActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowOverdue, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 500, -1, -1));
+        getContentPane().add(btnShowOverdue, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 500, -1, -1));
 
         btnrefrech.setText("Refresh");
         btnrefrech.addActionListener(new java.awt.event.ActionListener() {
@@ -202,7 +229,7 @@ private void loadPayments() {
                 btnrefrechActionPerformed(evt);
             }
         });
-        getContentPane().add(btnrefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 500, -1, -1));
+        getContentPane().add(btnrefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 500, -1, -1));
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -212,8 +239,11 @@ private void loadPayments() {
         });
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 560, -1, -1));
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 30, -1, -1));
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 610));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 610));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -308,10 +338,17 @@ String sql =
         int paymentID = Integer.parseInt(jtable1.getValueAt(row, 1).toString());
 
         try {
-            DatabaseHelper.executeUpdate(
-                "UPDATE InstallmentPayment SET IsPaid = 1, PaymentDate = GETDATE() WHERE PaymentID = ?",
-                paymentID
-            );
+String methodName = jComboBox1.getSelectedItem().toString();
+int paymentMethodId = paymentMethodMap.get(methodName);
+
+DatabaseHelper.executeUpdate(
+    "UPDATE InstallmentPayment " +
+    "SET IsPaid = 1, PaymentDate = GETDATE(), PaymentMethodID = ? " +
+    "WHERE PaymentID = ?",
+    paymentMethodId,
+    paymentID
+);
+
 
 DatabaseHelper.updateContractStatus(contractId);
             JOptionPane.showMessageDialog(this, "Payment marked as Paid!");
@@ -340,6 +377,7 @@ DatabaseHelper.updateContractStatus(contractId);
     private javax.swing.JButton btnShowPaid;
     private javax.swing.JButton btnShowUnpaid;
     private javax.swing.JButton btnrefrech;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
