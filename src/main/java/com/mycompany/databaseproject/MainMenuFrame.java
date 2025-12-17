@@ -78,7 +78,8 @@ public class MainMenuFrame extends javax.swing.JFrame {
         btnManageUserAccounts = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        btnFixedAssets = new javax.swing.JButton();
+        icon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -95,7 +96,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnManageCarsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnManageCars, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, 160, 50));
+        getContentPane().add(btnManageCars, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 160, 50));
 
         btnManageCustomers.setText("Manage Customers");
         btnManageCustomers.addActionListener(new java.awt.event.ActionListener() {
@@ -103,7 +104,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnManageCustomersActionPerformed(evt);
             }
         });
-        getContentPane().add(btnManageCustomers, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 160, 50));
+        getContentPane().add(btnManageCustomers, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 210, 160, 50));
 
         btnManageContracts.setText("Manage Contracts");
         btnManageContracts.addActionListener(new java.awt.event.ActionListener() {
@@ -111,7 +112,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnManageContractsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnManageContracts, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 160, 50));
+        getContentPane().add(btnManageContracts, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, 160, 50));
 
         btnManagePayments.setText("Manage Payments");
         btnManagePayments.addActionListener(new java.awt.event.ActionListener() {
@@ -119,7 +120,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnManagePaymentsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnManagePayments, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, 160, 50));
+        getContentPane().add(btnManagePayments, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 160, 50));
 
         btnManageSuppliers.setText("Manage Suppliers");
         btnManageSuppliers.addActionListener(new java.awt.event.ActionListener() {
@@ -127,7 +128,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnManageSuppliersActionPerformed(evt);
             }
         });
-        getContentPane().add(btnManageSuppliers, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, 160, 50));
+        getContentPane().add(btnManageSuppliers, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 390, 160, 50));
 
         btnManageEmployees.setText("Manage Employees");
         btnManageEmployees.addActionListener(new java.awt.event.ActionListener() {
@@ -135,7 +136,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnManageEmployeesActionPerformed(evt);
             }
         });
-        getContentPane().add(btnManageEmployees, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 410, 170, 50));
+        getContentPane().add(btnManageEmployees, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 500, 170, 50));
 
         btnManageUserAccounts.setText("Manage User Accounts");
         btnManageUserAccounts.addActionListener(new java.awt.event.ActionListener() {
@@ -143,7 +144,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnManageUserAccountsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnManageUserAccounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 470, 170, 50));
+        getContentPane().add(btnManageUserAccounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 560, 170, 50));
 
         btnLogout.setFont(new java.awt.Font("Helvetica Neue", 3, 18)); // NOI18N
         btnLogout.setForeground(new java.awt.Color(0, 0, 153));
@@ -153,16 +154,24 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 btnLogoutActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 550, -1, -1));
+        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 550, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 3, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Admin Options");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 360, 150, 40));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 150, 40));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -60, 640, 740));
+        btnFixedAssets.setText("Fixed Assets Management");
+        btnFixedAssets.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFixedAssetsActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnFixedAssets, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 200, 50));
+
+        icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
+        getContentPane().add(icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 670));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -215,12 +224,17 @@ public class MainMenuFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnManageUserAccountsActionPerformed
 
+    private void btnFixedAssetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFixedAssetsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFixedAssetsActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFixedAssets;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnManageCars;
     private javax.swing.JButton btnManageContracts;
@@ -229,8 +243,8 @@ public class MainMenuFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnManagePayments;
     private javax.swing.JButton btnManageSuppliers;
     private javax.swing.JButton btnManageUserAccounts;
+    private javax.swing.JLabel icon;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lblTitle;
     // End of variables declaration//GEN-END:variables
 }
