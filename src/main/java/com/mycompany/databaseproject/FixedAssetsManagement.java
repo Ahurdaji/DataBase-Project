@@ -26,22 +26,13 @@ public class FixedAssetsManagement extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        icon = new javax.swing.JLabel();
+        iconlabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 617, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 670, Short.MAX_VALUE)
-        );
+        iconlabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
+        getContentPane().add(iconlabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 580));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -82,6 +73,6 @@ public class FixedAssetsManagement extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel icon;
+    private javax.swing.JLabel iconlabel;
     // End of variables declaration//GEN-END:variables
 }

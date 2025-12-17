@@ -187,7 +187,7 @@ public class ManageEmployeesFrame extends javax.swing.JFrame {
         getContentPane().add(comboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 50, 100, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 660));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 550));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
