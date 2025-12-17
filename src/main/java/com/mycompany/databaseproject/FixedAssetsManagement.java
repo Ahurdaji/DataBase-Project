@@ -26,16 +26,69 @@ public class FixedAssetsManagement extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        btnTables = new javax.swing.JButton();
+        btnDesks = new javax.swing.JButton();
+        btnChairs = new javax.swing.JButton();
+        btnComputers = new javax.swing.JButton();
+        btnCars = new javax.swing.JButton();
+        btnRollUp = new javax.swing.JButton();
+        btnWarehouse = new javax.swing.JButton();
+        btnBranch = new javax.swing.JButton();
         iconlabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Fixed Assets Management ");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 280, 30));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel2.setText("Office Furnitures:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 130, 30));
+
+        btnTables.setText("Tables");
+        getContentPane().add(btnTables, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
+
+        btnDesks.setText("Desks");
+        btnDesks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDesksActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnDesks, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, -1, -1));
+
+        btnChairs.setText("Chairs");
+        getContentPane().add(btnChairs, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, -1, -1));
+
+        btnComputers.setText("Computers");
+        getContentPane().add(btnComputers, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 70, -1));
+
+        btnCars.setText("Cars");
+        getContentPane().add(btnCars, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, -1, -1));
+
+        btnRollUp.setText("Roll Up");
+        getContentPane().add(btnRollUp, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 450, -1, -1));
+
+        btnWarehouse.setText("Warehouse");
+        getContentPane().add(btnWarehouse, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 450, -1, -1));
+
+        btnBranch.setText("Branch");
+        getContentPane().add(btnBranch, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 450, -1, -1));
+
         iconlabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(iconlabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 580));
+        getContentPane().add(iconlabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 590));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDesksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesksActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDesksActionPerformed
 
     /**
      * @param args the command line arguments
@@ -73,6 +126,16 @@ public class FixedAssetsManagement extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBranch;
+    private javax.swing.JButton btnCars;
+    private javax.swing.JButton btnChairs;
+    private javax.swing.JButton btnComputers;
+    private javax.swing.JButton btnDesks;
+    private javax.swing.JButton btnRollUp;
+    private javax.swing.JButton btnTables;
+    private javax.swing.JButton btnWarehouse;
     private javax.swing.JLabel iconlabel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }
