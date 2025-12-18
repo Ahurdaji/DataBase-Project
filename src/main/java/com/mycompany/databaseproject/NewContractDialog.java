@@ -306,7 +306,7 @@ public class NewContractDialog extends javax.swing.JDialog {
 
             // 4️⃣ Insert contract
             String contractType = isInstallment ? "Installment" : "Direct";
-            int statusId = 1;
+            int statusId = isInstallment ? 1 : 2;
 
             String contractSql
                     = "INSERT INTO HireContract "
