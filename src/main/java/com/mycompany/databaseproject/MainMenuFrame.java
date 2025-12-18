@@ -78,7 +78,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
         btnManageUserAccounts = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        btnFixedAssets = new javax.swing.JButton();
+        btnManageFixedAssets = new javax.swing.JButton();
         icon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -162,13 +162,13 @@ public class MainMenuFrame extends javax.swing.JFrame {
         jLabel1.setText("Admin Options");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 150, 40));
 
-        btnFixedAssets.setText("Fixed Assets Management");
-        btnFixedAssets.addActionListener(new java.awt.event.ActionListener() {
+        btnManageFixedAssets.setText("Manage Fixed Assets");
+        btnManageFixedAssets.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFixedAssetsActionPerformed(evt);
+                btnManageFixedAssetsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnFixedAssets, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 200, 50));
+        getContentPane().add(btnManageFixedAssets, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 200, 50));
 
         icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
         getContentPane().add(icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 670));
@@ -224,9 +224,9 @@ public class MainMenuFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnManageUserAccountsActionPerformed
 
-    private void btnFixedAssetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFixedAssetsActionPerformed
+    private void btnManageFixedAssetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageFixedAssetsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnFixedAssetsActionPerformed
+    }//GEN-LAST:event_btnManageFixedAssetsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,12 +234,12 @@ public class MainMenuFrame extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnFixedAssets;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnManageCars;
     private javax.swing.JButton btnManageContracts;
     private javax.swing.JButton btnManageCustomers;
     private javax.swing.JButton btnManageEmployees;
+    private javax.swing.JButton btnManageFixedAssets;
     private javax.swing.JButton btnManagePayments;
     private javax.swing.JButton btnManageSuppliers;
     private javax.swing.JButton btnManageUserAccounts;
