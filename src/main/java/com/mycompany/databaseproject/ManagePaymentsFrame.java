@@ -11,6 +11,8 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
     private String currentRole;
     private boolean openedFromContracts;
     private java.util.HashMap<String, Integer> paymentMethodMap = new java.util.HashMap<>();
+    private boolean isCancelled;
+
 
 // Open ALL payments
     public ManagePaymentsFrame(String role) {
@@ -20,7 +22,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
         makeTableReadOnly();
         applyRolePermissions();
         loadPayments();
-       // checkOverdueWarnings();
+        addTableSelectionListener();
 
         setLocationRelativeTo(null);
         applyRowColors();
@@ -37,14 +39,43 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
         applyRolePermissions();
         setLocationRelativeTo(null);
         loadPaymentsByContract();
-       // checkOverdueWarnings();
+        addTableSelectionListener();
         applyRowColors();
         loadPaymentMethods();
     }
+    
+
+public ManagePaymentsFrame(int contractId, String role, boolean isCancelled) {
+    this.contractId = contractId;
+    this.currentRole = role;
+    this.openedFromContracts = true;
+    this.isCancelled = isCancelled;
+
+    initComponents();
+    makeTableReadOnly();
+    applyRolePermissions();
+    loadPaymentsByContract();
+    addTableSelectionListener();
+    applyRowColors();
+    loadPaymentMethods();
+
+    if (isCancelled) {
+        disableAllActions();
+    }
+}
+    private void disableAllActions() {
+    btmMarkAsPaid.setEnabled(false);
+    btnShowPaid.setEnabled(false);
+    btnShowUnpaid.setEnabled(false);
+    btnShowOverdue.setEnabled(false);
+    jComboBox1.setEnabled(false);
+}
 
     private void makeTableReadOnly() {
         jtable1.setDefaultEditor(Object.class, null);
     }
+    
+    
 
     private void applyRowColors() {
         jtable1.setDefaultRenderer(Object.class,
@@ -160,48 +191,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
         
         
     }
-    
-//private void checkOverdueWarnings() {
-//    try {
-//        var rs = DatabaseHelper.executeQuery(
-//            "SELECT PaymentID, ContractID " +
-//            "FROM InstallmentPayment " +
-//            "WHERE IsPaid = 0 " +
-//            "AND DueDate < GETDATE() " +
-//            "AND WarningIssued = 0"
-//        );
-//
-//        while (rs.next()) {
-//            int paymentId = rs.getInt("PaymentID");
-//            int cid = rs.getInt("ContractID");
-//
-//            // increase warning ONLY ONCE
-//            DatabaseHelper.increaseWarning(cid);
-//
-//            // mark this installment as warned
-//            DatabaseHelper.executeUpdate(
-//                "UPDATE InstallmentPayment SET WarningIssued = 1 WHERE PaymentID = ?",
-//                paymentId
-//            );
-//
-//            int warnings = DatabaseHelper.getWarningCount(cid);
-//
-//            if (warnings >= 3) {
-//                DatabaseHelper.repossessCar(cid);
-//
-//                JOptionPane.showMessageDialog(
-//                    this,
-//                    "Contract " + cid +
-//                    " reached 3 warnings.\nCar has been repossessed."
-//                );
-//            }
-//        }
-//
-//        rs.close();
-//    } catch (Exception e) {
-//        JOptionPane.showMessageDialog(this, "Error checking overdue warnings");
-//    }
-//}
+
 
 
 
@@ -219,6 +209,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
         btnrefrech = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
+        btnManageWarning = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -242,7 +233,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jtable1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 870, 430));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 920, 430));
 
         btmMarkAsPaid.setText("Mark as Paid");
         btmMarkAsPaid.addActionListener(new java.awt.event.ActionListener() {
@@ -250,7 +241,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
                 btmMarkAsPaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btmMarkAsPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(137, 520, 110, 80));
+        getContentPane().add(btmMarkAsPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, 110, 80));
 
         btnShowPaid.setText("Show Paid");
         btnShowPaid.addActionListener(new java.awt.event.ActionListener() {
@@ -258,7 +249,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
                 btnShowPaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(262, 520, 110, 80));
+        getContentPane().add(btnShowPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 520, 110, 80));
 
         btnShowUnpaid.setText("Show Unpaid");
         btnShowUnpaid.addActionListener(new java.awt.event.ActionListener() {
@@ -266,7 +257,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
                 btnShowUnpaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowUnpaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 520, -1, 80));
+        getContentPane().add(btnShowUnpaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 520, -1, 80));
 
         btnShowOverdue.setText("Show Overdue");
         btnShowOverdue.addActionListener(new java.awt.event.ActionListener() {
@@ -274,7 +265,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
                 btnShowOverdueActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowOverdue, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 520, 120, 80));
+        getContentPane().add(btnShowOverdue, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 520, 120, 80));
 
         btnrefrech.setText("Refresh");
         btnrefrech.addActionListener(new java.awt.event.ActionListener() {
@@ -282,7 +273,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
                 btnrefrechActionPerformed(evt);
             }
         });
-        getContentPane().add(btnrefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 520, 80, 80));
+        getContentPane().add(btnrefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 520, 80, 80));
 
         btnBack.setText("<- Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -295,8 +286,16 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 30, 220, -1));
 
+        btnManageWarning.setText("Manage Warnings ");
+        btnManageWarning.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageWarningActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnManageWarning, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 520, 150, 80));
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 640));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 960, 630));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -349,7 +348,6 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
             loadPaymentsByContract();
         else
             loadPayments();
-        // checkOverdueWarnings();
     }//GEN-LAST:event_btnrefrechActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -381,6 +379,35 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
             DatabaseHelper.fillTable(jtable1, sql);
         }
     }//GEN-LAST:event_btnShowUnpaidActionPerformed
+private void addTableSelectionListener() {
+    jtable1.getSelectionModel().addListSelectionListener(e -> {
+        if (e.getValueIsAdjusting()) return;
+
+        int row = jtable1.getSelectedRow();
+
+        if (row < 0) {
+            btmMarkAsPaid.setEnabled(false);
+            return;
+        }
+
+        String status = jtable1.getValueAt(row, 6).toString();
+
+        //  Paid → cannot pay again
+        if (status.equalsIgnoreCase("Paid")) {
+            btmMarkAsPaid.setEnabled(false);
+            return;
+        }
+
+        //  Overdue → cannot press (your requirement)
+        if (status.equalsIgnoreCase("Overdue")) {
+            btmMarkAsPaid.setEnabled(false);
+            return;
+        }
+
+        // ✅ Only Unpaid can be paid
+        btmMarkAsPaid.setEnabled(true);
+    });
+}
 
     private void btmMarkAsPaidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmMarkAsPaidActionPerformed
         // Extra protection (even if button disabled)
@@ -404,6 +431,16 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please select a payment first.");
             return;
         }
+        //  ADD THIS BLOCK
+String status = jtable1.getValueAt(row, 6).toString();
+
+if (status.equalsIgnoreCase("Paid")) {
+    JOptionPane.showMessageDialog(
+        this,
+        "This installment is already paid."
+    );
+    return;
+}
 
         int paymentID = Integer.parseInt(jtable1.getValueAt(row, 1).toString());
 
@@ -425,19 +462,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
             // حدّث حالة العقد (Active/Late/Completed)
             DatabaseHelper.updateContractStatus(realContractId);
 
-            // إذا ما بقي أقساط غير مدفوعة → انقل ملكية السيارة للزبون
-            int unpaidCount = DatabaseHelper.getInt(
-                    "SELECT COUNT(*) FROM InstallmentPayment WHERE ContractID=? AND IsPaid=0",
-                    realContractId
-            );
-
-            if (unpaidCount == 0) {
-                DatabaseHelper.executeUpdate(
-                        "UPDATE Car SET OwnershipStatus='CustomerOwned' "
-                        + "WHERE CarID=(SELECT CarID FROM HireContract WHERE ContractID=?)",
-                        realContractId
-                );
-            }
+          
             JOptionPane.showMessageDialog(this, "Payment marked as Paid!");
 
             if (contractId > 0) {
@@ -451,6 +476,11 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btmMarkAsPaidActionPerformed
 
+    private void btnManageWarningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageWarningActionPerformed
+        // TODO add your handling code here:
+        new ManageWarningsFrame().setVisible(true);
+    }//GEN-LAST:event_btnManageWarningActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -458,6 +488,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btmMarkAsPaid;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnManageWarning;
     private javax.swing.JButton btnShowOverdue;
     private javax.swing.JButton btnShowPaid;
     private javax.swing.JButton btnShowUnpaid;

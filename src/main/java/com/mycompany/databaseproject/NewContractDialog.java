@@ -221,27 +221,27 @@ public class NewContractDialog extends javax.swing.JDialog {
             int customerId = customerMap.get(customerName);
             int carId = carMap.get(carPlate);
 
-            ResultSet rs = DatabaseHelper.executeQuery(
-                    "SELECT OwnershipStatus FROM Car WHERE CarID = ?", carId
-            );
-
-            if (rs.next()) {
-                String status = rs.getString("OwnershipStatus");
-
-                if (!status.equals("CompanyOwned")) {
-                    JOptionPane.showMessageDialog(
-                            this,
-                            "This car is not available for sale.\nCurrent status: " + status
-                    );
-                    return;
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Car not found.");
-                rs.close();
-                return;
-            }
-
-            rs.close(); 
+//            ResultSet rs = DatabaseHelper.executeQuery(
+//                    "SELECT OwnershipStatus FROM Car WHERE CarID = ?", carId
+//            );
+//
+//            if (rs.next()) {
+//                String status = rs.getString("OwnershipStatus");
+//
+//                if (!status.equals("CompanyOwned")) {
+//                    JOptionPane.showMessageDialog(
+//                            this,
+//                            "This car is not available for sale.\nCurrent status: " + status
+//                    );
+//                    return;
+//                }
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Car not found.");
+//                rs.close();
+//                return;
+//            }
+//
+//            rs.close(); 
 
             double totalAmount = Double.parseDouble(totalAmountText);
             // Validate total amount (car price)

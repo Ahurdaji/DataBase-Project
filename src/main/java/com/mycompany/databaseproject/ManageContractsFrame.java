@@ -11,11 +11,16 @@ public class ManageContractsFrame extends javax.swing.JFrame {
     private String currentRole;
 
     public ManageContractsFrame(String role) {
-        initComponents();
-        makeTableReadOnly(tableContracts);
-        this.currentRole = role;
-        setLocationRelativeTo(null);
-        loadContracts();
+    initComponents();
+    this.currentRole = role;   
+
+    if ("SalesStaff".equalsIgnoreCase(currentRole)) {
+        btnCheckOverdue.setEnabled(false);
+    }
+
+    makeTableReadOnly(tableContracts);
+    setLocationRelativeTo(null);
+    loadContracts();
     }
 
     private void makeTableReadOnly(JTable table) {
@@ -52,6 +57,7 @@ public class ManageContractsFrame extends javax.swing.JFrame {
         btnViewDetails = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
+        btnCheckOverdue = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
@@ -92,7 +98,7 @@ public class ManageContractsFrame extends javax.swing.JFrame {
                 btnViewDetailsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnViewDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 440, 170, 70));
+        getContentPane().add(btnViewDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 440, 170, 70));
 
         btnBack.setText("<- Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -109,6 +115,14 @@ public class ManageContractsFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 430, 80, 80));
+
+        btnCheckOverdue.setText("Check Overdue Payments");
+        btnCheckOverdue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckOverdueActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCheckOverdue, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 440, 200, 80));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 600));
@@ -134,11 +148,18 @@ public class ManageContractsFrame extends javax.swing.JFrame {
                 tableContracts.getValueAt(row, 0).toString()
         );
 
+//  Read contract status from table
+        String status = tableContracts.getValueAt(row, 7).toString(); // Status column
+
+        boolean isCancelled = status.equalsIgnoreCase("Cancelled");
+
+//  Open payments in NORMAL or READ-ONLY mode
         ManagePaymentsFrame paymentsFrame
-                = new ManagePaymentsFrame(contractId, currentRole);
+                = new ManagePaymentsFrame(contractId, currentRole, isCancelled);
 
         paymentsFrame.setVisible(true);
         this.dispose();
+
 
     }//GEN-LAST:event_btnViewDetailsActionPerformed
 
@@ -158,12 +179,37 @@ public class ManageContractsFrame extends javax.swing.JFrame {
         loadContracts();
     }//GEN-LAST:event_btnNewContractActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnCheckOverdueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckOverdueActionPerformed
+   try {
+        // 1. Process overdue contracts (warnings, late, cancelled)
+        int processed = DatabaseHelper.processOverdueContracts();
+
+        // 2. Sync car ownership with contract status
+        DatabaseHelper.syncOwnershipWithContractStatus();
+
+        // 3. Refresh table ONCE
+        loadContracts();
+
+        // 4. Inform user
+        JOptionPane.showMessageDialog(
+            this,
+            "Overdue check completed.\n" +
+            processed + " contract(s) processed."
+        );
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Error processing overdue contracts:\n" + e.getMessage()
+        );
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_btnCheckOverdueActionPerformed
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnCheckOverdue;
     private javax.swing.JButton btnNewContract;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnViewDetails;

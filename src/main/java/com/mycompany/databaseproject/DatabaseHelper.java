@@ -162,4 +162,139 @@ public class DatabaseHelper {
         }
     }
 
+    public static int countOverdueInstallments(int contractId) {
+    try {
+        return getInt(
+            "SELECT COUNT(*) FROM InstallmentPayment " +
+            "WHERE ContractID=? AND IsPaid=0 AND DueDate < GETDATE()",
+            contractId
+        );
+    } catch (Exception e) {
+        return 0; // safe default
+    }
+}
+public static void increaseWarning(int contractId) {
+    try {
+        executeUpdate(
+            "UPDATE HireContract " +
+            "SET WarningCount = ISNULL(WarningCount,0) + 1 " +
+            "WHERE ContractID=?",
+            contractId
+        );
+    } catch (Exception e) {
+        // optional: log error
+        System.out.println("Error increasing warning: " + e.getMessage());
+    }
+}
+public static int getWarningCount(int contractId) {
+    try {
+        return getInt(
+            "SELECT ISNULL(WarningCount,0) " +
+            "FROM HireContract WHERE ContractID=?",
+            contractId
+        );
+    } catch (Exception e) {
+        return 0;
+    }
+}
+public static void repossessCar(int contractId) {
+    try {
+        executeUpdate(
+            "UPDATE Car SET OwnershipStatus='Repossessed' " +
+            "WHERE CarID = (SELECT CarID FROM HireContract WHERE ContractID=?)",
+            contractId
+        );
+
+        // Optional: mark contract as terminated
+        executeUpdate(
+            "UPDATE HireContract SET StatusID=4 WHERE ContractID=?",
+            contractId
+        );
+
+    } catch (Exception e) {
+        System.out.println("Error repossessing car: " + e.getMessage());
+    }
+}
+public static int processOverdueContracts() throws SQLException {
+    int processed = 0;
+
+    var rs = executeQuery(
+        "SELECT ContractID " +
+        "FROM HireContract " +
+        "WHERE StatusID IN (SELECT StatusID FROM ContractStatus WHERE StatusName='Active')"
+    );
+
+    while (rs.next()) {
+        int contractId = rs.getInt("ContractID");
+
+        int overdueCount = getInt(
+            "SELECT COUNT(*) FROM InstallmentPayment " +
+            "WHERE ContractID=? AND IsPaid=0 AND DueDate < GETDATE()",
+            contractId
+        );
+
+        if (overdueCount > 0) {
+            executeUpdate(
+                "UPDATE HireContract SET WarningCount=? WHERE ContractID=?",
+                Math.min(overdueCount, 3),
+                contractId
+            );
+
+            if (overdueCount >= 3) {
+                executeUpdate(
+                    "UPDATE HireContract SET StatusID = " +
+                    "(SELECT StatusID FROM ContractStatus WHERE StatusName='Cancelled') " +
+                    "WHERE ContractID=?",
+                    contractId
+                );
+
+                executeUpdate(
+                    "UPDATE Car SET OwnershipStatus='Repossessed' " +
+                    "WHERE CarID=(SELECT CarID FROM HireContract WHERE ContractID=?)",
+                    contractId
+                );
+            }
+
+            processed++;
+        }
+    }
+
+    rs.close();
+    return processed;
+}
+public static void syncOwnershipWithContractStatus() throws Exception {
+
+    // 1️⃣ Completed → CustomerOwned
+    executeUpdate(
+        "UPDATE Car SET OwnershipStatus = 'CustomerOwned' " +
+        "WHERE CarID IN ( " +
+        "   SELECT hc.CarID FROM HireContract hc " +
+        "   JOIN ContractStatus cs ON hc.StatusID = cs.StatusID " +
+        "   WHERE cs.StatusName = 'Completed' " +
+        ")"
+    );
+
+    // 2️⃣ Cancelled → Repossessed
+    executeUpdate(
+        "UPDATE Car SET OwnershipStatus = 'Repossessed' " +
+        "WHERE CarID IN ( " +
+        "   SELECT hc.CarID FROM HireContract hc " +
+        "   JOIN ContractStatus cs ON hc.StatusID = cs.StatusID " +
+        "   WHERE cs.StatusName = 'Cancelled' " +
+        ")"
+    );
+
+    // 3️⃣ Active / Late + Installment → UnderHirePurchase
+    executeUpdate(
+        "UPDATE Car SET OwnershipStatus = 'UnderHirePurchase' " +
+        "WHERE CarID IN ( " +
+        "   SELECT hc.CarID FROM HireContract hc " +
+        "   JOIN ContractStatus cs ON hc.StatusID = cs.StatusID " +
+        "   WHERE cs.StatusName IN ('Active','Late') " +
+        "   AND hc.ContractType = 'Installment' " +
+        ")" 
+    );
+}
+
+
 }
