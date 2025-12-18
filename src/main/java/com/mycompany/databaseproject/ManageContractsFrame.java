@@ -62,7 +62,7 @@ private void loadContracts() {
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTitle.setText("Manage Contracts");
-        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, -1, -1));
+        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, -1, -1));
 
         tableContracts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
