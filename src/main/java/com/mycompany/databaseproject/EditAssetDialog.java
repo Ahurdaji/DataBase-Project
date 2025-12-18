@@ -16,88 +16,147 @@ public class EditAssetDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);
+        txtAssetName.setEditable(false);
+        txtCategory.setEditable(false);
         this.assetId = assetId;
-        loadStatuses();
         loadLocations();
-        loadAsset();
+        loadAsset(); // load status + apply rules correctly
     }
 
     private void loadAsset() {
-        String sql
-                = "SELECT fa.AssetName, ac.CategoryName, ast.StatusName, "
-                + "fa.StatusID, fa.LocationID, fa.Notes "
-                + "FROM FixedAsset fa "
-                + "JOIN AssetCategory ac ON fa.CategoryID = ac.CategoryID "
-                + "JOIN AssetStatus ast ON fa.StatusID = ast.StatusID "
-                + "WHERE fa.AssetID = ?";
+        String sql =
+            "SELECT fa.AssetName, ac.CategoryName, ast.StatusName, " +
+            "fa.LocationID, fa.Notes " +
+            "FROM FixedAsset fa " +
+            "JOIN AssetCategory ac ON fa.CategoryID = ac.CategoryID " +
+            "JOIN AssetStatus ast ON fa.StatusID = ast.StatusID " +
+            "WHERE fa.AssetID = ?";
 
         try (ResultSet rs = DatabaseHelper.executeQuery(sql, assetId)) {
-            if (rs.next()) {
-                txtAssetName.setText(rs.getString("AssetName"));
-                txtCategory.setText(rs.getString("CategoryName"));
-                currentStatus = rs.getString("StatusName");
-                txtNotes.setText(rs.getString("Notes"));
 
-                applyEditRules();
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(this, "Asset not found.");
+                dispose();
+                return;
             }
+
+            txtAssetName.setText(rs.getString("AssetName"));
+            txtCategory.setText(rs.getString("CategoryName"));
+            txtNotes.setText(rs.getString("Notes"));
+            currentStatus = rs.getString("StatusName");
+
+            loadStatusesForEdit(currentStatus);
+            applyEditRules();
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error loading asset: " + e.getMessage());
+            JOptionPane.showMessageDialog(this,
+                "Error loading asset: " + e.getMessage());
             dispose();
         }
     }
     
+    private boolean isEditableStatus(String status) {
+        return "In Stock".equals(status)
+            || "In Use".equals(status)
+            || "Under Maintenance".equals(status);
+    }
+    
     // edit rules
     private void applyEditRules() {
-        boolean editable =
-                "In Stock".equals(currentStatus) ||
-                "In Use".equals(currentStatus) ||
-                "Under Maintenance".equals(currentStatus);
+        boolean editable = isEditableStatus(currentStatus);
 
-                cmbStatus.setEnabled(editable);
-                cmbLocation.setEnabled(editable);
-                txtNotes.setEditable(editable);
-                btnSave.setEnabled(editable);
+        cmbStatus.setEnabled(editable);
+        cmbLocation.setEnabled(editable);
+        txtNotes.setEditable(editable);
+        btnSave.setEnabled(editable);
 
         if (!editable) {
             JOptionPane.showMessageDialog(this,
-                    "This asset cannot be edited because of its current status: " + currentStatus,
-                    "Edit Not Allowed",
-                    JOptionPane.INFORMATION_MESSAGE
+                "This asset cannot be edited because its status is: " + currentStatus,
+                "Edit Not Allowed",
+                JOptionPane.INFORMATION_MESSAGE
             );
         }
     }
+
     
     // load combos
-    private void loadStatuses() {
+    private void loadStatusesForEdit(String currentStatus) {
+        cmbStatus.removeAllItems();
+        // If editing not allowed, do not load statuses
+        if (!isEditableStatus(currentStatus)) {
+            return;
+        }
         try (ResultSet rs = DatabaseHelper.executeQuery(
                 "SELECT StatusID, StatusName FROM AssetStatus")) {
             while (rs.next()) {
-                cmbStatus.addItem(new ComboItem(
-                    rs.getInt("StatusID"),
-                    rs.getString("StatusName")
-                ));
+                String statusName = rs.getString("StatusName");
+                boolean allowed = false;
+
+                switch (currentStatus) {
+                    case "In Stock":
+                        allowed = statusName.equals("In Stock")
+                               || statusName.equals("In Use")
+                               || statusName.equals("Under Maintenance")
+                               || statusName.equals("Damaged");
+                        break;
+
+                    case "In Use":
+                        allowed = statusName.equals("In Use")
+                               || statusName.equals("In Stock")
+                               || statusName.equals("Under Maintenance")
+                               || statusName.equals("Damaged");
+                        break;
+
+                    case "Under Maintenance":
+                        allowed = statusName.equals("Under Maintenance")
+                               || statusName.equals("In Stock")
+                               || statusName.equals("In Use")
+                               || statusName.equals("Damaged"); 
+                        break;
+                }
+                if (allowed) {
+                    cmbStatus.addItem(new ComboItem(
+                        rs.getInt("StatusID"),
+                        statusName
+                    ));
+                }
             }
+
+            // Select current status
+            for (int i = 0; i < cmbStatus.getItemCount(); i++) {
+                if (cmbStatus.getItemAt(i).toString().equals(currentStatus)) {
+                    cmbStatus.setSelectedIndex(i);
+                    break;
+                }
+            }
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error loading statuses");
+            JOptionPane.showMessageDialog(this,
+                "Error loading statuses: " + e.getMessage());
         }
     }
+
+
     
     private void loadLocations() {
         cmbLocation.addItem(null);
+
         try (ResultSet rs = DatabaseHelper.executeQuery(
                 "SELECT LocationID, LocationName FROM Location")) {
+
             while (rs.next()) {
                 cmbLocation.addItem(new ComboItem(
                     rs.getInt("LocationID"),
                     rs.getString("LocationName")
                 ));
             }
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error loading locations");
+            JOptionPane.showMessageDialog(this,
+                "Error loading locations: " + e.getMessage());
         }
     }
-    
-    
     
 
     @SuppressWarnings("unchecked")
@@ -189,7 +248,7 @@ public class EditAssetDialog extends javax.swing.JDialog {
                         .addComponent(btnCancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSave)
-                        .addGap(51, 51, 51))))
+                        .addGap(57, 57, 57))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,11 +289,14 @@ public class EditAssetDialog extends javax.swing.JDialog {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-        try {
+         try {
             ComboItem statusItem = (ComboItem) cmbStatus.getSelectedItem();
             ComboItem locationItem = (ComboItem) cmbLocation.getSelectedItem();
 
-            String sql = "UPDATE FixedAsset SET StatusID = ?, LocationID = ?, Notes = ? WHERE AssetID = ?";
+            String sql =
+                "UPDATE FixedAsset " +
+                "SET StatusID = ?, LocationID = ?, Notes = ? " +
+                "WHERE AssetID = ?";
 
             DatabaseHelper.executeUpdate(
                 sql,
@@ -244,11 +306,13 @@ public class EditAssetDialog extends javax.swing.JDialog {
                 assetId
             );
 
-            JOptionPane.showMessageDialog(this, "Asset updated successfully.");
+            JOptionPane.showMessageDialog(this,
+                "Asset updated successfully.");
             dispose();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error saving changes: " + e.getMessage());
+            JOptionPane.showMessageDialog(this,
+                "Error saving asset: " + e.getMessage());
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
