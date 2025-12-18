@@ -335,6 +335,11 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
         jPanel1.add(btnDeleteAsset, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 680, 110, -1));
 
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 740, 90, -1));
 
         iconlabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
@@ -373,7 +378,7 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
             return;
         }
         int assetId = (int) tableAssets.getValueAt(row, 0);
-        AssetDetailsDialog dialog = new AssetDetailsDialog(this, true); // assetId add this
+        AssetDetailsDialog dialog = new AssetDetailsDialog(this, true, assetId ); // assetId
         dialog.setVisible(true);
     }//GEN-LAST:event_btnViewDetailsActionPerformed
 
@@ -443,6 +448,12 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
 
         loadAssetsTableWithFilters(categoryId, statusId, locationId);
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        new MainMenuFrame(currentRole).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
