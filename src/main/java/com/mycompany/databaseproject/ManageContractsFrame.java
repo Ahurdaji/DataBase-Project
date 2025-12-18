@@ -26,24 +26,6 @@ public class ManageContractsFrame extends javax.swing.JFrame {
     private void makeTableReadOnly(JTable table) {
         table.setDefaultEditor(Object.class, null);
     }
-
-//    private void loadContracts() {
-//        String sql
-//                = "SELECT hc.ContractID, "
-//                + "       c.FirstName + ' ' + c.LastName AS CustomerName, "
-//                + "       car.PlateNumber AS CarPlate, "
-//                + "       hc.ContractType, "
-//                + "       car.OwnershipStatus, "
-//                + "       hc.StartDate, "
-//                + "       hc.TotalAmount, "
-//                + "       cs.StatusName AS Status "
-//                + "FROM HireContract hc "
-//                + "JOIN Customer c ON hc.CustomerID = c.CustomerID "
-//                + "JOIN Car car ON hc.CarID = car.CarID "
-//                + "JOIN ContractStatus cs ON hc.StatusID = cs.StatusID";
-//
-//        DatabaseHelper.fillTable(tableContracts, sql);
-//    }
     
     private void loadContracts() {
     String sql =

@@ -133,9 +133,11 @@ public ManagePaymentsFrame(int contractId, String role, boolean isCancelled) {
                 + "CASE "
                 + "  WHEN ip.IsPaid = 1 THEN pm.MethodName "
                 + "  ELSE NULL "
-                + "END AS PaymentMethod "
+                + "END AS PaymentMethod, "
+                + "cs.StatusName AS ContractStatus "
                 + "FROM InstallmentPayment ip "
                 + "JOIN HireContract hc ON ip.ContractID = hc.ContractID "
+                + "JOIN ContractStatus cs ON hc.StatusID = cs.StatusID "
                 + "JOIN Customer c ON hc.CustomerID = c.CustomerID "
                 + "LEFT JOIN PaymentMethod pm ON ip.PaymentMethodID = pm.PaymentMethodID "
                 + "WHERE ip.ContractID = ?";
@@ -181,9 +183,11 @@ public ManagePaymentsFrame(int contractId, String role, boolean isCancelled) {
                 + "CASE "
                 + "  WHEN ip.IsPaid = 1 THEN pm.MethodName "
                 + "  ELSE NULL "
-                + "END AS PaymentMethod "
+                + "END AS PaymentMethod, "
+                + "cs.StatusName AS ContractStatus "
                 + "FROM InstallmentPayment ip "
                 + "JOIN HireContract hc ON ip.ContractID = hc.ContractID "
+                + "JOIN ContractStatus cs ON hc.StatusID = cs.StatusID "
                 + "JOIN Customer c ON hc.CustomerID = c.CustomerID "
                 + "LEFT JOIN PaymentMethod pm ON ip.PaymentMethodID = pm.PaymentMethodID";
 
@@ -379,7 +383,8 @@ public ManagePaymentsFrame(int contractId, String role, boolean isCancelled) {
             DatabaseHelper.fillTable(jtable1, sql);
         }
     }//GEN-LAST:event_btnShowUnpaidActionPerformed
-private void addTableSelectionListener() {
+
+    private void addTableSelectionListener() {
     jtable1.getSelectionModel().addListSelectionListener(e -> {
         if (e.getValueIsAdjusting()) return;
 
@@ -390,24 +395,26 @@ private void addTableSelectionListener() {
             return;
         }
 
-        String status = jtable1.getValueAt(row, 6).toString();
+        String installmentStatus = jtable1.getValueAt(row, 6).toString(); // Paid / Overdue / Unpaid
+        String contractStatus    = jtable1.getValueAt(row, 8).toString(); // ContractStatus
 
-        //  Paid → cannot pay again
-        if (status.equalsIgnoreCase("Paid")) {
+        // Paid installment → cannot pay again
+        if (installmentStatus.equalsIgnoreCase("Paid")) {
             btmMarkAsPaid.setEnabled(false);
             return;
         }
 
-        //  Overdue → cannot press (your requirement)
-        if (status.equalsIgnoreCase("Overdue")) {
+        // Cancelled contract → cannot pay
+        if (contractStatus.equalsIgnoreCase("Cancelled")) {
             btmMarkAsPaid.setEnabled(false);
             return;
         }
 
-        // ✅ Only Unpaid can be paid
+        //  Active or Late → payment allowed
         btmMarkAsPaid.setEnabled(true);
     });
 }
+
 
     private void btmMarkAsPaidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmMarkAsPaidActionPerformed
         // Extra protection (even if button disabled)
@@ -479,7 +486,8 @@ if (status.equalsIgnoreCase("Paid")) {
 
     private void btnManageWarningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageWarningActionPerformed
         // TODO add your handling code here:
-        new ManageWarningsFrame().setVisible(true);
+        new ManageWarningsFrame(currentRole).setVisible(true);
+
     }//GEN-LAST:event_btnManageWarningActionPerformed
 
     /**
