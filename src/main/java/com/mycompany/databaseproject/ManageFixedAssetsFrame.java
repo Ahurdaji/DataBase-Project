@@ -365,7 +365,7 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
         }
         int assetId = (int) tableAssets.getValueAt(row, 0);
 
-        EditAssetDialog dialog = new EditAssetDialog(this, true); // assetId - add this after the true of model
+        EditAssetDialog dialog = new EditAssetDialog(this, true, assetId); 
         dialog.setVisible(true);
         loadAssetsTable();
     }//GEN-LAST:event_btnEditAssetActionPerformed
