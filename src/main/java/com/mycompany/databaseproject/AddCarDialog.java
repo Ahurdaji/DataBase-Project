@@ -277,7 +277,7 @@ public class AddCarDialog extends javax.swing.JDialog {
             return;
         }
 
-        // 5️⃣ Mileage validation
+        // .  5️⃣ Mileage validation
         if (!isValidMileage(mileageText)) {
             JOptionPane.showMessageDialog(this,
                     "Mileage must be a number.");

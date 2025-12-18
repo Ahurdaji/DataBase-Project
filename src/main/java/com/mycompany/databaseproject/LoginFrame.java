@@ -102,6 +102,8 @@ public class LoginFrame extends javax.swing.JFrame {
         lblError.setText("");
         lblError.setVisible(false);
 
+        
+        // validation if username and password fields are empty 
         if (username.isEmpty() || password.isEmpty()) {
             lblError.setText("Please fill all fields.");
             lblError.setVisible(true);

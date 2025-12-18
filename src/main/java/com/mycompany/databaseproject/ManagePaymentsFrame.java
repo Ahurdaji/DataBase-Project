@@ -87,7 +87,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
     private void loadPaymentsByContract() {
         String sql
                 = "SELECT "
-                + "ROW_NUMBER() OVER (PARTITION BY ip.ContractID ORDER BY ip.DueDate) AS InstallmentNo, "
+                + "ip.InstallmentNo AS InstallmentNo, "
                 + "ip.PaymentID, ip.ContractID, "
                 + "c.FirstName + ' ' + c.LastName AS CustomerName, "
                 + "ip.Amount, ip.DueDate, "
@@ -193,7 +193,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jtable1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 780, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 870, 430));
 
         btmMarkAsPaid.setText("Mark as Paid");
         btmMarkAsPaid.addActionListener(new java.awt.event.ActionListener() {
@@ -201,7 +201,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
                 btmMarkAsPaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btmMarkAsPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 500, -1, -1));
+        getContentPane().add(btmMarkAsPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(137, 520, 110, 80));
 
         btnShowPaid.setText("Show Paid");
         btnShowPaid.addActionListener(new java.awt.event.ActionListener() {
@@ -209,7 +209,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
                 btnShowPaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 500, -1, -1));
+        getContentPane().add(btnShowPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(262, 520, 110, 80));
 
         btnShowUnpaid.setText("Show Unpaid");
         btnShowUnpaid.addActionListener(new java.awt.event.ActionListener() {
@@ -217,7 +217,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
                 btnShowUnpaidActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowUnpaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 500, -1, -1));
+        getContentPane().add(btnShowUnpaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 520, -1, 80));
 
         btnShowOverdue.setText("Show Overdue");
         btnShowOverdue.addActionListener(new java.awt.event.ActionListener() {
@@ -225,7 +225,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
                 btnShowOverdueActionPerformed(evt);
             }
         });
-        getContentPane().add(btnShowOverdue, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 500, -1, -1));
+        getContentPane().add(btnShowOverdue, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 520, 120, 80));
 
         btnrefrech.setText("Refresh");
         btnrefrech.addActionListener(new java.awt.event.ActionListener() {
@@ -233,21 +233,21 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
                 btnrefrechActionPerformed(evt);
             }
         });
-        getContentPane().add(btnrefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 500, -1, -1));
+        getContentPane().add(btnrefrech, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 520, 80, 80));
 
-        btnBack.setText("Back");
+        btnBack.setText("<- Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 560, -1, -1));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 30, 80, -1));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 30, -1, -1));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 30, 220, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 610));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 640));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -369,7 +369,25 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
                     paymentID
             );
 
-            DatabaseHelper.updateContractStatus(contractId);
+            // خذ ContractID الحقيقي من الصف المختار (مهم إذا contractId = -1)
+            int realContractId = Integer.parseInt(jtable1.getValueAt(row, 2).toString());
+
+            // حدّث حالة العقد (Active/Late/Completed)
+            DatabaseHelper.updateContractStatus(realContractId);
+
+            // إذا ما بقي أقساط غير مدفوعة → انقل ملكية السيارة للزبون
+            int unpaidCount = DatabaseHelper.getInt(
+                    "SELECT COUNT(*) FROM InstallmentPayment WHERE ContractID=? AND IsPaid=0",
+                    realContractId
+            );
+
+            if (unpaidCount == 0) {
+                DatabaseHelper.executeUpdate(
+                        "UPDATE Car SET OwnershipStatus='CustomerOwned' "
+                        + "WHERE CarID=(SELECT CarID FROM HireContract WHERE ContractID=?)",
+                        realContractId
+                );
+            }
             JOptionPane.showMessageDialog(this, "Payment marked as Paid!");
 
             if (contractId > 0) {
