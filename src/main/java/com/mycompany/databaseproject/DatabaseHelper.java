@@ -114,6 +114,17 @@ public class DatabaseHelper {
                     + ")";
 
             executeUpdate(completedSql, contractId, contractId);
+            
+        
+
+            // بعد ما تحدّث العقد إلى Completed
+            String soldCarSql
+                    = "UPDATE Car SET OwnershipStatus='CustomerOwned',"+
+                    "StatusID = (SELECT StatusID FROM CarStatus WHERE StatusName='Sold') "
+                    + "WHERE CarID = (SELECT CarID FROM HireContract WHERE ContractID = ?) "
+                    + "AND (SELECT StatusID FROM HireContract WHERE ContractID = ?) = 2"; // Completed
+
+            executeUpdate(soldCarSql, contractId, contractId);
 
             // 2. LATE → unpaid and overdue
             String lateSql

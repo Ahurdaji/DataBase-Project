@@ -241,7 +241,7 @@ public class NewContractDialog extends javax.swing.JDialog {
 //                return;
 //            }
 //
-//            rs.close(); 
+//            rs.close();
 
             double totalAmount = Double.parseDouble(totalAmountText);
             // Validate total amount (car price)
@@ -366,6 +366,14 @@ public class NewContractDialog extends javax.swing.JDialog {
 
             }
 
+            int SOLD_ID = 0;
+            ResultSet rsSold = DatabaseHelper.executeQuery(
+                    "SELECT StatusID FROM CarStatus WHERE StatusName = 'Sold'"
+            );
+            if (rsSold.next()) {
+                SOLD_ID = rsSold.getInt(1);
+            }
+
             // 6️⃣ Update car ownership
             if (isInstallment) {
                 DatabaseHelper.executeUpdate(
@@ -374,8 +382,8 @@ public class NewContractDialog extends javax.swing.JDialog {
                 );
             } else {
                 DatabaseHelper.executeUpdate(
-                        "UPDATE Car SET OwnershipStatus = 'CustomerOwned' WHERE CarID = ?",
-                        carId
+                        "UPDATE Car SET OwnershipStatus = 'CustomerOwned', StatusID=? WHERE CarID = ?",
+                        SOLD_ID, carId
                 );
             }
 

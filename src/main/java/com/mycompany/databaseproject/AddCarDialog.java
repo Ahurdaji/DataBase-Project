@@ -100,10 +100,28 @@ public class AddCarDialog extends javax.swing.JDialog {
         }
         return false;
     }
-    // ================= VALIDATION METHODS =================
 
-    private boolean isValidYear(String year) {
-        return year.matches("^(19|20)\\d{2}$");
+    private boolean vinExists(String vin) {
+        String sql = "SELECT COUNT(*) FROM Car WHERE VIN = ?";
+        try (ResultSet rs = DatabaseHelper.executeQuery(sql, vin)) {
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean isValidVIN(String vin) {
+        // بسيط: 10-17 حرف/رقم (اذا بدك strict خليه 17)
+        return vin.matches("^[A-Za-z0-9]{9,17}$");
+    }
+
+    // ================= VALIDATION METHODS =================
+    private boolean isYearInRange(int year) {
+        int currentYear = java.time.LocalDate.now().getYear();
+        return year >= 1900 && year <= currentYear + 1;
     }
 
     private boolean isValidMileage(String mileage) {
@@ -112,6 +130,16 @@ public class AddCarDialog extends javax.swing.JDialog {
 
     private boolean isValidDate(String date) {
         return date.matches("^\\d{4}-\\d{2}-\\d{2}$");
+    }
+
+    private boolean isFutureDate(String dateText) {
+        try {
+            java.sql.Date d = java.sql.Date.valueOf(dateText);
+            java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
+            return d.after(today);
+        } catch (Exception e) {
+            return true; // اعتبره خطأ
+        }
     }
 
     private boolean isValidPrice(String price) {
@@ -247,10 +275,9 @@ public class AddCarDialog extends javax.swing.JDialog {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-
         // Read values
-        String vin = txtVIN.getText().trim();
-        String plate = txtPlate.getText().trim();
+        String vin = txtVIN.getText().trim().toUpperCase();
+        String plate = txtPlate.getText().trim().toUpperCase();
         String yearText = txtYear.getText().trim();
         String color = txtColor.getText().trim();
         String mileageText = txtMileage.getText().trim();
@@ -260,80 +287,107 @@ public class AddCarDialog extends javax.swing.JDialog {
         // 1) Required fields
         if (vin.isEmpty() || plate.isEmpty() || yearText.isEmpty()
                 || color.isEmpty() || mileageText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please fill all fields.");
+            JOptionPane.showMessageDialog(this, "Please fill all required fields.");
             return;
         }
 
-        // 2) Duplicate plate
+        // 2) VIN format (simple)
+        if (!vin.matches("^[A-Za-z0-9]{10,17}$")) {
+            JOptionPane.showMessageDialog(this, "VIN must be 10-17 letters/numbers (no spaces).");
+            return;
+        }
+
+        // 3) Year must be numeric
+        if (!yearText.matches("\\d{4}")) {
+            JOptionPane.showMessageDialog(this, "Year must be a 4-digit number.");
+            return;
+        }
+
+        int year = Integer.parseInt(yearText);
+        if (!isYearInRange(year)) {
+            JOptionPane.showMessageDialog(this,
+                    "Year must be between 1900 and " + (java.time.LocalDate.now().getYear() + 1));
+            return;
+        }
+
+        // 4) Mileage
+        if (!isValidMileage(mileageText)) {
+            JOptionPane.showMessageDialog(this, "Mileage must be a number.");
+            return;
+        }
+        int mileage = Integer.parseInt(mileageText);
+        if (mileage < 0) {
+            JOptionPane.showMessageDialog(this, "Mileage cannot be negative.");
+            return;
+        }
+
+        // 5) Purchase Date (format then future)
+        if (!dateText.isEmpty() && !isValidDate(dateText)) {
+            JOptionPane.showMessageDialog(this, "Purchase Date must be in format yyyy-MM-dd.");
+            return;
+        }
+        if (!dateText.isEmpty() && isFutureDate(dateText)) {
+            JOptionPane.showMessageDialog(this, "Purchase Date cannot be in the future.");
+            return;
+        }
+
+        // 6) Purchase Price (>0)
+        Double purchasePrice = null;
+        if (!priceText.isEmpty()) {
+            if (!isValidPrice(priceText)) {
+                JOptionPane.showMessageDialog(this, "Purchase Price must be a valid number.");
+                return;
+            }
+            double p = Double.parseDouble(priceText);
+            if (p <= 0) {
+                JOptionPane.showMessageDialog(this, "Purchase Price must be greater than 0.");
+                return;
+            }
+            purchasePrice = p;
+        }
+
+        // 7) Duplicate checks
         if (plateExists(plate)) {
             JOptionPane.showMessageDialog(this, "Plate number already exists!");
             return;
         }
-
-        // 3. Year validation
-        if (!isValidYear(yearText)) {
-            JOptionPane.showMessageDialog(this,
-                    "Year must be between 1900 and 2099.");
+        if (vinExists(vin)) {
+            JOptionPane.showMessageDialog(this, "VIN already exists!");
             return;
         }
 
-        // .  5️⃣ Mileage validation
-        if (!isValidMileage(mileageText)) {
-            JOptionPane.showMessageDialog(this,
-                    "Mileage must be a number.");
-            return;
-        }
-
-        // 6️⃣ Purchase Date (optional)
-        if (!dateText.isEmpty() && !isValidDate(dateText)) {
-            JOptionPane.showMessageDialog(this,
-                    "Purchase Date must be in format yyyy-MM-dd.");
-            return;
-        }
-
-        // 7️⃣ Purchase Price (optional)
-        if (!priceText.isEmpty() && !isValidPrice(priceText)) {
-            JOptionPane.showMessageDialog(this,
-                    "Purchase Price must be a valid number.");
-            return;
-        }
-
-        // 8️⃣ Convert to numbers (AFTER validation)
-        int year = Integer.parseInt(yearText);
-        int mileage = Integer.parseInt(mileageText);
-
-        // 9️⃣ ComboBoxes check
+        // 8) ComboBoxes
         if (cmbModel.getSelectedItem() == null
                 || cmbStatus.getSelectedItem() == null
                 || cmbSupplier.getSelectedItem() == null
                 || cmbLocation.getSelectedItem() == null) {
-
-            JOptionPane.showMessageDialog(this,
-                    "Please select Model, Status, Supplier and Location.");
+            JOptionPane.showMessageDialog(this, "Please select Model, Status, Supplier and Location.");
             return;
         }
 
-        // 🔟 Insert into DB
+        // 9) Insert
         try {
             ComboItem modelItem = (ComboItem) cmbModel.getSelectedItem();
             ComboItem statusItem = (ComboItem) cmbStatus.getSelectedItem();
+
+            if ("Sold".equalsIgnoreCase(statusItem.getName())) {
+                JOptionPane.showMessageDialog(this, "You cannot add a car as Sold. Use Contracts to sell.");
+                return;
+            }
+            
             ComboItem supplierItem = (ComboItem) cmbSupplier.getSelectedItem();
             ComboItem locationItem = (ComboItem) cmbLocation.getSelectedItem();
 
-            String sql = "INSERT INTO Car "
-                    + "(ModelID, VIN, PlateNumber, Year, Color, Mileage, "
-                    + "PurchaseDate, PurchasePrice, "
-                    + "StatusID, SupplierID, LocationID) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             java.sql.Date purchaseDate = null;
             if (!dateText.isEmpty()) {
                 purchaseDate = java.sql.Date.valueOf(dateText);
             }
 
-            Double purchasePrice = null;
-            if (!priceText.isEmpty()) {
-                purchasePrice = Double.parseDouble(priceText);
-            }
+            String sql = "INSERT INTO Car "
+                    + "(ModelID, VIN, PlateNumber, Year, Color, Mileage, "
+                    + "PurchaseDate, PurchasePrice, "
+                    + "StatusID, SupplierID, LocationID, OwnershipStatus) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             int rows = DatabaseHelper.executeUpdate(sql,
                     modelItem.getId(),
@@ -346,7 +400,8 @@ public class AddCarDialog extends javax.swing.JDialog {
                     purchasePrice,
                     statusItem.getId(),
                     supplierItem.getId(),
-                    locationItem.getId()
+                    locationItem.getId(),
+                    "CompanyOwned"
             );
 
             if (rows > 0) {
@@ -357,7 +412,7 @@ public class AddCarDialog extends javax.swing.JDialog {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error saving car.");
+            JOptionPane.showMessageDialog(this, "Error saving car: " + ex.getMessage());
         }
 
     }//GEN-LAST:event_btnSaveActionPerformed
