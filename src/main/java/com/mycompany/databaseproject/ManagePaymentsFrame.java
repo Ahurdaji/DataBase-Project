@@ -20,6 +20,8 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
         makeTableReadOnly();
         applyRolePermissions();
         loadPayments();
+       // checkOverdueWarnings();
+
         setLocationRelativeTo(null);
         applyRowColors();
         loadPaymentMethods();
@@ -35,6 +37,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
         applyRolePermissions();
         setLocationRelativeTo(null);
         loadPaymentsByContract();
+       // checkOverdueWarnings();
         applyRowColors();
         loadPaymentMethods();
     }
@@ -154,7 +157,53 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
                 + "LEFT JOIN PaymentMethod pm ON ip.PaymentMethodID = pm.PaymentMethodID";
 
         DatabaseHelper.fillTable(jtable1, sql);
+        
+        
     }
+    
+//private void checkOverdueWarnings() {
+//    try {
+//        var rs = DatabaseHelper.executeQuery(
+//            "SELECT PaymentID, ContractID " +
+//            "FROM InstallmentPayment " +
+//            "WHERE IsPaid = 0 " +
+//            "AND DueDate < GETDATE() " +
+//            "AND WarningIssued = 0"
+//        );
+//
+//        while (rs.next()) {
+//            int paymentId = rs.getInt("PaymentID");
+//            int cid = rs.getInt("ContractID");
+//
+//            // increase warning ONLY ONCE
+//            DatabaseHelper.increaseWarning(cid);
+//
+//            // mark this installment as warned
+//            DatabaseHelper.executeUpdate(
+//                "UPDATE InstallmentPayment SET WarningIssued = 1 WHERE PaymentID = ?",
+//                paymentId
+//            );
+//
+//            int warnings = DatabaseHelper.getWarningCount(cid);
+//
+//            if (warnings >= 3) {
+//                DatabaseHelper.repossessCar(cid);
+//
+//                JOptionPane.showMessageDialog(
+//                    this,
+//                    "Contract " + cid +
+//                    " reached 3 warnings.\nCar has been repossessed."
+//                );
+//            }
+//        }
+//
+//        rs.close();
+//    } catch (Exception e) {
+//        JOptionPane.showMessageDialog(this, "Error checking overdue warnings");
+//    }
+//}
+
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -300,6 +349,7 @@ public class ManagePaymentsFrame extends javax.swing.JFrame {
             loadPaymentsByContract();
         else
             loadPayments();
+        // checkOverdueWarnings();
     }//GEN-LAST:event_btnrefrechActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
