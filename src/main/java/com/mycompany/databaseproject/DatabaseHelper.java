@@ -98,6 +98,11 @@ public class DatabaseHelper {
 
     public static void updateContractStatus(int contractId) {
         try {
+            String directSql
+                    = "UPDATE HireContract SET StatusID = 2 "
+                    + "WHERE ContractID = ? AND ContractType = 'Direct'";
+            executeUpdate(directSql, contractId);
+
             // 1. COMPLETED → all installments paid
             String completedSql
                     = "UPDATE HireContract "
