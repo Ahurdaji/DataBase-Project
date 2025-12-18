@@ -140,7 +140,7 @@ public class ManageCarsFrame extends javax.swing.JFrame {
         });
         getContentPane().add(btnEditCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(377, 500, 110, 50));
 
-        btnDeleteCar.setText("Delete Car");
+        btnDeleteCar.setText("Retire Car");
         btnDeleteCar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteCarActionPerformed(evt);
@@ -221,9 +221,10 @@ public class ManageCarsFrame extends javax.swing.JFrame {
     private void btnDeleteCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCarActionPerformed
         // TODO add your handling code here:
         if (!currentRole.equalsIgnoreCase("Admin")) {
-            JOptionPane.showMessageDialog(this, "You are not allowed to edit cars.");
+            JOptionPane.showMessageDialog(this, "You are not allowed to delete cars.");
             return;
         }
+
         int row = tblCars.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Please select a car to delete.");
@@ -232,74 +233,67 @@ public class ManageCarsFrame extends javax.swing.JFrame {
 
         int carID = Integer.parseInt(tblCars.getValueAt(row, 0).toString());
 
-        int confirm = JOptionPane.showConfirmDialog(
-                this,
-                "Are you sure you want to delete this car?",
-                "Delete Car",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirm != JOptionPane.YES_OPTION) {
-            return;
-        }
-
         try {
             /* =========================
-           1. Check car status
-            ========================= */
-            String statusSql
-                    = "SELECT cs.StatusName "
+           1. Get Car Status & Ownership
+        ========================= */
+            String carCheckSql
+                    = "SELECT cs.StatusName, c.OwnershipStatus "
                     + "FROM Car c "
                     + "JOIN CarStatus cs ON c.StatusID = cs.StatusID "
                     + "WHERE c.CarID = ?";
 
-            try ( var rs = DatabaseHelper.executeQuery(statusSql, carID)) {
-                if (rs.next()) {
-                    String status = rs.getString("StatusName");
-
-                    if (status.equalsIgnoreCase("Sold")) {
-                        JOptionPane.showMessageDialog(this,
-                                "This car is SOLD and cannot be deleted.");
-                        return;
-                    }
+            try ( var rs = DatabaseHelper.executeQuery(carCheckSql, carID)) {
+                if (!rs.next()) {
+                    return;
                 }
-            }
 
-            /* =========================
-           2. Check HireContract
-            ========================= */
-            String contractSql
-                    = "SELECT COUNT(*) FROM HireContract WHERE CarID = ?";
+                String status = rs.getString("StatusName");
+                String ownership = rs.getString("OwnershipStatus");
 
-            try ( var rs = DatabaseHelper.executeQuery(contractSql, carID)) {
-                if (rs.next() && rs.getInt(1) > 0) {
+                if ("Sold".equalsIgnoreCase(status)) {
                     JOptionPane.showMessageDialog(this,
-                            "This car is linked to a hire contract and cannot be deleted.");
+                            "This car is SOLD and cannot be deleted.");
+                    return;
+                }
+
+                if (!"CompanyOwned".equalsIgnoreCase(ownership)) {
+                    JOptionPane.showMessageDialog(this,
+                            "This car is not owned by the company and cannot be deleted.");
                     return;
                 }
             }
 
             /* =========================
-           3. Soft delete → Retired
-        =   ======================== */
-            String retireSql
-                    = "UPDATE Car SET StatusID = ("
-                    + "SELECT StatusID FROM CarStatus WHERE StatusName = 'Retired')"
-                    + " WHERE CarID = ?";
+           2. Check ACTIVE contracts only
+        ========================= */
+            String activeContractSql
+                    = "SELECT COUNT(*) FROM HireContract "
+                    + "WHERE CarID = ? AND StatusID = 1"; // Active
 
-            int rows = DatabaseHelper.executeUpdate(retireSql, carID);
-
-            if (rows > 0) {
+            int activeContracts = DatabaseHelper.getInt(activeContractSql, carID);
+            if (activeContracts > 0) {
                 JOptionPane.showMessageDialog(this,
-                        "Car retired successfully.");
-                loadCarsTable();
+                        "This car has an active contract and cannot be deleted.");
+                return;
             }
 
+            /* =========================
+           3. Soft delete → Retired
+        ========================= */
+            String retireSql
+                    = "UPDATE Car SET StatusID = ("
+                    + "SELECT StatusID FROM CarStatus WHERE StatusName='Retired')"
+                    + " WHERE CarID = ?";
+
+            DatabaseHelper.executeUpdate(retireSql, carID);
+
+            JOptionPane.showMessageDialog(this, "Car retired successfully.");
+            loadCarsTable();
+
         } catch (Exception ex) {
-            Logger.getLogger(ManageCarsFrame.class.getName())
-                    .log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this,
-                    "Error while deleting car.");
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error deleting car.");
         }
     }//GEN-LAST:event_btnDeleteCarActionPerformed
 
