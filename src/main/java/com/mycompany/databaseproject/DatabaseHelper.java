@@ -283,16 +283,6 @@ public static void syncOwnershipWithContractStatus() throws SQLException {
         ")"
     );
 
-    // 2️⃣ Cancelled → Retired (Repossessed)
-    executeUpdate(
-        "UPDATE Car SET OwnershipStatus = 'Retired' " +
-        "WHERE CarID IN ( " +
-        "   SELECT hc.CarID FROM HireContract hc " +
-        "   JOIN ContractStatus cs ON hc.StatusID = cs.StatusID " +
-        "   WHERE cs.StatusName = 'Cancelled' " +
-        ")"
-    );
-
     // 3️⃣ Active or Late → UnderHirePurchase
     executeUpdate(
         "UPDATE Car SET OwnershipStatus = 'UnderHirePurchase' " +
