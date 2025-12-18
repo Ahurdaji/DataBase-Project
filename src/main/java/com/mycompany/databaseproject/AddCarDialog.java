@@ -306,7 +306,7 @@ public class AddCarDialog extends javax.swing.JDialog {
         int year = Integer.parseInt(yearText);
         if (!isYearInRange(year)) {
             JOptionPane.showMessageDialog(this,
-                    "Year must be between 1900 and " + (java.time.LocalDate.now().getYear() + 1));
+                    "Year must be between 1900 and " + (java.time.LocalDate.now().getYear()));
             return;
         }
 
