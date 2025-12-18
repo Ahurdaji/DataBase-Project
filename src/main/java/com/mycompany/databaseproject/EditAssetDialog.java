@@ -33,10 +33,10 @@ public class EditAssetDialog extends javax.swing.JDialog {
 
         try (ResultSet rs = DatabaseHelper.executeQuery(sql, assetId)) {
             if (rs.next()) {
-//                txtAssetName.setText(rs.getString("AssetName"));
-//                txtCategory.setText(rs.getString("CategoryName"));
-//                currentStatus = rs.getString("StatusName");
-//                txtNotes.setText(rs.getString("Notes"));
+                txtAssetName.setText(rs.getString("AssetName"));
+                txtCategory.setText(rs.getString("CategoryName"));
+                currentStatus = rs.getString("StatusName");
+                txtNotes.setText(rs.getString("Notes"));
 
                 applyEditRules();
             }
@@ -45,17 +45,18 @@ public class EditAssetDialog extends javax.swing.JDialog {
             dispose();
         }
     }
-
+    
+    // edit rules
     private void applyEditRules() {
-        boolean editable
-                = "In Stock".equals(currentStatus)
-                || "In Use".equals(currentStatus)
-                || "Under Maintenance".equals(currentStatus);
+        boolean editable =
+                "In Stock".equals(currentStatus) ||
+                "In Use".equals(currentStatus) ||
+                "Under Maintenance".equals(currentStatus);
 
-//            cmbStatus.setEnabled(editable);
-//            cmbLocation.setEnabled(editable);
-//            txtNotes.setEditable(editable);
-//            btnSave.setEnabled(editable);
+                cmbStatus.setEnabled(editable);
+                cmbLocation.setEnabled(editable);
+                txtNotes.setEditable(editable);
+                btnSave.setEnabled(editable);
 
         if (!editable) {
             JOptionPane.showMessageDialog(this,
@@ -71,10 +72,10 @@ public class EditAssetDialog extends javax.swing.JDialog {
         try (ResultSet rs = DatabaseHelper.executeQuery(
                 "SELECT StatusID, StatusName FROM AssetStatus")) {
             while (rs.next()) {
-//                cmbStatus.addItem(new ComboItem(
-//                    rs.getInt("StatusID"),
-//                    rs.getString("StatusName")
-//                ));
+                cmbStatus.addItem(new ComboItem(
+                    rs.getInt("StatusID"),
+                    rs.getString("StatusName")
+                ));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error loading statuses");
@@ -82,18 +83,18 @@ public class EditAssetDialog extends javax.swing.JDialog {
     }
     
     private void loadLocations() {
-//        cmbLocation.addItem(null);
-//        try (ResultSet rs = DatabaseHelper.executeQuery(
-//                "SELECT LocationID, LocationName FROM Location")) {
-//            while (rs.next()) {
-//                cmbLocation.addItem(new ComboItem(
-//                    rs.getInt("LocationID"),
-//                    rs.getString("LocationName")
-//                ));
-//            }
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(this, "Error loading locations");
-//        }
+        cmbLocation.addItem(null);
+        try (ResultSet rs = DatabaseHelper.executeQuery(
+                "SELECT LocationID, LocationName FROM Location")) {
+            while (rs.next()) {
+                cmbLocation.addItem(new ComboItem(
+                    rs.getInt("LocationID"),
+                    rs.getString("LocationName")
+                ));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error loading locations");
+        }
     }
     
     
@@ -103,21 +104,158 @@ public class EditAssetDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        txtAssetName = new javax.swing.JTextField();
+        txtCategory = new javax.swing.JTextField();
+        cmbStatus = new javax.swing.JComboBox<>();
+        cmbLocation = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtNotes = new javax.swing.JTextArea();
+        btnSave = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Edit Asset ");
+
+        txtNotes.setColumns(20);
+        txtNotes.setRows(5);
+        jScrollPane1.setViewportView(txtNotes);
+
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Asset Name:");
+
+        jLabel3.setText("Category:");
+
+        jLabel4.setText("Status:");
+
+        jLabel5.setText("Location:");
+
+        jLabel6.setText("Notes:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(62, 62, 62)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtAssetName)
+                                            .addComponent(txtCategory)
+                                            .addComponent(cmbStatus, 0, 123, Short.MAX_VALUE)
+                                            .addComponent(cmbLocation, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(25, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(btnCancel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSave)
+                        .addGap(51, 51, 51))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 445, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel1)
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtAssetName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel6)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancel)
+                    .addComponent(btnSave))
+                .addGap(41, 41, 41))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+        try {
+            ComboItem statusItem = (ComboItem) cmbStatus.getSelectedItem();
+            ComboItem locationItem = (ComboItem) cmbLocation.getSelectedItem();
+
+            String sql = "UPDATE FixedAsset SET StatusID = ?, LocationID = ?, Notes = ? WHERE AssetID = ?";
+
+            DatabaseHelper.executeUpdate(
+                sql,
+                statusItem.getId(),
+                locationItem == null ? null : locationItem.getId(),
+                txtNotes.getText(),
+                assetId
+            );
+
+            JOptionPane.showMessageDialog(this, "Asset updated successfully.");
+            dispose();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error saving changes: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -125,5 +263,19 @@ public class EditAssetDialog extends javax.swing.JDialog {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JComboBox<ComboItem> cmbLocation;
+    private javax.swing.JComboBox<ComboItem> cmbStatus;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txtAssetName;
+    private javax.swing.JTextField txtCategory;
+    private javax.swing.JTextArea txtNotes;
     // End of variables declaration//GEN-END:variables
 }
