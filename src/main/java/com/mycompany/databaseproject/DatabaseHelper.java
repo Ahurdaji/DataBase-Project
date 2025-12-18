@@ -245,23 +245,20 @@ public static int processOverdueContracts() throws SQLException {
         );
 
         if (overdueCount > 0) {
+
+            // Update warning count (max 3)
             executeUpdate(
                 "UPDATE HireContract SET WarningCount=? WHERE ContractID=?",
                 Math.min(overdueCount, 3),
                 contractId
             );
 
+            // Cancel contract if overdue >= 3
             if (overdueCount >= 3) {
                 executeUpdate(
                     "UPDATE HireContract SET StatusID = " +
                     "(SELECT StatusID FROM ContractStatus WHERE StatusName='Cancelled') " +
                     "WHERE ContractID=?",
-                    contractId
-                );
-
-                executeUpdate(
-                    "UPDATE Car SET OwnershipStatus='Repossessed' " +
-                    "WHERE CarID=(SELECT CarID FROM HireContract WHERE ContractID=?)",
                     contractId
                 );
             }
@@ -273,7 +270,8 @@ public static int processOverdueContracts() throws SQLException {
     rs.close();
     return processed;
 }
-public static void syncOwnershipWithContractStatus() throws Exception {
+
+public static void syncOwnershipWithContractStatus() throws SQLException {
 
     // 1️⃣ Completed → CustomerOwned
     executeUpdate(
@@ -285,9 +283,9 @@ public static void syncOwnershipWithContractStatus() throws Exception {
         ")"
     );
 
-    // 2️⃣ Cancelled → Repossessed
+    // 2️⃣ Cancelled → Retired (Repossessed)
     executeUpdate(
-        "UPDATE Car SET OwnershipStatus = 'Repossessed' " +
+        "UPDATE Car SET OwnershipStatus = 'Retired' " +
         "WHERE CarID IN ( " +
         "   SELECT hc.CarID FROM HireContract hc " +
         "   JOIN ContractStatus cs ON hc.StatusID = cs.StatusID " +
@@ -295,15 +293,14 @@ public static void syncOwnershipWithContractStatus() throws Exception {
         ")"
     );
 
-    // 3️⃣ Active / Late + Installment → UnderHirePurchase
+    // 3️⃣ Active or Late → UnderHirePurchase
     executeUpdate(
         "UPDATE Car SET OwnershipStatus = 'UnderHirePurchase' " +
         "WHERE CarID IN ( " +
         "   SELECT hc.CarID FROM HireContract hc " +
         "   JOIN ContractStatus cs ON hc.StatusID = cs.StatusID " +
         "   WHERE cs.StatusName IN ('Active','Late') " +
-        "   AND hc.ContractType = 'Installment' " +
-        ")" 
+        ")"
     );
 }
 

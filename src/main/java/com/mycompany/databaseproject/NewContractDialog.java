@@ -374,18 +374,6 @@ public class NewContractDialog extends javax.swing.JDialog {
                 SOLD_ID = rsSold.getInt(1);
             }
 
-            // 6️⃣ Update car ownership
-            if (isInstallment) {
-                DatabaseHelper.executeUpdate(
-                        "UPDATE Car SET OwnershipStatus = 'UnderHirePurchase' WHERE CarID = ?",
-                        carId
-                );
-            } else {
-                DatabaseHelper.executeUpdate(
-                        "UPDATE Car SET OwnershipStatus = 'CustomerOwned', StatusID=? WHERE CarID = ?",
-                        SOLD_ID, carId
-                );
-            }
 
             JOptionPane.showMessageDialog(this, "Contract created successfully!");
             dispose();
