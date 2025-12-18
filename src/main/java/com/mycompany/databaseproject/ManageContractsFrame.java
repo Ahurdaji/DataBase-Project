@@ -71,7 +71,7 @@ public class ManageContractsFrame extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ContractID", "CustomerName", "CarPlate", "StartDate", "TotalAmount", "Status", "Contract Type", "Owner Ship Status"
+                "ContractID", "CustomerName", "CarPlate", "Contract Type", "Owner Ship Status", "StartDate", "TotalAmount", "Status"
             }
         ));
         jScrollPane1.setViewportView(tableContracts);
@@ -111,7 +111,7 @@ public class ManageContractsFrame extends javax.swing.JFrame {
         getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 430, 80, 80));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 600));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

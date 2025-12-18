@@ -64,11 +64,11 @@
                 <Column editable="true" title="ContractID" type="java.lang.Object"/>
                 <Column editable="true" title="CustomerName" type="java.lang.Object"/>
                 <Column editable="true" title="CarPlate" type="java.lang.Object"/>
+                <Column editable="true" title="Contract Type" type="java.lang.Object"/>
+                <Column editable="true" title="Owner Ship Status" type="java.lang.Object"/>
                 <Column editable="true" title="StartDate" type="java.lang.Object"/>
                 <Column editable="true" title="TotalAmount" type="java.lang.Object"/>
                 <Column editable="true" title="Status" type="java.lang.Object"/>
-                <Column editable="true" title="Contract Type" type="java.lang.Object"/>
-                <Column editable="true" title="Owner Ship Status" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -172,7 +172,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="0" y="0" width="1030" height="600"/>
+          <AbsoluteConstraints x="0" y="0" width="1040" height="600"/>
         </Constraint>
       </Constraints>
     </Component>

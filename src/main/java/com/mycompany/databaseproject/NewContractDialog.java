@@ -190,7 +190,7 @@ public class NewContractDialog extends javax.swing.JDialog {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel5.setText("Installments are calculated monthly");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 160, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 180, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

@@ -74,7 +74,7 @@ public class DatabaseHelper {
 
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
     }
 
     // this method inserts a record and returns the generated PK
@@ -95,55 +95,66 @@ public class DatabaseHelper {
 
         throw new Exception("Failed to get generated ID");
     }
-    
-public static void updateContractStatus(int contractId) {
-    try {
-        // 1. COMPLETED → all installments paid
-        String completedSql =
-            "UPDATE HireContract " +
-            "SET StatusID = 2 " +
-            "WHERE ContractID = ? " +
-            "AND NOT EXISTS ( " +
-            "   SELECT 1 FROM InstallmentPayment " +
-            "   WHERE ContractID = ? AND IsPaid = 0 " +
-            ")";
 
-        executeUpdate(completedSql, contractId, contractId);
+    public static void updateContractStatus(int contractId) {
+        try {
+            // 1. COMPLETED → all installments paid
+            String completedSql
+                    = "UPDATE HireContract "
+                    + "SET StatusID = 2 "
+                    + "WHERE ContractID = ? "
+                    + "AND NOT EXISTS ( "
+                    + "   SELECT 1 FROM InstallmentPayment "
+                    + "   WHERE ContractID = ? AND IsPaid = 0 "
+                    + ")";
 
-        // 2. LATE → unpaid and overdue
-        String lateSql =
-            "UPDATE HireContract " +
-            "SET StatusID = 3 " +
-            "WHERE ContractID = ? " +
-            "AND EXISTS ( " +
-            "   SELECT 1 FROM InstallmentPayment " +
-            "   WHERE ContractID = ? AND IsPaid = 0 AND DueDate < GETDATE() " +
-            ")";
+            executeUpdate(completedSql, contractId, contractId);
 
-        executeUpdate(lateSql, contractId, contractId);
+            // 2. LATE → unpaid and overdue
+            String lateSql
+                    = "UPDATE HireContract "
+                    + "SET StatusID = 3 "
+                    + "WHERE ContractID = ? "
+                    + "AND EXISTS ( "
+                    + "   SELECT 1 FROM InstallmentPayment "
+                    + "   WHERE ContractID = ? AND IsPaid = 0 AND DueDate < GETDATE() "
+                    + ")";
 
-        // 3. ACTIVE → unpaid but not overdue
-        String activeSql =
-            "UPDATE HireContract " +
-            "SET StatusID = 1 " +
-            "WHERE ContractID = ? " +
-            "AND EXISTS ( " +
-            "   SELECT 1 FROM InstallmentPayment " +
-            "   WHERE ContractID = ? AND IsPaid = 0 AND DueDate >= GETDATE() " +
-            ")";
+            executeUpdate(lateSql, contractId, contractId);
 
-        executeUpdate(activeSql, contractId, contractId);
+            // 3. ACTIVE → unpaid but not overdue
+            String activeSql
+                    = "UPDATE HireContract "
+                    + "SET StatusID = 1 "
+                    + "WHERE ContractID = ? "
+                    + "AND EXISTS ( "
+                    + "   SELECT 1 FROM InstallmentPayment "
+                    + "   WHERE ContractID = ? AND IsPaid = 0 AND DueDate >= GETDATE() "
+                    + ")";
 
-    } catch (Exception e) {
-        e.printStackTrace();
+            executeUpdate(activeSql, contractId, contractId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
-
-
 
     private static void setParams(PreparedStatement stmt, Object... params) throws SQLException {
         for (int i = 0; i < params.length; i++) {
             stmt.setObject(i + 1, params[i]);
         }
     }
+    // يرجّع رقم واحد مثل COUNT(*) أو SUM(...)
+
+    public static int getInt(String sql, Object... params) throws SQLException {
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            setParams(stmt, params);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() ? rs.getInt(1) : 0;
+            }
+        }
+    }
+
 }
