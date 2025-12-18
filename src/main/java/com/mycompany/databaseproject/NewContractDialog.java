@@ -23,6 +23,9 @@ public class NewContractDialog extends javax.swing.JDialog {
 
         radiobtndirectpay.setSelected(true);
 
+        txtcontractDate.setText(java.time.LocalDate.now().toString());
+        txtcontractDate.setEnabled(false);
+
 // Disable installment fields by default
         jTextField1.setEnabled(false);
         jComboBox1.setEnabled(false);
@@ -94,7 +97,7 @@ public class NewContractDialog extends javax.swing.JDialog {
         buttonGroup1 = new javax.swing.ButtonGroup();
         cmbCustomer = new javax.swing.JComboBox<>();
         cmbCar = new javax.swing.JComboBox<>();
-        txtStartDate = new javax.swing.JTextField();
+        txtcontractDate = new javax.swing.JTextField();
         txtTotalAmount = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
         btnCancle = new javax.swing.JButton();
@@ -112,6 +115,9 @@ public class NewContractDialog extends javax.swing.JDialog {
         jTextField1 = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtdeliveryDate = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Contract");
@@ -124,8 +130,8 @@ public class NewContractDialog extends javax.swing.JDialog {
 
         cmbCar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Car" }));
         getContentPane().add(cmbCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 120, -1));
-        getContentPane().add(txtStartDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 220, 120, -1));
-        getContentPane().add(txtTotalAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 280, 120, -1));
+        getContentPane().add(txtcontractDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 220, 120, -1));
+        getContentPane().add(txtTotalAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 120, -1));
 
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -133,7 +139,7 @@ public class NewContractDialog extends javax.swing.JDialog {
                 btnSaveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 520, -1, -1));
+        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 550, -1, -1));
 
         btnCancle.setText("Cancle");
         btnCancle.addActionListener(new java.awt.event.ActionListener() {
@@ -141,7 +147,7 @@ public class NewContractDialog extends javax.swing.JDialog {
                 btnCancleActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancle, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 520, -1, -1));
+        getContentPane().add(btnCancle, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 550, -1, -1));
 
         lblcustomer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblcustomer.setText("Customer :");
@@ -152,17 +158,17 @@ public class NewContractDialog extends javax.swing.JDialog {
         getContentPane().add(lblCar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, -1));
 
         lblStartdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblStartdate.setText("Start Date :");
+        lblStartdate.setText("Contract Date:");
         getContentPane().add(lblStartdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, -1, -1));
 
         lblTotalamount.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblTotalamount.setText("Total Amount :");
-        getContentPane().add(lblTotalamount, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
+        getContentPane().add(lblTotalamount, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel1.setText("YYYY-MM-DD");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 110, 20));
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 280, 270));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, 110, 20));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, 60, 540));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("New Contract");
@@ -170,130 +176,215 @@ public class NewContractDialog extends javax.swing.JDialog {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Payment type :");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, -1, -1));
 
         buttonGroup1.add(radiobtndirectpay);
         radiobtndirectpay.setText("Direct Payment");
-        getContentPane().add(radiobtndirectpay, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, -1, -1));
+        getContentPane().add(radiobtndirectpay, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 380, -1, -1));
 
         buttonGroup1.add(radiobtnIntallPay);
         radiobtnIntallPay.setText("Installment Payment");
-        getContentPane().add(radiobtnIntallPay, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 380, -1, -1));
+        getContentPane().add(radiobtnIntallPay, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 420, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Installment Duration:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, -1, -1));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 440, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, -1, -1));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 480, 100, -1));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Years", "Months", " " }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 440, -1, -1));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 480, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel5.setText("Installments are calculated monthly");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 180, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 510, 160, -1));
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setText("Delivery Date:");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
+        getContentPane().add(txtdeliveryDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 280, 120, -1));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jLabel7.setText("YYYY-MM-DD");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 110, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 
-         try {
-        // 1️⃣ Read basic input
-        String customerName = cmbCustomer.getSelectedItem().toString();
-        String carPlate = cmbCar.getSelectedItem().toString();
-        String startDateText = txtStartDate.getText().trim();
-        String totalAmountText = txtTotalAmount.getText().trim();
+        try {
+            // 1️⃣ Read basic input
+            String customerName = cmbCustomer.getSelectedItem().toString();
+            String carPlate = cmbCar.getSelectedItem().toString();
+            String totalAmountText = txtTotalAmount.getText().trim();
 
-        int customerId = customerMap.get(customerName);
-        int carId = carMap.get(carPlate);
-        double totalAmount = Double.parseDouble(totalAmountText);
-        Date startDate = Date.valueOf(startDateText);
+            int customerId = customerMap.get(customerName);
+            int carId = carMap.get(carPlate);
 
-        // 2️⃣ Detect payment type
-        boolean isInstallment = radiobtnIntallPay.isSelected();
+            ResultSet rs = DatabaseHelper.executeQuery(
+                    "SELECT OwnershipStatus FROM Car WHERE CarID = ?", carId
+            );
 
-        // 3️⃣ Calculate months FIRST
-        int months = 1;
+            if (rs.next()) {
+                String status = rs.getString("OwnershipStatus");
 
-        if (isInstallment) {
-            if (jTextField1.getText().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter installment duration.");
+                if (!status.equals("CompanyOwned")) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "This car is not available for sale.\nCurrent status: " + status
+                    );
+                    return;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Car not found.");
+                rs.close();
                 return;
             }
 
-            int value = Integer.parseInt(jTextField1.getText().trim());
-            String unit = jComboBox1.getSelectedItem().toString();
+            rs.close(); 
 
-            if (unit.equalsIgnoreCase("Years")) {
-                months = value * 12;
-            } else {
-                months = value;
+            double totalAmount = Double.parseDouble(totalAmountText);
+            // Validate total amount (car price)
+            if (totalAmount < 20000) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Total amount must be at least 20,000.\nPlease enter a valid car price."
+                );
+                return;
             }
-        }
 
-        // 4️⃣ Insert contract
-        String contractType = isInstallment ? "Installment" : "Direct";
-        int statusId = 1;
+            String deliveryDateText = txtdeliveryDate.getText().trim();
 
-        String contractSql =
-            "INSERT INTO HireContract " +
-            "(CustomerID, CarID, StartDate, TotalAmount, StatusID, ContractType, InstallmentCount) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            if (deliveryDateText.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the delivery date.");
+                return;
+            }
 
-        int contractId = DatabaseHelper.executeInsertAndReturnId(
-            contractSql,
-            customerId,
-            carId,
-            startDate,
-            totalAmount,
-            statusId,
-            contractType,
-            months
-        );
+            Date deliveryDate = Date.valueOf(deliveryDateText);
+            Date today = Date.valueOf(java.time.LocalDate.now());
 
-        // 5️⃣ Generate installments ONLY if installment
-        if (isInstallment) {
-            double monthlyAmount = totalAmount / months;
-            int defaultPaymentMethodId = 1;
+// Validate delivery date
+            if (deliveryDate.before(today)) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Delivery date cannot be in the past.\nPlease select today or a future date."
+                );
+                return;
+            }
 
-            String paymentSql =
-                "INSERT INTO InstallmentPayment " +
-                "(ContractID, InstallmentNo, Amount, DueDate, IsPaid, PaymentMethodID) " +
-                "VALUES (?, ?, ?, ?, 0, ?)";
+            // 2️⃣ Detect payment type
+            boolean isInstallment = radiobtnIntallPay.isSelected();
 
-            for (int i = 1; i <= months; i++) {
-                Date dueDate = Date.valueOf(startDate.toLocalDate().plusMonths(i));
+            // 3️⃣ Calculate months FIRST
+            int months = 1;
+
+            if (isInstallment) {
+                if (jTextField1.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter installment duration.");
+                    return;
+                }
+
+                int value = Integer.parseInt(jTextField1.getText().trim());
+
+                if (value <= 0) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Installment duration must be greater than 0."
+                    );
+                    return;
+                }
+
+                String unit = jComboBox1.getSelectedItem().toString();
+
+                if (unit.equalsIgnoreCase("Years")) {
+                    months = value * 12;
+                } else {
+                    months = value;
+                }
+
+            }
+
+            // 4️⃣ Insert contract
+            String contractType = isInstallment ? "Installment" : "Direct";
+            int statusId = 1;
+
+            String contractSql
+                    = "INSERT INTO HireContract "
+                    + "(CustomerID, CarID, StartDate, TotalAmount, StatusID, ContractType, InstallmentCount) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            int contractId = DatabaseHelper.executeInsertAndReturnId(
+                    contractSql,
+                    customerId,
+                    carId,
+                    deliveryDate,
+                    totalAmount,
+                    statusId,
+                    contractType,
+                    months
+            );
+
+// 5️⃣ Handle payments
+            if (isInstallment) {
+
+                // Installment payments
+                double monthlyAmount = totalAmount / months;
+                int defaultPaymentMethodId = 1;
+
+                String paymentSql
+                        = "INSERT INTO InstallmentPayment "
+                        + "(ContractID, InstallmentNo, Amount, DueDate, IsPaid, PaymentMethodID) "
+                        + "VALUES (?, ?, ?, ?, 0, ?)";
+
+                for (int i = 1; i <= months; i++) {
+                    Date dueDate = Date.valueOf(deliveryDate.toLocalDate().plusMonths(i));
+
+                    DatabaseHelper.executeUpdate(
+                            paymentSql,
+                            contractId,
+                            i,
+                            monthlyAmount,
+                            dueDate,
+                            defaultPaymentMethodId
+                    );
+                }
+
+            } else {
+
+                //  DIRECT PAYMENT = ONE PAID RECORD
+                int defaultPaymentMethodId = 1;
 
                 DatabaseHelper.executeUpdate(
-                    paymentSql,
-                    contractId,
-                    i,
-                    monthlyAmount,
-                    dueDate,
-                    defaultPaymentMethodId
+                        "INSERT INTO InstallmentPayment "
+                        + "(ContractID, InstallmentNo, Amount, DueDate, IsPaid, PaymentMethodID, PaymentDate) "
+                        + "VALUES (?, 1, ?, ?, 1, ?, GETDATE())",
+                        contractId,
+                        totalAmount,
+                        deliveryDate,
+                        defaultPaymentMethodId
+                );
+
+            }
+
+            // 6️⃣ Update car ownership
+            if (isInstallment) {
+                DatabaseHelper.executeUpdate(
+                        "UPDATE Car SET OwnershipStatus = 'UnderHirePurchase' WHERE CarID = ?",
+                        carId
+                );
+            } else {
+                DatabaseHelper.executeUpdate(
+                        "UPDATE Car SET OwnershipStatus = 'CustomerOwned' WHERE CarID = ?",
+                        carId
                 );
             }
+
+            JOptionPane.showMessageDialog(this, "Contract created successfully!");
+            dispose();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Please fill all fields correctly:\n" + e.getMessage());
         }
-
-        // 6️⃣ Update car ownership
-        if (isInstallment) {
-            DatabaseHelper.executeUpdate(
-                "UPDATE Car SET OwnershipStatus = 'UnderHirePurchase' WHERE CarID = ?",
-                carId
-            );
-        } else {
-            DatabaseHelper.executeUpdate(
-                "UPDATE Car SET OwnershipStatus = 'CustomerOwned' WHERE CarID = ?",
-                carId
-            );
-        }
-
-        JOptionPane.showMessageDialog(this, "Contract created successfully!");
-        dispose();
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Please fill all fields correctly:\n" + e.getMessage());
-    }
 
 
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -319,6 +410,8 @@ public class NewContractDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblCar;
@@ -327,7 +420,8 @@ public class NewContractDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblcustomer;
     private javax.swing.JRadioButton radiobtnIntallPay;
     private javax.swing.JRadioButton radiobtndirectpay;
-    private javax.swing.JTextField txtStartDate;
     private javax.swing.JTextField txtTotalAmount;
+    private javax.swing.JTextField txtcontractDate;
+    private javax.swing.JTextField txtdeliveryDate;
     // End of variables declaration//GEN-END:variables
 }
