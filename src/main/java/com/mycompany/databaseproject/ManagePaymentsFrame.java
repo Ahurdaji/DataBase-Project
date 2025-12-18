@@ -462,7 +462,8 @@ if (status.equalsIgnoreCase("Paid")) {
             // حدّث حالة العقد (Active/Late/Completed)
             DatabaseHelper.updateContractStatus(realContractId);
 
-          
+          DatabaseHelper.syncOwnershipWithContractStatus();
+
             JOptionPane.showMessageDialog(this, "Payment marked as Paid!");
 
             if (contractId > 0) {
