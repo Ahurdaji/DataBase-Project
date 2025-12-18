@@ -14,32 +14,31 @@ public class ManageContractsFrame extends javax.swing.JFrame {
         initComponents();
         makeTableReadOnly(tableContracts);
         this.currentRole = role;
-        setLocationRelativeTo(null); 
+        setLocationRelativeTo(null);
         loadContracts();
     }
-private void makeTableReadOnly(JTable table) {
-    table.setDefaultEditor(Object.class, null);
-}
 
+    private void makeTableReadOnly(JTable table) {
+        table.setDefaultEditor(Object.class, null);
+    }
 
-private void loadContracts() {
-    String sql =
-          "SELECT hc.ContractID, "
-        + "       c.FirstName + ' ' + c.LastName AS CustomerName, "
-        + "       car.PlateNumber AS CarPlate, "
-        + "       hc.StartDate, "
-        + "       hc.TotalAmount, "
-        + "       cs.StatusName AS Status "
-        + "FROM HireContract hc "
-        + "JOIN Customer c ON hc.CustomerID = c.CustomerID "
-        + "JOIN Car car ON hc.CarID = car.CarID "
-        + "JOIN ContractStatus cs ON hc.StatusID = cs.StatusID";
+    private void loadContracts() {
+        String sql
+                = "SELECT hc.ContractID, "
+                + "       c.FirstName + ' ' + c.LastName AS CustomerName, "
+                + "       car.PlateNumber AS CarPlate, "
+                + "       hc.ContractType, "
+                + "       car.OwnershipStatus, "
+                + "       hc.StartDate, "
+                + "       hc.TotalAmount, "
+                + "       cs.StatusName AS Status "
+                + "FROM HireContract hc "
+                + "JOIN Customer c ON hc.CustomerID = c.CustomerID "
+                + "JOIN Car car ON hc.CarID = car.CarID "
+                + "JOIN ContractStatus cs ON hc.StatusID = cs.StatusID";
 
-    DatabaseHelper.fillTable(tableContracts, sql);
-}
-
-
-
+        DatabaseHelper.fillTable(tableContracts, sql);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -62,22 +61,22 @@ private void loadContracts() {
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTitle.setText("Manage Contracts");
-        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, -1, -1));
+        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, -1, -1));
 
         tableContracts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ContractID", "CustomerName", "CarPlate", "StartDate", "TotalAmount", "Status"
+                "ContractID", "CustomerName", "CarPlate", "StartDate", "TotalAmount", "Status", "Contract Type", "Owner Ship Status"
             }
         ));
         jScrollPane1.setViewportView(tableContracts);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 560, 240));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 980, 350));
 
         btnNewContract.setText("New Contract");
         btnNewContract.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +84,7 @@ private void loadContracts() {
                 btnNewContractActionPerformed(evt);
             }
         });
-        getContentPane().add(btnNewContract, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 330, -1, -1));
+        getContentPane().add(btnNewContract, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 440, 160, 70));
 
         btnViewDetails.setText("View contract details");
         btnViewDetails.addActionListener(new java.awt.event.ActionListener() {
@@ -93,15 +92,15 @@ private void loadContracts() {
                 btnViewDetailsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnViewDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 330, 160, -1));
+        getContentPane().add(btnViewDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 440, 170, 70));
 
-        btnBack.setText("Go to main menu");
+        btnBack.setText("<- Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 330, -1, -1));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 80, 20));
 
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -109,10 +108,10 @@ private void loadContracts() {
                 btnRefreshActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, -1, -1));
+        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 430, 80, 80));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 730, 450));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
