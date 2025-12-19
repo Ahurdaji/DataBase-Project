@@ -21,6 +21,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
 
     private void applyRolePermissions() {
         // Hide EVERYTHING first
+        btnManageFixedAssets.setVisible(false);
         btnManageCars.setVisible(false);
         btnManageCustomers.setVisible(false);
         btnManageContracts.setVisible(false);
@@ -33,6 +34,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
         switch (currentRole) {
 
             case "Admin":
+                btnManageFixedAssets.setVisible(true);
                 btnManageCars.setVisible(true);
                 btnManageCustomers.setVisible(true);
                 btnManageContracts.setVisible(true);
@@ -44,6 +46,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 break;
 
             case "Manager":
+                btnManageFixedAssets.setVisible(true);
                 btnManageCars.setVisible(true);
                 btnManageCustomers.setVisible(true);
                 btnManageContracts.setVisible(true);
