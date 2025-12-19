@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author HP
@@ -15,114 +14,112 @@ public class ManageCustomersFrame extends javax.swing.JFrame {
 
     private String currentRole;
 
-public ManageCustomersFrame(String role) {
-    initComponents();
-    this.currentRole = role;
-    setLocationRelativeTo(null);
+    public ManageCustomersFrame(String role) {
+        initComponents();
+        this.currentRole = role;
+        setLocationRelativeTo(null);
 
-DefaultTableModel model = new DefaultTableModel(
-    new String[]{"CustomerID", "FirstName", "LastName", "Phone", "Email", "Address", "NationalID"}, 0
-) {
-@Override
-public boolean isCellEditable(int row, int column) {
+        DefaultTableModel model = new DefaultTableModel(
+                new String[]{"CustomerID", "FirstName", "LastName", "Phone", "Email", "Address", "NationalID"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
 
-    // CustomerID column never editable
-    if (column == 0) return false;
+                // CustomerID column never editable
+                if (column == 0) {
+                    return false;
+                }
 
-    Object customerId = getValueAt(row, 0);
+                Object customerId = getValueAt(row, 0);
 
-    // Existing row → only Admin / Manager can edit
-    if (customerId != null) {
-        return !"SalesStaff".equalsIgnoreCase(currentRole);
+                // Existing row → only Admin / Manager can edit
+                if (customerId != null) {
+                    return !"SalesStaff".equalsIgnoreCase(currentRole);
+                }
+
+                // New row (CustomerID == null) → allow typing for everyone
+                return true;
+            }
+
+        };
+
+        jTable2.setModel(model);
+        applyRolePermissions();
+        loadCustomers();
     }
-
-    // New row (CustomerID == null) → allow typing for everyone
-    return true;
-}
-
-};
-
-
-    jTable2.setModel(model);
-    applyRolePermissions();
-    loadCustomers();
-}
 
     private void applyRolePermissions() {
 
-    // Default: everything disabled
-    btnAdd.setEnabled(false);
-    btnEdit.setEnabled(false);
-    btnDelete.setEnabled(false);
+        // Default: everything disabled
+        btnAdd.setEnabled(false);
+        btnEdit.setEnabled(false);
+        btnDelete.setEnabled(false);
 
-    switch (currentRole) {
+        switch (currentRole) {
 
-        case "Admin":
-            btnAdd.setEnabled(true);
-            btnEdit.setEnabled(true);
-            btnDelete.setEnabled(true);
-            break;
+            case "Admin":
+                btnAdd.setEnabled(true);
+                btnEdit.setEnabled(true);
+                btnDelete.setEnabled(true);
+                break;
 
-        case "Manager":
-            btnAdd.setEnabled(true);
-            btnEdit.setEnabled(true);
-            btnDelete.setEnabled(true);
-            break;
+            case "Manager":
+                btnAdd.setEnabled(true);
+                btnEdit.setEnabled(true);
+                btnDelete.setEnabled(true);
+                break;
 
-        case "SalesStaff":
-            btnAdd.setEnabled(true);
-            btnEdit.setEnabled(false);
-            btnDelete.setEnabled(false);
-            break;
-    }
-}
-
-private boolean isOnlyLetters(String value) {
-    return value != null && value.trim().matches("[a-zA-Z]+");
-}
-
-private boolean isNumeric(String value) {
-    return value != null && value.trim().matches("\\d+");
-}
-
-private boolean isValidEmail(String value) {
-    return value != null && value.contains("@");
-}
-
-private boolean isEmpty(String value) {
-    return value == null || value.trim().isEmpty();
-}
-
-    
-private void loadCustomers() {
-    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-    model.setRowCount(0); // Clear the table
-
-    try {
-        ResultSet rs = DatabaseHelper.executeQuery(
-                "SELECT CustomerID, FirstName, LastName, Phone, Email, Address, NationalID FROM Customer"
-        );
-
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getInt("CustomerID"),
-                rs.getString("FirstName"),
-                rs.getString("LastName"),
-                rs.getString("Phone"),
-                rs.getString("Email"),
-                rs.getString("Address"),
-                rs.getString("NationalID")
-            });
+            case "SalesStaff":
+                btnAdd.setEnabled(true);
+                btnEdit.setEnabled(false);
+                btnDelete.setEnabled(false);
+                break;
         }
-
-        rs.close();
-
-
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error loading customers: " + ex.getMessage());
     }
-}
 
+    private boolean isOnlyLetters(String value) {
+        return value != null && value.trim().matches("[a-zA-Z]+");
+    }
+
+    private boolean isNumeric(String value) {
+        return value != null && value.trim().matches("\\d+");
+    }
+
+    private boolean isValidEmail(String value) {
+        return value != null && value.contains("@");
+    }
+
+    private boolean isEmpty(String value) {
+        return value == null || value.trim().isEmpty();
+    }
+
+    private void loadCustomers() {
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0); // Clear the table
+
+        try {
+            ResultSet rs = DatabaseHelper.executeQuery(
+                    "SELECT CustomerID, FirstName, LastName, Phone, Email, Address, NationalID FROM Customer"
+            );
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getInt("CustomerID"),
+                    rs.getString("FirstName"),
+                    rs.getString("LastName"),
+                    rs.getString("Phone"),
+                    rs.getString("Email"),
+                    rs.getString("Address"),
+                    rs.getString("NationalID")
+                });
+            }
+
+            rs.close();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error loading customers: " + ex.getMessage());
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -230,232 +227,251 @@ private void loadCustomers() {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
 
-    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-    int row = jTable2.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        int row = jTable2.getSelectedRow();
 
-    // No row selected → create empty row
-    if (row < 0) {
-        model.addRow(new Object[]{null, "", "", "", "", "", ""});
-        JOptionPane.showMessageDialog(this,
-            "A new empty row has been added.\nEnter all fields, select the row, then click Add again.");
-        return;
-    }
+        // No row selected → create empty row
+        if (row < 0) {
+            model.addRow(new Object[]{null, "", "", "", "", "", ""});
+            JOptionPane.showMessageDialog(this,
+                    "A new empty row has been added.\nEnter all fields, select the row, then click Add again.");
+            return;
+        }
 
-    // Row already exists in DB?
-    if (model.getValueAt(row, 0) != null) {
-        JOptionPane.showMessageDialog(this, "This customer already exists. Use Edit to update.");
-        return;
-    }
+        // Row already exists in DB?
+        if (model.getValueAt(row, 0) != null) {
+            JOptionPane.showMessageDialog(this, "This customer already exists. Use Edit to update.");
+            return;
+        }
 
-    // ---- VALIDATION ----
-    String first = model.getValueAt(row, 1).toString().trim();
-    String last = model.getValueAt(row, 2).toString().trim();
-    String phone = model.getValueAt(row, 3).toString().trim();
-    String email = model.getValueAt(row, 4).toString().trim();
-    String address = model.getValueAt(row, 5).toString().trim();
-    String national = model.getValueAt(row, 6).toString().trim();
+        // ---- VALIDATION ----
+        String first = model.getValueAt(row, 1).toString().trim();
+        String last = model.getValueAt(row, 2).toString().trim();
+        String phone = model.getValueAt(row, 3).toString().trim();
+        String email = model.getValueAt(row, 4).toString().trim();
+        String address = model.getValueAt(row, 5).toString().trim();
+        String national = model.getValueAt(row, 6).toString().trim();
 
-    if (isEmpty(first) || isEmpty(last) || isEmpty(phone) || isEmpty(email) ||
-        isEmpty(address) || isEmpty(national)) {
-        JOptionPane.showMessageDialog(this, "All fields must be filled.");
-        return;
-    }
+        if (isEmpty(first) || isEmpty(last) || isEmpty(phone) || isEmpty(email)
+                || isEmpty(address) || isEmpty(national)) {
+            JOptionPane.showMessageDialog(this, "All fields must be filled.");
+            return;
+        }
 
-    if (!isNumeric(phone)) {
-        JOptionPane.showMessageDialog(this, "Phone must contain only numbers.");
-        return;
-    }
-    if (!isOnlyLetters(first) || !isOnlyLetters(last)) {
-    JOptionPane.showMessageDialog(this,
-        "First Name and Last Name must contain letters only.");
-    return;
-}
+        if (!isNumeric(phone)) {
+            JOptionPane.showMessageDialog(this, "Phone must contain only numbers.");
+            return;
+        }
+        if (!isOnlyLetters(first) || !isOnlyLetters(last)) {
+            JOptionPane.showMessageDialog(this,
+                    "First Name and Last Name must contain letters only.");
+            return;
+        }
 
+        if (!isValidEmail(email)) {
+            JOptionPane.showMessageDialog(this, "Invalid email. Must contain '@'.");
+            return;
+        }
 
-    if (!isValidEmail(email)) {
-        JOptionPane.showMessageDialog(this, "Invalid email. Must contain '@'.");
-        return;
-    }
+        if (!isNumeric(national)) {
+            JOptionPane.showMessageDialog(this, "National ID must contain only numbers.");
+            return;
+        }
 
-    if (!isNumeric(national)) {
-        JOptionPane.showMessageDialog(this, "National ID must contain only numbers.");
-        return;
-    }
+        // ---- INSERT INTO DATABASE ----
+        try {
+            DatabaseHelper.executeUpdate(
+                    "INSERT INTO Customer (FirstName, LastName, Phone, Email, Address, NationalID) VALUES (?, ?, ?, ?, ?, ?)",
+                    first, last, phone, email, address, national
+            );
 
-    // ---- INSERT INTO DATABASE ----
-    try {
-        DatabaseHelper.executeUpdate(
-            "INSERT INTO Customer (FirstName, LastName, Phone, Email, Address, NationalID) VALUES (?, ?, ?, ?, ?, ?)",
-            first, last, phone, email, address, national
-        );
+            JOptionPane.showMessageDialog(this, "Customer added successfully!");
+            loadCustomers();
 
-        JOptionPane.showMessageDialog(this, "Customer added successfully!");
-        loadCustomers();
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error adding customer: " + e.getMessage());
-    }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error adding customer: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
-    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-    int row = jTable2.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        int row = jTable2.getSelectedRow();
 
-    if (row < 0) {
-        JOptionPane.showMessageDialog(this, "Please select a row to edit.");
-        return;
-    }
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a row to edit.");
+            return;
+        }
 
-    Object idObj = model.getValueAt(row, 0);
+        Object idObj = model.getValueAt(row, 0);
 
-    if (idObj == null) {
-        JOptionPane.showMessageDialog(this,
-            "This row is not saved yet. Use Add to insert it.");
-        return;
-    }
+        if (idObj == null) {
+            JOptionPane.showMessageDialog(this,
+                    "This row is not saved yet. Use Add to insert it.");
+            return;
+        }
 
-    int customerID = Integer.parseInt(idObj.toString());
+        int customerID = Integer.parseInt(idObj.toString());
 
-    // ---- VALIDATION ----
-    String first = model.getValueAt(row, 1).toString().trim();
-    String last = model.getValueAt(row, 2).toString().trim();
-    String phone = model.getValueAt(row, 3).toString().trim();
-    String email = model.getValueAt(row, 4).toString().trim();
-    String address = model.getValueAt(row, 5).toString().trim();
-    String national = model.getValueAt(row, 6).toString().trim();
+        // ---- VALIDATION ----
+        String first = model.getValueAt(row, 1).toString().trim();
+        String last = model.getValueAt(row, 2).toString().trim();
+        String phone = model.getValueAt(row, 3).toString().trim();
+        String email = model.getValueAt(row, 4).toString().trim();
+        String address = model.getValueAt(row, 5).toString().trim();
+        String national = model.getValueAt(row, 6).toString().trim();
 
-    if (isEmpty(first) || isEmpty(last) || isEmpty(phone) || isEmpty(email) ||
-        isEmpty(address) || isEmpty(national)) {
-        JOptionPane.showMessageDialog(this, "All fields must be filled.");
-        return;
-    }
-    if (!isOnlyLetters(first) || !isOnlyLetters(last)) {
-    JOptionPane.showMessageDialog(this,
-        "First Name and Last Name must contain letters only.");
-    return;
-}
+        if (isEmpty(first) || isEmpty(last) || isEmpty(phone) || isEmpty(email)
+                || isEmpty(address) || isEmpty(national)) {
+            JOptionPane.showMessageDialog(this, "All fields must be filled.");
+            return;
+        }
+        if (!isOnlyLetters(first) || !isOnlyLetters(last)) {
+            JOptionPane.showMessageDialog(this,
+                    "First Name and Last Name must contain letters only.");
+            return;
+        }
 
+        if (!isNumeric(phone)) {
+            JOptionPane.showMessageDialog(this, "Phone must contain only numbers.");
+            return;
+        }
 
-    if (!isNumeric(phone)) {
-        JOptionPane.showMessageDialog(this, "Phone must contain only numbers.");
-        return;
-    }
+        if (!isValidEmail(email)) {
+            JOptionPane.showMessageDialog(this, "Invalid email. Must contain '@'.");
+            return;
+        }
 
-    if (!isValidEmail(email)) {
-        JOptionPane.showMessageDialog(this, "Invalid email. Must contain '@'.");
-        return;
-    }
+        if (!isNumeric(national)) {
+            JOptionPane.showMessageDialog(this, "National ID must contain only numbers.");
+            return;
+        }
 
-    if (!isNumeric(national)) {
-        JOptionPane.showMessageDialog(this, "National ID must contain only numbers.");
-        return;
-    }
+        // ---- UPDATE DATABASE ----
+        try {
+            DatabaseHelper.executeUpdate(
+                    "UPDATE Customer SET FirstName=?, LastName=?, Phone=?, Email=?, Address=?, NationalID=? WHERE CustomerID=?",
+                    first, last, phone, email, address, national, customerID
+            );
 
-    // ---- UPDATE DATABASE ----
-    try {
-        DatabaseHelper.executeUpdate(
-            "UPDATE Customer SET FirstName=?, LastName=?, Phone=?, Email=?, Address=?, NationalID=? WHERE CustomerID=?",
-            first, last, phone, email, address, national, customerID
-        );
+            JOptionPane.showMessageDialog(this, "Customer updated successfully!");
+            loadCustomers();
 
-        JOptionPane.showMessageDialog(this, "Customer updated successfully!");
-        loadCustomers();
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error updating customer: " + e.getMessage());
-    }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error updating customer: " + e.getMessage());
+        }
 
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:                                         
-   
-    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-    int row = jTable2.getSelectedRow();
 
-    if (row < 0) {
-        JOptionPane.showMessageDialog(this, "Please select a row to delete.");
-        return;
-    }
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        int row = jTable2.getSelectedRow();
 
-    Object idObj = model.getValueAt(row, 0);
-
-    // If row not saved in DB → just remove it
-    if (idObj == null) {
-        model.removeRow(row);
-        return;
-    }
-
-    int customerID = Integer.parseInt(idObj.toString());
-
-    try {
-        int result = DatabaseHelper.executeUpdate(
-                "DELETE FROM Customer WHERE CustomerID=?",
-                customerID
-        );
-
-        if (result > 0) {
-            JOptionPane.showMessageDialog(this, "Customer deleted successfully!");
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a row to delete.");
+            return;
         }
 
-        loadCustomers();
+        Object idObj = model.getValueAt(row, 0);
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error deleting customer: " + e.getMessage());
-    }
+        // If row not saved in DB so just remove it
+        if (idObj == null) {
+            model.removeRow(row);
+            return;
+        }
 
+        int customerID = Integer.parseInt(idObj.toString());
+
+        try {
+            //  CHECK IF CUSTOMER HAS CONTRACTS
+            ResultSet rs = DatabaseHelper.executeQuery(
+                    "SELECT COUNT(*) FROM HireContract WHERE CustomerID = ?",
+                    customerID
+            );
+
+            rs.next();
+            int contractCount = rs.getInt(1);
+            rs.close();
+
+            if (contractCount > 0) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "This customer cannot be deleted because they have existing contract history.\n"
+                        + "Customers with contracts must be kept for record purposes.",
+                        "Delete Not Allowed",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
+
+            //  DELETE CUSTOMER (SAFE)
+            DatabaseHelper.executeUpdate(
+                    "DELETE FROM Customer WHERE CustomerID = ?",
+                    customerID
+            );
+
+            JOptionPane.showMessageDialog(this, "Customer deleted successfully!");
+            loadCustomers();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "An unexpected error occurred while deleting the customer."
+            );
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnRefrechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefrechActionPerformed
         // TODO add your handling code here:                                           
-    loadCustomers();
+        loadCustomers();
 
     }//GEN-LAST:event_btnRefrechActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:                                        
-    String search = JOptionPane.showInputDialog(this, "Enter First Name to Search:");
+        String search = JOptionPane.showInputDialog(this, "Enter First Name to Search:");
 
-    if (search == null || search.trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter a name.");
-        return;
-    }
-
-    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-    model.setRowCount(0); // clear table
-
-    try {
-        ResultSet rs = DatabaseHelper.executeQuery(
-                "SELECT CustomerID, FirstName, LastName, Phone, Email, Address, NationalID " +
-                "FROM Customer WHERE FirstName LIKE ?",
-                "%" + search + "%"
-        );
-
-        boolean found = false;
-
-        while (rs.next()) {
-            found = true;
-            model.addRow(new Object[]{
-                rs.getInt("CustomerID"),
-                rs.getString("FirstName"),
-                rs.getString("LastName"),
-                rs.getString("Phone"),
-                rs.getString("Email"),
-                rs.getString("Address"),
-                rs.getString("NationalID")
-            });
+        if (search == null || search.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a name.");
+            return;
         }
 
-        rs.close();
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0); // clear table
 
-        if (!found) {
-            JOptionPane.showMessageDialog(this, "No customers found with this name.");
+        try {
+            ResultSet rs = DatabaseHelper.executeQuery(
+                    "SELECT CustomerID, FirstName, LastName, Phone, Email, Address, NationalID "
+                    + "FROM Customer WHERE FirstName LIKE ?",
+                    "%" + search + "%"
+            );
+
+            boolean found = false;
+
+            while (rs.next()) {
+                found = true;
+                model.addRow(new Object[]{
+                    rs.getInt("CustomerID"),
+                    rs.getString("FirstName"),
+                    rs.getString("LastName"),
+                    rs.getString("Phone"),
+                    rs.getString("Email"),
+                    rs.getString("Address"),
+                    rs.getString("NationalID")
+                });
+            }
+
+            rs.close();
+
+            if (!found) {
+                JOptionPane.showMessageDialog(this, "No customers found with this name.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error searching: " + e.getMessage());
         }
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error searching: " + e.getMessage());
-    }
 
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -465,11 +481,9 @@ private void loadCustomers() {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
-
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;

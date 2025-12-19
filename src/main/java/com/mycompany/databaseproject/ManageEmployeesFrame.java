@@ -337,38 +337,52 @@ public class ManageEmployeesFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditEmployeeActionPerformed
 
     private void btnDeleteEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteEmployeeActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) tableEmployee.getModel();
-        int row = tableEmployee.getSelectedRow();
+      
+    DefaultTableModel model = (DefaultTableModel) tableEmployee.getModel();
+    int row = tableEmployee.getSelectedRow();
 
-        if (row < 0) {
-            JOptionPane.showMessageDialog(this, "Please select a row to delete.");
-            return;
-        }
+    if (row < 0) {
+        JOptionPane.showMessageDialog(this, "Please select an employee to delete.");
+        return;
+    }
 
-        Object idObj = model.getValueAt(row, 0);
+    Object idObj = model.getValueAt(row, 0);
 
-        // If no ID → row not saved in DB → just remove it
-        if (idObj == null) {
-            model.removeRow(row);
-            return;
-        }
+    // Not saved so  remove from table only
+    if (idObj == null) {
+        model.removeRow(row);
+        return;
+    }
 
-        int employeeID = (int) idObj;
+    int employeeID = Integer.parseInt(idObj.toString());
 
-        try {
-            DatabaseHelper.executeUpdate(
-                    "DELETE FROM Employee WHERE EmployeeID=?",
-                    employeeID
+    try {
+        DatabaseHelper.executeUpdate(
+            "DELETE FROM Employee WHERE EmployeeID = ?",
+            employeeID
+        );
+
+        JOptionPane.showMessageDialog(this, "Employee deleted successfully!");
+        loadEmployees();
+
+    } catch (Exception e) {
+
+        //  FK constraint → show human message
+        if (e.getMessage().toLowerCase().contains("constraint")) {
+            JOptionPane.showMessageDialog(
+                this,
+                "This employee cannot be deleted because they are linked to existing records.\n" +
+                "Employees with related data must be kept for system history.",
+                "Delete Not Allowed",
+                JOptionPane.WARNING_MESSAGE
             );
-
-            JOptionPane.showMessageDialog(this, "Employee deleted successfully!");
-            loadEmployees();
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error deleting employee: " + e.getMessage());
+        } else {
+            JOptionPane.showMessageDialog(
+                this,
+                "Error deleting employee: " + e.getMessage()
+            );
         }
-
+    }
     }//GEN-LAST:event_btnDeleteEmployeeActionPerformed
 
     private void tableEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEmployeeMouseClicked
