@@ -250,7 +250,7 @@ public class AddAssetDialog extends javax.swing.JDialog {
             double price;
             try {
                 price = Double.parseDouble(txtPurchasePrice.getText());
-                if (price < 0) throw new NumberFormatException();
+                if (price <= 10) throw new NumberFormatException();
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Invalid purchase price.");
                 return;
