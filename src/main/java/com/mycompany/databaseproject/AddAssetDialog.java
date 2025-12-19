@@ -4,12 +4,13 @@
  */
 package com.mycompany.databaseproject;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 public class AddAssetDialog extends javax.swing.JDialog {
 
-   
     public AddAssetDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -19,7 +20,6 @@ public class AddAssetDialog extends javax.swing.JDialog {
         loadLocations();
     }
 
-    
     // load combos
     private void loadCategories() {
         try (ResultSet rs = DatabaseHelper.executeQuery(
@@ -27,16 +27,15 @@ public class AddAssetDialog extends javax.swing.JDialog {
 
             while (rs.next()) {
                 cmbCategory.addItem(new ComboItem(
-                    rs.getInt("CategoryID"),
-                    rs.getString("CategoryName")
+                        rs.getInt("CategoryID"),
+                        rs.getString("CategoryName")
                 ));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error loading categories");
         }
     }
-    
-    
+
     private void loadLocations() {
         cmbLocation.addItem(null); // optional
         try (ResultSet rs = DatabaseHelper.executeQuery(
@@ -44,18 +43,15 @@ public class AddAssetDialog extends javax.swing.JDialog {
 
             while (rs.next()) {
                 cmbLocation.addItem(new ComboItem(
-                    rs.getInt("LocationID"),
-                    rs.getString("LocationName")
+                        rs.getInt("LocationID"),
+                        rs.getString("LocationName")
                 ));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error loading locations");
         }
     }
-    
-    
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -87,24 +83,33 @@ public class AddAssetDialog extends javax.swing.JDialog {
         spnQuantity = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Add Asset");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 22, 121, -1));
 
         jLabel2.setText("Asset Name:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 77, 100, -1));
 
         jLabel3.setText("Category:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 117, 100, -1));
 
         jLabel4.setText("Location:");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 157, 100, -1));
 
         jLabel5.setText("Serial Number:");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 237, 100, -1));
 
         jLabel6.setText("Purchase Date:");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 277, 100, -1));
 
         jLabel7.setText("Purchase Price:");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 317, 100, -1));
 
         jLabel8.setText("Notes:");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 370, 80, -1));
 
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -112,6 +117,7 @@ public class AddAssetDialog extends javax.swing.JDialog {
                 btnSaveActionPerformed(evt);
             }
         });
+        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(264, 510, -1, -1));
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -119,112 +125,27 @@ public class AddAssetDialog extends javax.swing.JDialog {
                 btnCancelActionPerformed(evt);
             }
         });
+        getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 510, -1, -1));
+        getContentPane().add(txtAssetName, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 74, 146, -1));
+
+        getContentPane().add(cmbCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 114, 146, -1));
+
+        getContentPane().add(cmbLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 154, 146, -1));
+        getContentPane().add(txtSerialNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 234, 146, -1));
+        getContentPane().add(txtPurchasePrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 314, 146, -1));
+        getContentPane().add(txtPurchaseDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 274, 146, -1));
 
         txtNotes.setColumns(20);
         txtNotes.setRows(5);
         jScrollPane1.setViewportView(txtNotes);
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 339, 258, 96));
+
         jLabel9.setText("Quantity:");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 197, 100, -1));
 
         spnQuantity.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1000, 1));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addComponent(btnCancel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSave)
-                .addGap(78, 78, 78))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtPurchasePrice, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtAssetName, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(cmbCategory, javax.swing.GroupLayout.Alignment.LEADING, 0, 146, Short.MAX_VALUE)
-                                        .addComponent(cmbLocation, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtSerialNumber, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtPurchaseDate, javax.swing.GroupLayout.Alignment.LEADING)))
-                                .addGap(90, 90, 90))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(81, 81, 81)
-                                .addComponent(spnQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(24, Short.MAX_VALUE))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1)
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtAssetName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(cmbLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(spnQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtSerialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtPurchaseDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtPurchasePrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel8))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSave)
-                    .addComponent(btnCancel))
-                .addGap(47, 47, 47))
-        );
+        getContentPane().add(spnQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 194, 76, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -250,40 +171,55 @@ public class AddAssetDialog extends javax.swing.JDialog {
             double price;
             try {
                 price = Double.parseDouble(txtPurchasePrice.getText());
-                if (price <= 10) throw new NumberFormatException();
+                if (price <= 10) {
+                    throw new NumberFormatException();
+                }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Invalid purchase price.");
+                return;
+            }
+            LocalDate purchaseDate;
+            try {
+                purchaseDate = LocalDate.parse(txtPurchaseDate.getText().trim());
+                if (purchaseDate.isAfter(LocalDate.now())) {
+                    JOptionPane.showMessageDialog(this,
+                            "Purchase date cannot be in the future.");
+                    return;
+                }
+            } catch (DateTimeParseException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Invalid purchase date format. Use YYYY-MM-DD.");
                 return;
             }
 
             ComboItem category = (ComboItem) cmbCategory.getSelectedItem();
             ComboItem location = (ComboItem) cmbLocation.getSelectedItem();
             int inStockStatusId = getStatusIdByName("In Stock");
-            String sql =
-                "INSERT INTO FixedAsset " +
-                "(AssetName, CategoryID, StatusID, LocationID, SerialNumber, " +
-                "PurchaseDate, PurchasePrice, Quantity, Notes) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql
+                    = "INSERT INTO FixedAsset "
+                    + "(AssetName, CategoryID, StatusID, LocationID, SerialNumber, "
+                    + "PurchaseDate, PurchasePrice, Quantity, Notes) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             DatabaseHelper.executeUpdate(
-                sql,
-                txtAssetName.getText(),
-                category.getId(),
-                inStockStatusId,
-                location == null ? null : location.getId(),
-                txtSerialNumber.getText(),
-                txtPurchaseDate.getText(), // ISO format yyyy-mm-dd
-                price,
-                quantity,
-                txtNotes.getText()
+                    sql,
+                    txtAssetName.getText(),
+                    category.getId(),
+                    inStockStatusId,
+                    location == null ? null : location.getId(),
+                    txtSerialNumber.getText(),
+                    purchaseDate, // validated LocalDate
+                    price,
+                    quantity,
+                    txtNotes.getText()
             );
             JOptionPane.showMessageDialog(this, "Asset added successfully.");
             dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
-                "Error adding asset: " + e.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
+                    "Error adding asset: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
             );
         }
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -293,19 +229,19 @@ public class AddAssetDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    
     private int getStatusIdByName(String statusName) throws Exception {
         String sql = "SELECT StatusID FROM AssetStatus WHERE StatusName = ?";
         try (ResultSet rs = DatabaseHelper.executeQuery(sql, statusName)) {
-            if (rs.next()) return rs.getInt("StatusID");
+            if (rs.next()) {
+                return rs.getInt("StatusID");
+            }
         }
         throw new Exception("Status not found: " + statusName);
     }
-    
+
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
