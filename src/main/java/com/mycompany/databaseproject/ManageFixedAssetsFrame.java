@@ -108,7 +108,7 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
         model.setRowCount(0);
         String sql = "SELECT fa.AssetID, fa.AssetName, ac.CategoryName, ast.StatusName, "
                 + "COALESCE(l.LocationName, 'Unassigned') AS LocationName, "
-                + "fa.PurchaseDate, fa.PurchasePrice "
+                + "fa.Quantity, fa.PurchaseDate, fa.PurchasePrice "
                 + "FROM FixedAsset fa "
                 + "JOIN AssetCategory ac ON fa.CategoryID = ac.CategoryID "
                 + "JOIN AssetStatus ast ON fa.StatusID = ast.StatusID "
@@ -122,6 +122,7 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
                     rs.getString("CategoryName"),
                     rs.getString("StatusName"),
                     rs.getString("LocationName"),
+                    rs.getInt("Quantity"),
                     rs.getDate("PurchaseDate"),
                     rs.getBigDecimal("PurchasePrice")
                 });
@@ -185,7 +186,7 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
         StringBuilder sql = new StringBuilder(
                 "SELECT fa.AssetID, fa.AssetName, ac.CategoryName, ast.StatusName, "
                 + "COALESCE(l.LocationName, 'Unassigned') AS LocationName, " // COALESCE handles nulls
-                + "fa.PurchaseDate, fa.PurchasePrice "
+                + "fa.Quantity, fa.PurchaseDate, fa.PurchasePrice "
                 + "FROM FixedAsset fa "
                 + "JOIN AssetCategory ac ON fa.CategoryID = ac.CategoryID "
                 + "JOIN AssetStatus ast ON fa.StatusID = ast.StatusID "
@@ -223,6 +224,7 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
                     rs.getString("CategoryName"),
                     rs.getString("StatusName"),
                     rs.getString("LocationName"),
+                    rs.getInt("Quantity"),
                     rs.getDate("PurchaseDate"),
                     rs.getBigDecimal("PurchasePrice")
                 });
@@ -256,6 +258,9 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
         btnViewDetails = new javax.swing.JButton();
         btnDeleteAsset = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         iconlabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -268,16 +273,16 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
         jLabel1.setText("Fixed Assets Management ");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 280, 30));
 
-        jPanel1.add(cmbCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, -1, -1));
+        jPanel1.add(cmbCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 150, 130, -1));
 
-        jPanel1.add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, -1, -1));
+        jPanel1.add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, 130, -1));
 
-        jPanel1.add(cmbLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 130, -1, -1));
+        jPanel1.add(cmbLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 150, 120, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe Print", 3, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Filter");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, 70, 20));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 70, 20));
 
         btnSearch.setText("Search");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -285,7 +290,7 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
                 btnSearchActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 130, -1, -1));
+        jPanel1.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 150, -1, -1));
 
         btnReset.setText("Reset");
         btnReset.addActionListener(new java.awt.event.ActionListener() {
@@ -293,22 +298,22 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
                 btnResetActionPerformed(evt);
             }
         });
-        jPanel1.add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 130, -1, -1));
+        jPanel1.add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 150, -1, -1));
 
         tableAssets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Asset ID", "Asset Name", "Category", "Status", "Location", "Purchase Date", "Purchase Price"
+                "Asset ID", "Asset Name", "Category", "Status", "Location", "Quantity", "Purchase Date", "Purchase Price"
             }
         ));
         jScrollPane1.setViewportView(tableAssets);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 840, -1));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 870, -1));
 
         btnAddAsset.setText("Add Asset");
         btnAddAsset.addActionListener(new java.awt.event.ActionListener() {
@@ -316,7 +321,7 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
                 btnAddAssetActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAddAsset, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 680, 110, -1));
+        jPanel1.add(btnAddAsset, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 670, 110, -1));
 
         btnEditAsset.setText("Edit Asset");
         btnEditAsset.addActionListener(new java.awt.event.ActionListener() {
@@ -324,7 +329,7 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
                 btnEditAssetActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditAsset, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 680, 110, -1));
+        jPanel1.add(btnEditAsset, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 670, 110, -1));
 
         btnViewDetails.setText("View Details");
         btnViewDetails.addActionListener(new java.awt.event.ActionListener() {
@@ -332,7 +337,7 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
                 btnViewDetailsActionPerformed(evt);
             }
         });
-        jPanel1.add(btnViewDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 680, 110, -1));
+        jPanel1.add(btnViewDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 670, 110, -1));
 
         btnDeleteAsset.setText("Delete Asset");
         btnDeleteAsset.addActionListener(new java.awt.event.ActionListener() {
@@ -340,7 +345,7 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
                 btnDeleteAssetActionPerformed(evt);
             }
         });
-        jPanel1.add(btnDeleteAsset, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 680, 110, -1));
+        jPanel1.add(btnDeleteAsset, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 670, 110, -1));
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -348,7 +353,22 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
                 btnBackActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 730, 90, -1));
+        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 720, 90, -1));
+
+        jLabel3.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Category");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 70, -1));
+
+        jLabel4.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Status");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 70, -1));
+
+        jLabel5.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Location");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 120, 70, -1));
 
         iconlabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/WhatsApp Image 2025-12-04 at 6.19.13 PM.jpeg"))); // NOI18N
         jPanel1.add(iconlabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 810));
@@ -486,6 +506,9 @@ public class ManageFixedAssetsFrame extends javax.swing.JFrame {
     private javax.swing.JLabel iconlabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableAssets;

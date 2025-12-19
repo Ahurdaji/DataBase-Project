@@ -226,6 +226,8 @@ public class MainMenuFrame extends javax.swing.JFrame {
 
     private void btnManageFixedAssetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageFixedAssetsActionPerformed
         // TODO add your handling code here:
+        new ManageFixedAssetsFrame(currentRole).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnManageFixedAssetsActionPerformed
 
     /**
